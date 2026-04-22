@@ -1,19 +1,7 @@
-@font-face {
-	font-family: "Computer Modern";
-	src: url("../fonts/cmunrm.woff") format("woff");
-	font-weight: normal;
-}
-
-@font-face {
-	font-family: "Computer Modern";
-	src: url("../fonts/cmunbx.woff") format("woff");
-	font-weight: bold;
-}
-
 html {
     height: 100%;
     color: #333;
-    font-family: "Computer Modern", serif;
+    font-family: serif;
     line-height: 1.4;
 }
 

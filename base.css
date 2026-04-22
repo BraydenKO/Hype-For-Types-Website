@@ -1,0 +1,66 @@
+@font-face {
+	font-family: "Computer Modern";
+	src: url("/fonts/cmunrm.woff") format("woff");
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "Computer Modern";
+	src: url("/fonts/cmunbx.woff") format("woff");
+	font-weight: bold;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	color: #333;
+	font-family: "Computer Modern", serif;
+	line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		background-color: #333;
+		color: #ddd;
+	}
+}
+
+body {
+	max-width: 50em;
+	margin: 0 auto;
+	padding: 0.5em;
+}
+
+a,
+a:visited {
+	color: inherit;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+tr {
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+th {
+	text-align: left;
+	padding: 0.25em;
+}
+
+td {
+	padding: 0.25em;
+}
+
+#hype {
+	text-decoration: none;
+}
+ol li {
+    margin-bottom: 15px; 
+    line-height: 1.5;
+}

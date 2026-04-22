@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hype for Types | Digital Notes</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">  
+    
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="modules.css">
+
+    <style>
+        /* A few quick inline styles to handle the Part Headers smoothly */
+        .part-header-container {
+            text-align: center;
+            margin-top: 4rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .part-header-container::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #ddd;
+            z-index: -1;
+        }
+        .part-subtitle {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #333;
+            background-color: #f8f9fa; /* matches background-gray */
+            padding: 0 15px;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+        .part-title {
+            font-weight: 300;
+            font-size: 2.2rem;
+            color: #222;
+            margin-top: 5px;
+        }
+        /* Top Navigation Bar */
+        .notes-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #eaeaea;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        .back-link {
+            color: #c41230; /* Tartan Red */
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="background-gray" style="background-color: #f8f9fa; padding-top: 0 !important;">
+    <div class="notes-nav shadow-sm">
+        <div class="container">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left me-2"></i>Back to Syllabus</a>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        
+        <div class="part-header-container">
+            <div class="part-subtitle">PART 1</div>
+            <div class="part-title">Foundations and Logic</div>
+        </div>
+
+        <div class="row justify-content-center">
+            
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/intro.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module1.jpg" alt="Module 1 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 1</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">The Typed Foundation</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                          
+                                <a href="notes/intro.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-rocket book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Module 1 Preamble</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="notes/stlc.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Why Type Theory / STLC</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                                                  
+                                <a href="notes/adt.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Algebraic Data Types</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                                                   
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 1 & 2</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>  
+                                                     -->
+                                <a href="http://lucacardelli.name/papers/typesystems.pdf" class="text-decoration-none text-dark" target="_blank">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-file-lines book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>More More Reading: Cardelli (1997)</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>  
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/montague.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module2.jpg" alt="Module 2 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 2</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">Meaning and Truth</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                          
+                                <a href="notes/montague.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Montague Grammar</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                                                 
+                                <a href="notes/constructive-logic.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Constructive Logic</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="https://dl.acm.org/doi/pdf/10.1145/2699407" class="text-decoration-none text-dark" target="_blank">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-file-lines book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>More Reading: Wadler (2015)</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 3 & 4</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                       -->
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/substructural-logic.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module3.png" alt="Module 3 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 3</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">Stress Testing Logic</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                                                  
+                                <a href="notes/substructural-logic.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Substructural Logic</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="notes/session-types.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Session Types / Concurrency</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="https://filipendule.github.io/mgs/honda.vasconcelos.kubo.pdf" class="text-decoration-none text-dark" target="_blank">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-file-lines book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>More Reading: Honda et al. (1998)</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 5 & 6</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                       -->
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+        </div> <div class="part-header-container">
+            <div class="part-subtitle">PART 2</div>
+            <div class="part-title">Abstraction and The Hype</div>
+        </div>
+
+        <div class="row justify-content-center">
+            
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/parametric-polymorphism.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module4.png" alt="Module 4 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 4</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">The Power of Abstraction</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                                                  
+                                <a href="notes/parametric-polymorphism.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Parametric Polymorphism</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="notes/dependent-types.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Dependent Types</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 7 & 8</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                       -->
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/theorem-proving.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module5.png" alt="Module 5 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 5</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">Mechanizing Proofs</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                                                  
+                                <a href="notes/theorem-proving.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Automatic Theorem Proving</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="https://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/wiedijk_2.pdf" class="text-decoration-none text-dark" target="_blank">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-file-lines book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>More Reading: Wiedijk</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 9</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                       -->
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-5 module-container">    
+                <div class="row m-0">      
+                    <div class="col-12 border shadow-depth-1 hover-shadow-depth-2 bg-white p-3 rounded-4">
+                        <a href="notes/quantum.html" class="text-decoration-none text-dark">            
+                            <div class="row">              
+                                <div class="col-auto mt-1">                                  
+                                    <img class="img-module ms-1 shadow-depth-1 border border-dark object-fit-cover" style="width: 64px; height: 64px;" src="/notes/images/thumbnails/module6.png" alt="Module 6 Thumbnail">                              
+                                </div>              
+                                <div class="col ps-0" style="display: grid; align-items: center;">                
+                                    <div class="row"><div class="col"><span class="modules-module-tag fw-bold text-muted" style="font-size: 0.8rem;">MODULE 6</span></div></div>                
+                                    <div class="row"><div class="col"><span class="modules-module-title fs-5 fw-semibold">The Bleeding Edge</span></div></div>              
+                                </div>            
+                            </div>          
+                        </a>        
+                        <div class="row mt-4">          
+                            <div class="col">                                                  
+                                <a href="notes/quantum.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Quantum Type Theory</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="notes/sml-bee.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-bug book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Fun Stuff: SML Bee! 🐝</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                          
+                                <a href="notes/hott.html" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-book book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homotopy Type Theory</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>
+                                <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-chalkboard-user book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Tentative Guest Lecture</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>
+                                <!-- <a href="#" class="text-decoration-none text-dark">                
+                                    <div class="col-12 maroon hover-highlight rounded-4" style="padding-top: 3px; padding-bottom: 3px;">                  
+                                        <div class="row">                    
+                                            <div style="width: 35px;"><i class="fa-solid fa-pencil book-icon-in-module text-danger ms-2"></i></div>                    
+                                            <div class="col module-chapter-title"><span>Homework 10, 11 & 12</span></div>                  
+                                        </div>                
+                                    </div>              
+                                </a>                       -->
+                            </div>        
+                        </div>
+                    </div>    
+                </div>
+            </div>
+
+        </div> </div> <footer class="mt-5 py-4 text-center text-muted" style="font-size: 0.85em; border-top: 1px solid #ddd;">
+        <div class="container">
+            <p class="mb-0">
+                Course notes design and layout inspired by and adapted from 
+                <a href="https://pandanotes.org/" target="_blank" style="color: #6c757d; text-decoration: underline;">Panda Notes</a> 
+                (created by Anil Ada).
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

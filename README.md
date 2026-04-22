@@ -1,33 +1,33 @@
 # Hype-For-Types
 
 ## Schedule
-Aug 24 - Why Type Theory / Simply Typed Lambda Calculus
+Aug 24 - Why Type Theory / Simply Typed Lambda Calculus [see more](http://lucacardelli.name/papers/typesystems.pdf)
 
-Aug 31 - Algebraic Data Types
+Aug 31 - Algebraic Data Types [see more](https://maartenfokkinga.github.io/utwente/mmf91m.pdf)
 
-Sep 07 - No Lecture / Labour Day
+Sep 07 - No Lecture / Labour Day [see more](https://en.wikipedia.org/wiki/Labor_Day)
 
-Sep 14 - Montague Grammar (Type Theory for Linguistics) 
+Sep 14 - Montague Grammar (Type Theory for Linguistics) [see more](https://www.cs.rhul.ac.uk/home/zhaohui/montague73.pdf)
 
-Sep 21 - Constructive Logic 
+Sep 21 - Constructive Logic [see more](https://dl.acm.org/doi/pdf/10.1145/2699407)
 
-Sep 28 - Substructural Logic 
+Sep 28 - Substructural Logic [see more](https://cs.ioc.ee/ewscs/2010/mycroft/linear-2up.pdf)
 
-Oct 05 - Session Types/Concurrency
+Oct 05 - Session Types/Concurrency [see more](https://filipendule.github.io/mgs/honda.vasconcelos.kubo.pdf)
 
 Oct 12 - No Lecture / Fall Break
 
-Oct 19 - Parametric Polymorphism 
+Oct 19 - Parametric Polymorphism [see more](https://www.cs.cmu.edu/afs/cs/user/jcr/ftp/theotypestr.pdf)
 
-Oct 26 - Dependent Types 
+Oct 26 - Dependent Types [see more](https://www.andres-loeh.de/LambdaPi/LambdaPi.pdf)
 
-Nov 02 - Automatic Theorem Proving
+Nov 02 - Automatic Theorem Proving [see more](https://www.cse.chalmers.se/research/group/logic/TypesSS05/Extra/wiedijk_2.pdf)
 
-Nov 09 - Quantum Type Theory
+Nov 09 - Quantum Type Theory [see more](https://dl.acm.org/doi/pdf/10.1145/3373718.3394765)
 
-Nov 16 - SML Bee 
+Nov 16 - SML Bee [see more](https://smlhelp.github.io/book/)
 
-Nov 23 - Homotopy Type Theory
+Nov 23 - Homotopy Type Theory [see more](https://www.cs.uoregon.edu/research/summerschool/summer14/rwh_notes/hott-book.pdf)
 
 Nov 30 - Tentative Guest Lecture, Can Swap Dates
 

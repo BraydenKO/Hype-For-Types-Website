@@ -1,12 +1,12 @@
 @font-face {
 	font-family: "Computer Modern";
-	src: url("/fonts/cmunrm.woff") format("woff");
+	src: url("fonts/cmunrm.woff") format("woff");
 	font-weight: normal;
 }
 
 @font-face {
 	font-family: "Computer Modern";
-	src: url("/fonts/cmunbx.woff") format("woff");
+	src: url("fonts/cmunbx.woff") format("woff");
 	font-weight: bold;
 }
 

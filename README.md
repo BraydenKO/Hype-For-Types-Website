@@ -13,7 +13,7 @@ Sep 21 - Constructive Logic
 
 Sep 28 - Substructural Logic 
 
-Oct 05 - (Modal Logic or Session Types/Concurrency)
+Oct 05 - Session Types/Concurrency
 
 Oct 12 - No Lecture / Fall Break
 
@@ -48,9 +48,7 @@ Idea of course progression and narrative:
 
 7) CLogic is beautiful. But what if we "stress test" it by stripping away foundational structural axioms? We explore what it means to drop rules like weakening or contraction, arriving at a logic of resources. We ground this practically by showing how these logical rules give us memory safety and resource management in modern systems programming.
 
-8) If Modal Logic: We take a step into "weird" logic concerning natural ideas like time, necessity, and knowledge, surprisingly showing how these philosophical concepts map perfectly to programming like staged computation.
-   
-   If Session Types: We move slightly away from pure logic and back into practical types, showing how substructural rules govern safe, deadlock-free concurrent communication.
+8) We move slightly away from pure logic and back into practical types, showing how substructural rules govern safe, deadlock-free concurrent communication.
 
 10) Returning to the core [lambda cube](https://en.wikipedia.org/wiki/Lambda_cube), we explore System F. We show the strong power of what we can express when we allow types to depend on other types, giving us highly generalized, infinitely expressive architectures (generics).
 

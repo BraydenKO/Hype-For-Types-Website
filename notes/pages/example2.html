@@ -1,0 +1,4456 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Induction Review | CS251 Spring 2025</title>
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true},
+            ],
+            ignoredClasses: ["ignore-math"]
+        });
+    });
+    </script> 
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> | 
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+    <h1>Induction Review</h1>
+    <p><strong>MODULE 1:</strong> Introduction</p>
+    <hr>
+    <main>
+        <div id="chapter-atoms">
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.1" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.1"
+      data-block-id="13613"
+      data-block-ref-num="4.1.1"
+      data-block-order-num="1"
+      data-block-related-block-id=""
+      data-block-parent-segment-id=""
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <div class="center">
+<p><img src="https://pandanotes-bucket.s3.amazonaws.com/cs251s25/atom_files/chapter_image_010c7c42-1e73-46.jpg" class="atom-img" alt="image" style="width: 50% !important"></p>
+</div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.2" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.2"
+      data-block-id="13614"
+      data-block-ref-num="4.1.2"
+      data-block-order-num="2"
+      data-block-related-block-id=""
+      data-block-parent-segment-id=""
+      data-block-is-collapsible=""
+      data-block-kind="segment"
+      data-block-name="section"
+      data-block-related-block-kind=""
+      class="block block-segment-kind block-section block-segment-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+      
+  
+  <div class="atom atom-segment-kind">
+    <div class="row">
+      <div class="col-12">
+        <div id="atom-section-18662" class="atom-section" data-atom-pk="18662">
+          <div class="row">
+            
+              <div id="block-display-num-4.1.2" class="segment-display-num">1</div> 
+            
+            <div class="col">
+              <span>Introduction </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.3" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.3"
+      data-block-id="13615"
+      data-block-ref-num="4.1.3"
+      data-block-order-num="3"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>In this chapter we will briefly review the concept of mathematical
+induction. We assume that you are already familiar with this topic and
+that you have written induction proofs before. Our goal here will be to
+remind ourselves of the basic principle behind induction and show
+examples of different ways of packaging an induction argument. My hope
+is that this will help you understand how an induction argument works
+more deeply and go beyond just knowing about an induction proof
+template.</p>
+<p>Hopefully you have heard about some version of the domino principle
+that all induction arguments are built on.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.4" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.4"
+      data-block-id="13616"
+      data-block-ref-num="4.1.4"
+      data-block-order-num="4"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">Domino principle - finite version</span>
+  
+    <span id="block-display-num-4.1.4" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <blockquote>
+<p>If you line up any number of dominoes in a row, and knock the first
+one over, then all the dominoes will fall.</p>
+</blockquote>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.5" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.5"
+      data-block-id="13617"
+      data-block-ref-num="4.1.5"
+      data-block-order-num="5"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>The implicit assumption here is that if a domino falls, then it
+knocks down the next one in the row. We take this assumption as
+true.</p>
+<p>The Domino Principle, as stated above, may suggest we have a finite
+number of dominoes. But in fact, the principle applies to infinitely
+many dominoes as well, and this is crucial for the induction arguments
+we want to make. So let’s revise the domino principle and make it a
+statement about an infinite row of dominoes.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.6" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.6"
+      data-block-id="13618"
+      data-block-ref-num="4.1.6"
+      data-block-order-num="6"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">Domino principle - infinite version</span>
+  
+    <span id="block-display-num-4.1.6" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <blockquote>
+<p>If you line up an <em>infinite</em> row of dominoes, one domino for
+each natural number, and you knock the first one over, then all the
+dominoes will fall.</p>
+</blockquote>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.7" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.7"
+      data-block-id="13619"
+      data-block-ref-num="4.1.7"
+      data-block-order-num="7"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>When dealing with infinity, you always have to be extra careful. It
+is one of the trickiest concepts in mathematics, and it has tripped up
+many professional mathematicians in history. One of the common mistakes
+that beginners make is to treat infinity like any old number. But this
+is incorrect.</p>
+<p>Lucky for us, even though the domino principle talks about an
+infinite number of dominoes, you can actually verify it using a finitary
+argument by employing a proof by contradiction. Let’s see how that
+goes.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.8" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.8"
+      data-block-id="13620"
+      data-block-ref-num="4.1.8"
+      data-block-order-num="8"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="secondary"
+      data-block-name="proof"
+      data-block-related-block-kind=""
+      class="block block-secondary-kind block-proof block-secondary-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-secondary-kind atom-proof">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proof</span>
+  
+    <span id="block-display-num-4.1.8" class="block-display-num" ></span>
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proof-body">
+          
+            <p>We prove the Domino Principle by contradiction, so suppose that all
+the dominoes do not fall. Let domino number <span
+class="math inline">\(k\)</span> be the smallest indexed domino that is
+standing. We know the <span class="math inline">\(k\)</span>’th domino
+is not the first domino since the first one is knocked down. And since
+<span class="math inline">\(k\)</span> is the smallest indexed domino
+that is standing, we know domino number <span
+class="math inline">\(k-1\)</span> has fallen. But if domino <span
+class="math inline">\(k-1\)</span> has fallen, it knocks down domino
+<span class="math inline">\(k\)</span>, which contradicts the assumption
+that domino <span class="math inline">\(k\)</span> is standing.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.9" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.9"
+      data-block-id="13621"
+      data-block-ref-num="4.1.9"
+      data-block-order-num="9"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>As you know, in mathematical induction, the dominoes represent
+mathematical statements that are indexed with numbers. So suppose you
+want to prove that for all <span class="math inline">\(n \in \mathbb
+N\)</span>, <span class="math inline">\(S_n\)</span> is true, where
+<span class="math inline">\(S_n\)</span> is some mathematical statement.
+We can prove this if we can do the following. Let <span
+class="math inline">\(F_k\)</span> correspond to “<span
+class="math inline">\(S_k\)</span> is true”. First establish <span
+class="math inline">\(F_0\)</span>. Then show that for every <span
+class="math inline">\(k \in \mathbb N\)</span>, <span
+class="math inline">\(F_k\)</span> implies <span
+class="math inline">\(F_{k+1}\)</span>. With these in hand, we can
+conclude that <span class="math inline">\(S_n\)</span> is true for all
+<span class="math inline">\(n \in \mathbb N\)</span>. And the
+correctness of this follows from the way we argued that the Domino
+Principle is correct.</p>
+<p><span class="math display">\[\begin{aligned}
+    \textbf{Establish: } &amp; ~~~~ \text{1. } F_0 &amp; ~~~~
+\text{(base case)} \\
+    &amp; ~~~~ \text{2. for all $k$, } F_k \implies F_{k+1} &amp; ~~~~
+\text{(induction step)} \\
+   \textbf{Conclude: } &amp; ~~~~ F_k \text{ for all $k$}
+&amp;\end{aligned}\]</span></p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.10" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.10"
+      data-block-id="13622"
+      data-block-ref-num="4.1.10"
+      data-block-order-num="10"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Note that there is of course flexibility in the way <span
+class="math inline">\(S_n\)</span> are indexed. For instance, we may be
+interested in proving <span class="math inline">\(S_n\)</span> is true
+for all naturals <span class="math inline">\(n \geq 251\)</span>. In
+this case we prove <span class="math inline">\(S_{251}\)</span> as our
+base case and then show <span class="math inline">\(S_k\)</span> implies
+<span class="math inline">\(S_{k+1}\)</span> for all <span
+class="math inline">\(k \geq 251\)</span>. As another example, we may
+want to prove <span class="math inline">\(S_n\)</span> is true for all
+even natural numbers. In this case we would prove <span
+class="math inline">\(S_0\)</span> in our base case (assuming you define
+<span class="math inline">\(0\)</span> to be a natural number) and then
+establish <span class="math inline">\(S_{2k}\)</span> implies <span
+class="math inline">\(S_{2(k+1)}\)</span> for naturals <span
+class="math inline">\(k\)</span>.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.11" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.11"
+      data-block-id="13623"
+      data-block-ref-num="4.1.11"
+      data-block-order-num="11"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>You have probably heard about strong induction as well. We prefer to
+refer to the previous argument as “weak induction” and refer to what is
+known as strong induction as just induction. Of course what you call it
+is not really important. The important thing is that the previous
+induction argument can be (and should be) strengthened. Weak induction
+argument asks you to establish that for all <span
+class="math inline">\(k \in \mathbb N\)</span>, <span
+class="math inline">\(F_k\)</span> implies <span
+class="math inline">\(F_{k+1}\)</span>, which means you need to derive
+<span class="math inline">\(F_{k+1}\)</span> assuming <span
+class="math inline">\(F_k\)</span> is true. However, at this point, you
+can assume that <span class="math inline">\(F_0, F_1, \ldots,
+F_k\)</span> are all true in order to show <span
+class="math inline">\(F_{k+1}\)</span> is true. On the way to
+establishing <span class="math inline">\(F_k\)</span> is true, we have
+established that all the lower indexed ones are true.</p>
+<p><span class="math display">\[\begin{aligned}
+\textbf{Establish: } &amp; ~~~~ \text{1. } F_0 &amp; ~~~~ \text{(base
+case)} \\
+    &amp; ~~~~ \text{2. for all $k$, } F_0, F_1, \ldots, F_k \implies
+F_{k+1} &amp; ~~~~ \text{(induction step)} \\
+\textbf{Conclude: } &amp; ~~~~ F_k \text{ for all $k$}
+&amp;\end{aligned}\]</span></p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.12" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.12"
+      data-block-id="13624"
+      data-block-ref-num="4.1.12"
+      data-block-order-num="12"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Sometimes to establish <span class="math inline">\(F_{k+1}\)</span>,
+all you need to assume is <span class="math inline">\(F_k\)</span>. But
+in many scenarios, the ability to assume <span
+class="math inline">\(F_0, F_1, \ldots, F_k\)</span> can be crucial to
+showing <span class="math inline">\(F_{k+1}\)</span>. So you might as
+well always assume <span class="math inline">\(F_0, F_1, \ldots,
+F_k\)</span> in your induction step.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.13" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.13"
+      data-block-id="13625"
+      data-block-ref-num="4.1.13"
+      data-block-order-num="13"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13614"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Even though you may feel that you understand induction proofs really
+well, my experience is that many students tend to struggle with it when
+the induction argument is packaged in a slightly different way than what
+they are used to. In particular, sometimes the <span
+class="math inline">\(F_k\)</span>’s are not explicitly defined for you,
+sometimes <span class="math inline">\(F_k\)</span> is a statement about
+a collection of objects rather than one object, and sometimes the step
+of establishing <span class="math inline">\(F_0, F_1, \ldots, F_k
+\implies F_{k+1}\)</span> is unintuitive because it does not follow the
+standard weak induction template of “Assume <span
+class="math inline">\(F_k\)</span>, and then since x, y, z, we can
+conclude <span class="math inline">\(F_{k+1}\)</span>.” These and other
+variations can make induction proofs harder to grasp for beginners.
+Seeing and getting comfortable with different examples helps a lot.</p>
+<p>So now, let’s go over some of the different ways that an induction
+argument can be packaged. We’ll start with the method of minimum
+counter-example, which we have already talked about when arguing the
+correctness of the Domino Principle.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.14" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.14"
+      data-block-id="13626"
+      data-block-ref-num="4.1.14"
+      data-block-order-num="14"
+      data-block-related-block-id=""
+      data-block-parent-segment-id=""
+      data-block-is-collapsible=""
+      data-block-kind="segment"
+      data-block-name="section"
+      data-block-related-block-kind=""
+      class="block block-segment-kind block-section block-segment-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+      
+  
+  <div class="atom atom-segment-kind">
+    <div class="row">
+      <div class="col-12">
+        <div id="atom-section-18674" class="atom-section" data-atom-pk="18674">
+          <div class="row">
+            
+              <div id="block-display-num-4.1.14" class="segment-display-num">2</div> 
+            
+            <div class="col">
+              <span>Method of Minimum Counter-Example </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.15" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.15"
+      data-block-id="13627"
+      data-block-ref-num="4.1.15"
+      data-block-order-num="15"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13626"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>We’ll first do an example, and then outline the general idea of the
+method of minimum counter-example.</p>
+<p>Let’s prove that every natural number greater than 1 can be factored
+into primes. The method of minimum counter-example is basically an
+induction proof done using a proof by contradiction.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.16" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.16"
+      data-block-id="13628"
+      data-block-ref-num="4.1.16"
+      data-block-order-num="16"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13626"
+      data-block-is-collapsible=""
+      data-block-kind="statement"
+      data-block-name="proposition"
+      data-block-related-block-kind=""
+      class="block block-statement-kind block-proposition block-statement-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-statement-kind atom-proposition">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proposition</span>
+  
+    <span id="block-display-num-4.1.16" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(Prime factorization)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proposition-body">
+          
+            <p>Every natural number greater than <span
+class="math inline">\(1\)</span> can be factored into primes.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.17" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.17"
+      data-block-id="13629"
+      data-block-ref-num="4.1.17"
+      data-block-order-num="17"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13626"
+      data-block-is-collapsible=""
+      data-block-kind="secondary"
+      data-block-name="proof"
+      data-block-related-block-kind=""
+      class="block block-secondary-kind block-proof block-secondary-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-secondary-kind atom-proof">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proof</span>
+  
+    <span id="block-display-num-4.1.17" class="block-display-num" ></span>
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proof-body">
+          
+            <p>The proof is by contradiction, so assume the statement is false, and
+let <span class="math inline">\(m &gt; 1\)</span> be the smallest number
+that cannot be factored into primes. We know <span
+class="math inline">\(m\)</span> is a composite number (i.e. a
+non-prime), so by definition, <span class="math inline">\(m =
+ab\)</span>, where <span class="math inline">\(1 &lt; a,b &lt;
+m\)</span>. If <span class="math inline">\(a\)</span> and <span
+class="math inline">\(b\)</span> have prime factorizations, then this
+would imply that <span class="math inline">\(m\)</span> has a prime
+factorization. Therefore, either <span class="math inline">\(a\)</span>
+or <span class="math inline">\(b\)</span> does not have a prime
+factorization. But this contradicts our assumption that <span
+class="math inline">\(m\)</span> is the <em>smallest</em> number that
+cannot be factored into primes.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.18" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.18"
+      data-block-id="13630"
+      data-block-ref-num="4.1.18"
+      data-block-order-num="18"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13626"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>As you can see in the proof, the way we reach the contradiction is
+that we chose <span class="math inline">\(m\)</span> to be the smallest
+counter-example and then deduce that there is a smaller counter-example
+than <span class="math inline">\(m\)</span> (either <span
+class="math inline">\(a\)</span> or <span
+class="math inline">\(b\)</span>). This contradicts the minimality of
+<span class="math inline">\(m\)</span>. Another way to think about the
+argument above is as follows. Let <span class="math inline">\(m\)</span>
+be a counter-example (not necessarily the smallest one). Then you can
+continuously find smaller and smaller counter-examples. However, this is
+not possible since when we reach the base case (<span
+class="math inline">\(n=2\)</span>), we know the statement is true.</p>
+<p>Let’s pause here and try to really explicitly see why this is an
+induction argument even though the write-up of the proof does not
+immediately suggests so. Let <span class="math inline">\(S_n\)</span> be
+the statement “<span class="math inline">\(n\)</span> can be factored
+into primes”. We are trying to establish that for all <span
+class="math inline">\(k \geq 3\)</span>, we have <span
+class="math inline">\(S_2,S_3,\ldots, S_{k-1}\)</span> implies <span
+class="math inline">\(S_k\)</span>. We prove this by contradiction, so
+we assume it is not true, which implies that there is some value of
+<span class="math inline">\(k\)</span> for which <span
+class="math inline">\(S_2,S_3,\ldots, S_{k-1}\)</span> does not imply
+<span class="math inline">\(S_k\)</span>. We let <span
+class="math inline">\(m\)</span> be the minimum such number. This means
+we can assume <span class="math inline">\(S_2,S_3,\ldots,
+S_{m-1}\)</span> are all true, but <span
+class="math inline">\(S_m\)</span> is not. We then proceed to show that
+one of <span class="math inline">\(S_2, S_3, \ldots, S_{m-1}\)</span> is
+not true and reach the desired contradiction.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.19" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.19"
+      data-block-id="13631"
+      data-block-ref-num="4.1.19"
+      data-block-order-num="19"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13626"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">General idea of method of minimum counter-example</span>
+  
+    <span id="block-display-num-4.1.19" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <ul>
+<li><p>Set up a proof by contradiction.</p></li>
+<li><p>Let <span class="math inline">\(m\)</span> be the minimum number
+such that <span class="math inline">\(S_m\)</span> is not true.</p></li>
+<li><p>Show that <span class="math inline">\(S_k\)</span> is not true
+for <span class="math inline">\(k &lt; m\)</span>, which is the desired
+contradiction.</p></li>
+</ul>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.20" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.20"
+      data-block-id="13632"
+      data-block-ref-num="4.1.20"
+      data-block-order-num="20"
+      data-block-related-block-id=""
+      data-block-parent-segment-id=""
+      data-block-is-collapsible=""
+      data-block-kind="segment"
+      data-block-name="section"
+      data-block-related-block-kind=""
+      class="block block-segment-kind block-section block-segment-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+      
+  
+  <div class="atom atom-segment-kind">
+    <div class="row">
+      <div class="col-12">
+        <div id="atom-section-18680" class="atom-section" data-atom-pk="18680">
+          <div class="row">
+            
+              <div id="block-display-num-4.1.20" class="segment-display-num">3</div> 
+            
+            <div class="col">
+              <span>Invariant Induction </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.21" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.21"
+      data-block-id="13633"
+      data-block-ref-num="4.1.21"
+      data-block-order-num="21"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Let’s now move on to invariant induction. Once again, we’ll start
+with an example and then outline the general strategy.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.22" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.22"
+      data-block-id="13634"
+      data-block-ref-num="4.1.22"
+      data-block-order-num="22"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="statement"
+      data-block-name="proposition"
+      data-block-related-block-kind=""
+      class="block block-statement-kind block-proposition block-statement-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-statement-kind atom-proposition">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proposition</span>
+  
+    <span id="block-display-num-4.1.22" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(Parity of handshakes)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proposition-body">
+          
+            <p>At any party, at any point in time, define a person’s <em>parity</em>
+as <em>odd</em> or <em>even</em> according to the number of hands they
+have shaken. Then the number of people with odd parity must be even.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.23" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.23"
+      data-block-id="13635"
+      data-block-ref-num="4.1.23"
+      data-block-order-num="23"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Here we are not assuming anything about the number of people in
+total, so the statement should hold for all numbers of people. But we
+will not be actually inducting on the number of people.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.24" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.24"
+      data-block-id="13636"
+      data-block-ref-num="4.1.24"
+      data-block-order-num="24"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="secondary"
+      data-block-name="proof"
+      data-block-related-block-kind=""
+      class="block block-secondary-kind block-proof block-secondary-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-secondary-kind atom-proof">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proof</span>
+  
+    <span id="block-display-num-4.1.24" class="block-display-num" ></span>
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proof-body">
+          
+            <p>Initially, <span class="math inline">\(0\)</span> hands have been
+shaken, so <span class="math inline">\(0\)</span> people have odd
+parity, i.e. an even number of people have odd parity. We now argue that
+this property stays invariant no matter how many handshakes occur.
+Consider an arbitrary point in the party and let <span
+class="math inline">\(t\)</span> be the number of people with odd
+parity. We analyze how <span class="math inline">\(t\)</span> changes
+when a handshake occurs. There are <span
+class="math inline">\(3\)</span> possibilities:</p>
+<ul>
+<li><p>Two people with odd parity shake hands. These people will no
+longer have odd parity, so <span class="math inline">\(t\)</span> will
+go down by <span class="math inline">\(2\)</span>.</p></li>
+<li><p>Two people with even parity shake hands. These people will no
+longer have even parity, so <span class="math inline">\(t\)</span> will
+go up by <span class="math inline">\(2\)</span>.</p></li>
+<li><p>A person with an odd parity shakes the hand of a person with even
+parity. In this case, the even parity person becomes odd parity, and the
+odd parity person becomes even parity. As a result, the value of <span
+class="math inline">\(t\)</span> does not change.</p></li>
+</ul>
+<p>Note that in all cases, the parity of <span
+class="math inline">\(t\)</span> remains unchanged. So we can conclude
+that there is always an even number of people with odd parity.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.25" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.25"
+      data-block-id="13637"
+      data-block-ref-num="4.1.25"
+      data-block-order-num="25"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>So to summarize, we first confirm that the statement is true
+initially, and then show that with every handshake, the statement
+continues to be true.</p>
+<p>OK, why was this an induction argument? Well, implicitly <span
+class="math inline">\(S_n\)</span> is defined to be the statement that
+“after <span class="math inline">\(n\)</span> handshakes, the number of
+people with odd parity is even.” We then proceed to show that <span
+class="math inline">\(S_0\)</span> is true, and also that <span
+class="math inline">\(S_n\)</span> implies <span
+class="math inline">\(S_{n+1}\)</span> for all <span
+class="math inline">\(n\)</span>.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.26" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.26"
+      data-block-id="13638"
+      data-block-ref-num="4.1.26"
+      data-block-order-num="26"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13632"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">General idea of invariant induction</span>
+  
+    <span id="block-display-num-4.1.26" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <ul>
+<li><p>We have a time-varying world state: <span
+class="math inline">\(W_0, W_1, W_2, \ldots\)</span>.</p></li>
+<li><p>The goal is to prove that some statement <span
+class="math inline">\(S\)</span> is true for all world states.</p></li>
+<li><p>Argue:</p>
+<ul>
+<li><p>Statement <span class="math inline">\(S\)</span> is true for
+<span class="math inline">\(W_0\)</span>.</p></li>
+<li><p>If <span class="math inline">\(S\)</span> is true for <span
+class="math inline">\(W_k\)</span>, then it remains true for <span
+class="math inline">\(W_{k+1}\)</span>.</p></li>
+</ul></li>
+</ul>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.27" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.27"
+      data-block-id="13639"
+      data-block-ref-num="4.1.27"
+      data-block-order-num="27"
+      data-block-related-block-id=""
+      data-block-parent-segment-id=""
+      data-block-is-collapsible=""
+      data-block-kind="segment"
+      data-block-name="section"
+      data-block-related-block-kind=""
+      class="block block-segment-kind block-section block-segment-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+      
+  
+  <div class="atom atom-segment-kind">
+    <div class="row">
+      <div class="col-12">
+        <div id="atom-section-18687" class="atom-section" data-atom-pk="18687">
+          <div class="row">
+            
+              <div id="block-display-num-4.1.27" class="segment-display-num">4</div> 
+            
+            <div class="col">
+              <span>Structural Induction </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.28" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.28"
+      data-block-id="13640"
+      data-block-ref-num="4.1.28"
+      data-block-order-num="28"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>So far so good. We now arrive at the final example that we will
+cover: structural induction. Simply put, structural induction is an
+induction argument proving statements about objects that can be
+recursively defined. Lists, strings and graphs are good examples of
+objects that can be defined recursively. For instance, if <span
+class="math inline">\(s\)</span> a non-empty list, then <span
+class="math inline">\(s\)</span> with the first element removed is also
+a list. Strings are similar since they can be viewed as a list of
+characters/symbols.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.29" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.29"
+      data-block-id="13641"
+      data-block-ref-num="4.1.29"
+      data-block-order-num="29"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Let’s be a bit more explicit about what it means for a set of objects
+to be defined recursively. Defining a set <span
+class="math inline">\(\mathcal{O}\)</span> of objects recursively
+involves specifying two things:</p>
+<ol>
+<li><p>(Base cases) Some objects that are explicitly defined to be in
+<span class="math inline">\(\mathcal{O}.\)</span></p></li>
+<li><p>(Recursive rules) Some rules that tell us how to take objects in
+<span class="math inline">\(\mathcal{O}\)</span> and construct new
+objects in <span class="math inline">\(\mathcal{O}.\)</span></p></li>
+</ol>
+<p>An object <span class="math inline">\(x\)</span> is in <span
+class="math inline">\(\mathcal{O}\)</span> if and only if either (i)
+<span class="math inline">\(x\)</span> is defined to be in <span
+class="math inline">\(\mathcal{O}\)</span> in one of the base cases, or
+(ii) <span class="math inline">\(x\)</span> can be derived starting from
+the base case(s) and applying the recursive rules a <em>finite</em>
+number of times.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.32" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.32"
+      data-block-id="13644"
+      data-block-ref-num="4.1.32"
+      data-block-order-num="32"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>For a concrete example, let’s cosider (rooted) binary trees. Binary
+trees have the following recursive structure: if you have a binary tree
+<span class="math inline">\(T\)</span> with root <span
+class="math inline">\(r\)</span>, then the left subtree <span
+class="math inline">\(T&#39;\)</span> and the right subtree <span
+class="math inline">\(T&#39;&#39;\)</span> both are binary trees
+themselves. This corresponds to the following recursive definition.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.33" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.33"
+      data-block-id="13645"
+      data-block-ref-num="4.1.33"
+      data-block-order-num="33"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="definition"
+      data-block-name="definition"
+      data-block-related-block-kind=""
+      class="block block-definition-kind block-definition block-definition-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-definition-kind atom-definition">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Definition</span>
+  
+    <span id="block-display-num-4.1.33" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(Binary tree - recursive definition)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-definition-body">
+          
+            <p>We define a <em>binary tree</em> recursively as follows.</p>
+<ul>
+<li><p><strong>Base case:</strong> A single node <span
+class="math inline">\(r\)</span> is a <em>binary tree</em> with root
+<span class="math inline">\(r\)</span>.</p></li>
+<li><p><strong>Recursive rule:</strong> If <span
+class="math inline">\(T&#39;\)</span> and <span
+class="math inline">\(T&#39;&#39;\)</span> are binary trees with roots
+<span class="math inline">\(r_1\)</span> and <span
+class="math inline">\(r_2\)</span>, then <span
+class="math inline">\(T\)</span>, which has a node <span
+class="math inline">\(r\)</span> adjacent to <span
+class="math inline">\(r_1\)</span> and <span
+class="math inline">\(r_2\)</span> is a binary tree with root <span
+class="math inline">\(r\)</span>.</p>
+<div class="center">
+<p><img src="https://pandanotes-bucket.s3.amazonaws.com/cs251s25/atom_files/binary_tree_8cd04d61-866f-4b.png" class="atom-img" alt="image" style="width: 90% !important"></p>
+</div></li>
+</ul>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.34" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.34"
+      data-block-id="13646"
+      data-block-ref-num="4.1.34"
+      data-block-order-num="34"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p><em>Any</em> binary tree can be obtained by starting from the base
+case and then applying the recursive rule a finite number of times.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.35" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.35"
+      data-block-id="13647"
+      data-block-ref-num="4.1.35"
+      data-block-order-num="35"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>This way of defining a binary tree gives a strong suggestion that
+induction can be a useful strategy in proving results about binary
+trees. In order to illustrate this, we start with some basic
+definitions. In a rooted binary tree, every node has <span
+class="math inline">\(0\)</span> or <span
+class="math inline">\(2\)</span> children. A node with no children is
+called a <em>leaf</em>, and a node with 2 children is called an
+<em>internal node</em>.</p>
+<div class="center">
+<p><img src="https://pandanotes-bucket.s3.amazonaws.com/cs251s25/atom_files/internal_nodes_and_leaves_c5d4c2c3-3409-4a.png" class="atom-img" alt="image" style="width: 90% !important"></p>
+</div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.36" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.36"
+      data-block-id="13648"
+      data-block-ref-num="4.1.36"
+      data-block-order-num="36"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>We will now prove that in any binary tree, the number of leaves is
+always exactly one more than the number of internal nodes. We will do so
+using an argument that is commonly referred to as <em>structural
+induction</em>. We present the proof next (which may seem a bit strange
+at first), and then we’ll discuss why it is a valid induction proof.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.37" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.37"
+      data-block-id="13649"
+      data-block-ref-num="4.1.37"
+      data-block-order-num="37"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="statement"
+      data-block-name="proposition"
+      data-block-related-block-kind=""
+      class="block block-statement-kind block-proposition block-statement-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-statement-kind atom-proposition">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proposition</span>
+  
+    <span id="block-display-num-4.1.37" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(Internal nodes vs leaves in binary trees)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proposition-body">
+          
+            <p>Let <span class="math inline">\(T\)</span> be a binary tree. Let
+<span class="math inline">\(L_T\)</span> be the number of leaves in
+<span class="math inline">\(T\)</span> and let <span
+class="math inline">\(I_T\)</span> be the number of internal nodes in
+<span class="math inline">\(T.\)</span> Then <span
+class="math inline">\(L_T = I_T + 1.\)</span></p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.38" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.38"
+      data-block-id="13650"
+      data-block-ref-num="4.1.38"
+      data-block-order-num="38"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="secondary"
+      data-block-name="proof"
+      data-block-related-block-kind=""
+      class="block block-secondary-kind block-proof block-secondary-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-secondary-kind atom-proof">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Proof</span>
+  
+    <span id="block-display-num-4.1.38" class="block-display-num" ></span>
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-proof-body">
+          
+            <p>The proof is by structural induction. In the base case <span
+class="math inline">\(T\)</span> is a single node, and in this case
+<span class="math inline">\(L_T = 1\)</span> and <span
+class="math inline">\(I_T = 0\)</span> as desired.</p>
+<p>To carry out the induction step, consider an arbitrary binary tree
+<span class="math inline">\(T\)</span> not corresponding to the base
+case. Let <span class="math inline">\(T&#39;\)</span> be the left binary
+subtree of <span class="math inline">\(T\)</span> and let <span
+class="math inline">\(T&#39;&#39;\)</span> be the right binary subtree.
+We know that: <span class="math display">\[\begin{aligned}
+    L_T &amp; = L_{T&#39;} + L_{T&#39;&#39;}, &amp; (*)\\
+    I_T &amp; = I_{T&#39;} + I_{T&#39;&#39;} + 1. &amp;
+(**)\end{aligned}\]</span> By induction hypothesis we can assume <span
+class="math inline">\(L_{T&#39;} = I_{T&#39;} + 1\)</span> and <span
+class="math inline">\(L_{T&#39;&#39;} = I_{T&#39;&#39;} + 1\)</span>.
+Our goal is to show <span class="math inline">\(L_T = I_T + 1\)</span>,
+and we can do so by the following chain of equalities: <span
+class="math display">\[L_T \stackrel{(*)}{=} L_{T&#39;} +
+L_{T&#39;&#39;} = I_{T&#39;} + 1 + I_{T&#39;&#39;} + 1
+\stackrel{(**)}{=} I_T + 1.\]</span></p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.39" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.39"
+      data-block-id="13651"
+      data-block-ref-num="4.1.39"
+      data-block-order-num="39"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>It is completely normal if this feels like a strange induction
+argument. It might very well be that it is unlike any other induction
+argument you have seen before.</p>
+<p>Let’s try to dissect it a bit. First, what is the parameter <span
+class="math inline">\(n\)</span> we are inducting on, and what does
+<span class="math inline">\(S_n\)</span> correspond to in this
+particular case? The proof says “By induction hypothesis” but what is
+actually the induction hypothesis? Think about these questions and see
+if you can find satisfactory answers.</p>
+<p>To clarify things a bit more, let’s see the general idea behind a
+structural induction argument.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.40" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.40"
+      data-block-id="13652"
+      data-block-ref-num="4.1.40"
+      data-block-order-num="40"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">General idea of structural induction</span>
+  
+    <span id="block-display-num-4.1.40" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <ul>
+<li><p>You have a recursively defined set of objects, and you want to
+prove a statement <span class="math inline">\(S\)</span> about those
+objects.</p></li>
+<li><p>Check that <span class="math inline">\(S\)</span> is true for the
+base case(s) of the recursive definition.</p></li>
+<li><p>Prove <span class="math inline">\(S\)</span> holds for “new”
+objects created by the recursive rule, assuming it holds for “old”
+objects used in the recursive rule.</p></li>
+</ul>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.41" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.41"
+      data-block-id="13653"
+      data-block-ref-num="4.1.41"
+      data-block-order-num="41"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>In the previous example, we first confirmed the statement for the
+base case of a tree with a single node. We then considered an arbitrary
+binary tree <span class="math inline">\(T\)</span> (not corresponding to
+the base case), which we think of as the “new” object created by the
+recursive rule. By considering the last application of the recursive
+rule that created <span class="math inline">\(T\)</span>, we identify
+<span class="math inline">\(T&#39;\)</span> and <span
+class="math inline">\(T&#39;&#39;\)</span> as the left and the right
+subtrees of <span class="math inline">\(T\)</span>, and these correspond
+to the “old” objects. In structural induction argument, we assume that
+the statement we want to prove about <span
+class="math inline">\(T\)</span> already holds for the smaller/older
+objects <span class="math inline">\(T&#39;\)</span> and <span
+class="math inline">\(T&#39;&#39;\)</span>. And from there, with some
+calculations, we show that it must also hold for <span
+class="math inline">\(T\)</span>, completing the induction step, and the
+proof.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.42" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.42"
+      data-block-id="13654"
+      data-block-ref-num="4.1.42"
+      data-block-order-num="42"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Ok, so why is this valid? Going back to the previous questions, what
+is the parameter we are inducting on here? What is <span
+class="math inline">\(S_n\)</span>? Not just in the binary tree example
+we did, but in the general framework outlined above.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.43" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.43"
+      data-block-id="13655"
+      data-block-ref-num="4.1.43"
+      data-block-order-num="43"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Let’s define <span class="math inline">\(S_n\)</span> explicitly in
+the general case.</p>
+<p>Suppose you have a set of objects <span
+class="math inline">\(\mathcal{O}\)</span> defined recursively (e.g. set
+of rooted binary trees). And you want to show that every object in the
+set has some property <span class="math inline">\(P\)</span>. Define the
+<em>degree</em> of an object as the minimum number of applications of
+the recursive rule needed to create the object. Then we can define <span
+class="math inline">\(\mathcal{O}_n\)</span> to be the set of all
+objects in <span class="math inline">\(\mathcal{O}\)</span> with degree
+<span class="math inline">\(n\)</span>. Therefore, <span
+class="math inline">\(\mathcal{O}\)</span> is the union of all the <span
+class="math inline">\(\mathcal{O}_n\)</span>’s. We define <span
+class="math inline">\(S_n\)</span> as the statement “every object in
+<span class="math inline">\(\mathcal{O}_n\)</span> has property <span
+class="math inline">\(P\)</span>”. So showing that all objects in <span
+class="math inline">\(\mathcal{O}\)</span> has property <span
+class="math inline">\(P\)</span> is equivalent to showing <span
+class="math inline">\(S_n\)</span> for all <span
+class="math inline">\(n\)</span>. And when you do that using induction
+on <span class="math inline">\(n\)</span>, we call it structural
+induction.</p>
+<p>One has to be careful with this kind of induction because often,
+<span class="math inline">\(S_n\)</span> is a statement about a
+<em>collection</em> of objects, not just one. And when you want to
+establish, in the induction step, that <span
+class="math inline">\(S_0,S_1,\ldots, S_{k-1}\)</span> implies <span
+class="math inline">\(S_{k}\)</span>, you need to make sure that
+<em>every</em> object in <span
+class="math inline">\(\mathcal{O}_k\)</span> is covered. Let’s see an
+example where a mistake is made along these lines. We’ll again consider
+rooted binary trees.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.44" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.44"
+      data-block-id="13656"
+      data-block-ref-num="4.1.44"
+      data-block-order-num="44"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-title gram-title">Some sketch of a “proof”</span>
+  
+    <span id="block-display-num-4.1.44" class="block-display-num"></span>
+  
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <blockquote>
+<p>We prove statement <span class="math inline">\(S\)</span> by
+induction on the height of a tree. Let’s first check the base case...
+and it is true.</p>
+<p>For the induction step, take an arbitrary binary tree <span
+class="math inline">\(T\)</span> of height <span
+class="math inline">\(h\)</span>. Let <span
+class="math inline">\(T&#39;\)</span> be the following tree of height
+<span class="math inline">\(h+1\)</span>:</p>
+<div class="center">
+<p><img src="https://pandanotes-bucket.s3.amazonaws.com/cs251s25/atom_files/binary_tree_2_001eabd1-1b2a-44.png" class="atom-img" alt="image" style="width: 90% !important"></p>
+</div>
+<p>[Some argument showing why <span class="math inline">\(S\)</span> is
+true for <span class="math inline">\(T&#39;\)</span>] Therefore we are
+done.</p>
+</blockquote>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.45" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.45"
+      data-block-id="13657"
+      data-block-ref-num="4.1.45"
+      data-block-order-num="45"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>Try to articulate what is wrong with the above argument.</p>
+<p>When we induct on height, we group the binary trees slightly
+differently. In particular, instead of grouping them by the number of
+recursive rules needed to create a binary tree, we group them according
+to height so that <span class="math inline">\(\mathcal{O}_n\)</span>
+corresponds to all rooted binary trees of height <span
+class="math inline">\(n\)</span>. This strategy is perfectly fine and
+the correct proof we had before applies to this scenario as well. The
+strategy used above, however, is different. It tries to prove <span
+class="math inline">\(S_h\)</span> implies <span
+class="math inline">\(S_{h+1}\)</span>, where <span
+class="math inline">\(S_h\)</span> is “in all rooted binary trees of
+height <span class="math inline">\(h\)</span>, the number of leaves is
+one more than the number of internal nodes”. But it falls short of
+establishing this. It does not correctly derive <span
+class="math inline">\(S_{h+1}\)</span> because it does not establish the
+property holds for <em>all</em> trees of height <span
+class="math inline">\(h+1\)</span>. It only establishes it for trees
+where the right subtree is a single node.</p>
+<p>Let’s think more about the correct argument we presented earlier. It
+was kind of weird because it seemed like we were doing the induction
+step backwards. Let’s use height as our induction parameter. We started
+by considering a binary tree of some height <span
+class="math inline">\(h\)</span>, and then extracted the left and right
+subtrees that have smaller heights. Isn’t that going backwards?
+Shouldn’t we start with a tree of height <span
+class="math inline">\(h\)</span> and then construct a tree of height
+<span class="math inline">\(h+1\)</span>?</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.46" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.46"
+      data-block-id="13658"
+      data-block-ref-num="4.1.46"
+      data-block-order-num="46"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <div class="center">
+<p><img src="https://pandanotes-bucket.s3.amazonaws.com/cs251s25/atom_files/structural_induction_de39c346-4940-4e.png" class="atom-img" alt="image" style="width: 90% !important"></p>
+</div>
+<p>Here is a simple picture of what we want to establish in the
+induction step. Assuming the property holds for all objects in <span
+class="math inline">\(\mathcal{O}_0, \mathcal{O}_1, \ldots,
+\mathcal{O}_{k-1}\)</span>, we want to show that it holds for all
+objects in <span class="math inline">\(\mathcal{O}_k\)</span>. We have
+to make sure that in our argument we cover all the objects in <span
+class="math inline">\(\mathcal{O}_k\)</span>. We can’t leave anything
+out. With that in mind, we start the argument as “Consider an arbitrary
+object <span class="math inline">\(T\)</span> of <span
+class="math inline">\(\mathcal{O}_k\)</span>” with the intention of
+showing that <span class="math inline">\(T\)</span> has property <span
+class="math inline">\(P\)</span>. Note that if we are able to do this,
+then we are done! Because when you show something is true for an
+arbitrary object in a set, you show it for all the objects in the
+set.</p>
+<p>Also notice that we want to show <span
+class="math inline">\(\mathcal{O}_0, \mathcal{O}_1, \ldots,
+\mathcal{O}_{k-1}\)</span> implies <span
+class="math inline">\(\mathcal{O}_k\)</span> for all <span
+class="math inline">\(k\)</span>. So we might as well consider an
+arbitrary <span class="math inline">\(k &gt; 0\)</span>. It shouldn’t
+matter what it is. This is why in our argument, we actually started with
+“Consider an arbitrary object <span class="math inline">\(T\)</span>”
+without any reference to a parameter <span
+class="math inline">\(k\)</span>.</p>
+<p>Great, so we start with “Consider an arbitrary tree <span
+class="math inline">\(T\)</span> (not corresponding to the base case)”.
+It implicitly belongs to <span
+class="math inline">\(\mathcal{O}_k\)</span> for some <span
+class="math inline">\(k &gt; 0\)</span>. Then what do we do? Well, <span
+class="math inline">\(T\)</span> has a recursive structure, so we view
+it as being composed of one or more “smaller” objects in <span
+class="math inline">\(\mathcal{O}_0, \mathcal{O}_1, \ldots,
+\mathcal{O}_{k-1}\)</span>. The power of induction gives us the ability
+to assume that these smaller objects do have property <span
+class="math inline">\(P\)</span>. Using this, we proceed to show that
+<span class="math inline">\(T\)</span> must also have property <span
+class="math inline">\(P\)</span>. And we are done.</p>
+<p>As you can see, we were never going backwards in our induction step
+and that we were indeed arguing <span class="math inline">\(S_0, S_1,
+\ldots, S_{k-1}\)</span> implies <span
+class="math inline">\(S_k\)</span>.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.47" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.47"
+      data-block-id="13659"
+      data-block-ref-num="4.1.47"
+      data-block-order-num="47"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>We will leave you with one last example/exercise. This one involves a
+set of binary strings that is defined recursively. Please attempt to
+prove it yourself using structural induction. This is very important. If
+you are able to do it, that is awesome! If not, hopefully you will be
+able to identify where your understanding might be lacking. And that is
+very valuable. You can go back and try to fill in the gaps yourself, or
+let us know, and we would be happy to help out.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.48" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.48"
+      data-block-id="13660"
+      data-block-ref-num="4.1.48"
+      data-block-order-num="48"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="question"
+      data-block-name="exercise"
+      data-block-related-block-kind=""
+      class="block block-question-kind block-exercise block-question-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-question-kind atom-exercise">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  <span class="atom-name">Exercise</span>
+  
+    <span id="block-display-num-4.1.48" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(Recursively defined language)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-exercise-body">
+          
+            <p>Let <span class="math inline">\(L\)</span> be a set of binary strings
+(i.e. strings of <span class="math inline">\(\texttt{0}\)</span>’s and
+<span class="math inline">\(\texttt{1}\)</span>’s) defined recursively
+as follows:</p>
+<ul>
+<li><p>(base case) the empty string (denoted by <span
+class="math inline">\(\epsilon\)</span>) is in <span
+class="math inline">\(L\)</span>;</p></li>
+<li><p>(recursive rule) if <span class="math inline">\(x, y \in
+L\)</span>, then <span
+class="math inline">\(\texttt{0}x\texttt{1}y\texttt{0} \in
+L\)</span>.</p></li>
+</ul>
+<p>This means that every string in <span
+class="math inline">\(L\)</span> is derived starting from the base case,
+and applying the recursive rule a finite number of times.<a id="footnote-popover-trigger-422" 
+   class="btn btn-link popover-trigger popover-trigger-footnote" 
+   tabindex="0"
+>
+   <i class="fa-solid fa-asterisk"></i>
+</a></p>
+<p>Show that for any string <span class="math inline">\(w \in
+L\)</span>, the number of <span
+class="math inline">\(\texttt{0}\)</span>’s in <span
+class="math inline">\(w\)</span> is exactly twice the number of <span
+class="math inline">\(\texttt{1}\)</span>’s in <span
+class="math inline">\(w\)</span>.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.49" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.49"
+      data-block-id="13661"
+      data-block-ref-num="4.1.49"
+      data-block-order-num="49"
+      data-block-related-block-id="13660"
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible="true"
+      data-block-kind="secondary"
+      data-block-name="solution"
+      data-block-related-block-kind="question"
+      class="block block-secondary-kind block-solution block-secondary-kind-filter
+      block-collapsible block-collapsed
+      
+       block-collapsed"
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-secondary-kind atom-solution">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          <a class="no-decoration" role="button" onclick="toggle_block('4.1.49')">
+            <i class="fa-solid fa-angle-down icon-block-angle-down icon-block-angle-down-secondary text-muted"></i>
+            <i class="fa-solid fa-angle-up icon-block-angle-up icon-block-angle-up-secondary text-muted"></i>
+            
+
+
+  
+  <a class="no-decoration" role="button" onclick="toggleBlock(this)"><span class="atom-name">Solution</span></a>
+  
+    <span id="block-display-num-4.1.49" class="block-display-num" ></span>
+  
+  
+  
+
+
+
+
+
+
+          </a>
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-solution-body">
+          
+            <p>For a binary string <span class="math inline">\(w\)</span>, let <span
+class="math inline">\(\mathbf{0}(w)\)</span> denote the number of <span
+class="math inline">\(\texttt{0}\)</span>’s in <span
+class="math inline">\(w\)</span> and let <span
+class="math inline">\(\mathbf{1}(w)\)</span> denote the number of <span
+class="math inline">\(\texttt{1}\)</span>’s in <span
+class="math inline">\(w\)</span>. Given <span
+class="math inline">\(L\)</span> as defined above, the question asks us
+to show that for any <span class="math inline">\(w \in L\)</span>, <span
+class="math inline">\(\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)\)</span>. We
+will do so by structural induction.</p>
+<p>The base case corresponds to <span class="math inline">\(w =
+\epsilon\)</span>, and in this case, <span
+class="math inline">\(\mathbf{0}(w) = \mathbf{1}(w) = 0\)</span>, and
+therefore <span class="math inline">\(\mathbf{0}(w) = 2 \cdot
+\mathbf{1}(w)\)</span> holds.</p>
+<p>To carry out the induction step, consider an arbitrary string <span
+class="math inline">\(w \neq \epsilon\)</span> in <span
+class="math inline">\(L\)</span>. Then by the definition of <span
+class="math inline">\(L,\)</span> we know that there exists <span
+class="math inline">\(x\)</span> and <span
+class="math inline">\(y\)</span> in <span
+class="math inline">\(L\)</span> such that <span class="math inline">\(w
+= \texttt{0}x\texttt{1}y\texttt{0}\)</span>. Furthermore, by induction
+hypothesis, <span class="math display">\[\mathbf{0}(x) = 2 \cdot
+\mathbf{1}(x) \quad \quad (*)\]</span> and <span
+class="math display">\[\mathbf{0}(y) = 2 \cdot \mathbf{1}(y). \quad
+\quad (**)\]</span> We are done once we show <span
+class="math inline">\(\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)\)</span>. We
+establish this via the following chain of equalities: <span
+class="math display">\[\begin{aligned}
+    \mathbf{0}(w) &amp; = 2 + \mathbf{0}(x) + \mathbf{0}(y) &amp;
+\text{since $w = \texttt{0}x\texttt{1}y\texttt{0}$} \\
+    &amp; = 2 + 2 \cdot \mathbf{1}(x) + 2 \cdot \mathbf{1}(y) &amp;
+\text{by $(*)$ and $(**)$}\\
+    &amp; = 2 \cdot (1 + \mathbf{1}(x) + \mathbf{1}(y)) \\
+    &amp; = 2 \cdot \mathbf{1}(w).\end{aligned}\]</span></p>
+          
+        </div>
+        
+          <div class="atom-body-collapsed atom-secondary-kind-body-collapsed"></div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.50" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.50"
+      data-block-id="13662"
+      data-block-ref-num="4.1.50"
+      data-block-order-num="50"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="callout"
+      data-block-name="important"
+      data-block-related-block-kind=""
+      class="block block-callout-kind block-important block-callout-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-callout-kind atom-important">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+  <i class="fa-solid fa-exclamation-square important-icon"></i>
+
+
+
+  
+  <span class="atom-name">Important</span>
+  
+    <span id="block-display-num-4.1.50" class="block-display-num" ></span>
+  
+  
+    <span class="atom-title">(On structural induction proof write-up)</span>
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-important-body">
+          
+            <p>In an induction argument on recursively defined objects, if you say
+that you will use structural induction, then the assumption is that the
+parameter being inducted on is the minimum number of applications of the
+recursive rules needed to create an object. And in this case, explicitly
+stating the parameter being inducted on, or the induction hypothesis, is
+not needed.</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+            
+
+
+
+  <div id="block-container-4.1.51" class="block-container row pe-0 ">
+
+    <div 
+      id="block-4.1.51"
+      data-block-id="13663"
+      data-block-ref-num="4.1.51"
+      data-block-order-num="51"
+      data-block-related-block-id=""
+      data-block-parent-segment-id="13639"
+      data-block-is-collapsible=""
+      data-block-kind="plain"
+      data-block-name="gram"
+      data-block-related-block-kind=""
+      class="block block-plain-kind block-gram block-plain-kind-filter
+      
+      
+      "
+    >
+      
+      
+      
+        
+      
+
+      
+      
+
+  
+  <div class="atom atom-plain-kind atom-gram">
+
+    <div class="row atom-name-title">
+      <div class="col-12">
+        
+          
+
+
+  
+  
+  
+
+
+
+
+
+
+        
+      </div>
+    </div>
+    
+    <div class="row atom-body-container">
+      <div class="col-12">
+        <div class="atom-body atom-gram-body">
+          
+            <p>As a final remark, we want to emphasize that even though we gave
+different names to the induction proofs we have seen in this chapter,
+they are really all the same kind of argument. They all follow the basic
+(strong) induction proof strategy. So this was not about teaching you
+new proof strategies, not at all, but rather about seeing examples of
+how a regular induction proof can manifest itself in different settings.
+And hopefully, this has made you appreciate and understand induction
+proofs better.</p>
+<p>This marks the end of this chapter. If you have any questions about
+anything, don’t hesitate to ask!</p>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+
+  </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+
+
+
+          
+
+          
+            <div id="popover-content-footnote-361" class="popover-content-footnote ignore-math hide">
+              Note
+that <span class="math inline">\(L\)</span> is not the set of all
+possible binary strings. Rather, we are defining some subset of all
+possible binary strings. 
+            </div>
+          
+            <div id="popover-content-footnote-422" class="popover-content-footnote ignore-math hide">
+              Note
+that <span class="math inline">\(L\)</span> is not the set of all
+possible binary strings. Rather, we are defining some subset of all
+possible binary strings. 
+            </div>
+          
+
+        </div>
+
+      
+
+    </div>
+    
+  </div>
+
+
+  
+  </main>
+  </body>
+  </html>

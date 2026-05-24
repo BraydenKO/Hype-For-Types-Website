@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contributor Guide | Course Notes</title>
+    <link rel="stylesheet" href="../../base.css">
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #CD5C5C; }
+        code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: monospace; }
+        pre { background: #f4f4f4; padding: 15px; border-left: 5px solid #ccc; overflow-x: auto; }
+        .example-box { border: 1px solid #ddd; background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        .note { background: #fff3cd; border-left: 5px solid #ffeeba; padding: 10px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../index.html">&larr; Home</a> | 
+        <a href="../index.html">Course Index</a>
+    </nav>
+
+    <h1>Course Notes Contributor Guide</h1>
+    <p>This guide explains how to create new content pages that match the <strong>"Gray Style"</strong> and static architecture of the course website.</p>
+
+    <hr>
+
+    <h2>1. Start with a Template</h2>
+    <p>Don't start from scratch. Use one of the two templates in <code>notes/pages/</code>:</p>
+    <ul>
+        <li><strong><code>TEMPLATE_PREAMBLE.html</code></strong>: Best for introductory pages, high-level overviews, or simple text-heavy content.</li>
+        <li><strong><code>TEMPLATE_NOTES.html</code></strong>: Best for technical chapters. It includes section headers, exercises, and math examples.</li>
+    </ul>
+
+    <h2>2. HTML Structure (The "Block" System)</h2>
+    <p>The notes use a nested system to keep layout consistent. Every piece of content should be wrapped in a <code>block-container</code>.</p>
+    
+    <h3>Plain Text / Content Block</h3>
+    <pre><code>&lt;div class="block-container"&gt;
+    &lt;div class="block block-plain-kind block-gram"&gt;
+        &lt;div class="atom-body-container"&gt;
+            &lt;div class="atom-body"&gt;
+                &lt;p&gt;Your text here...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>Section Header</h3>
+    <pre><code>&lt;div class="block-container"&gt;
+    &lt;div class="block block-segment-kind block-section"&gt;
+        &lt;div class="atom-segment-kind"&gt;
+            &lt;div class="segment-display-num"&gt;1&lt;/div&gt;
+            &lt;div class="col"&gt;&lt;span&gt;Section Title&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h2>3. Exercises & Collapsible Solutions</h2>
+    <p>To keep the page clean, solutions are hidden by default and require a click to toggle.</p>
+    <ol>
+        <li>Add <code>block-collapsible block-collapsed</code> classes to the solution block.</li>
+        <li>Add <code>onclick="toggleBlock(this)"</code> to the anchor tag.</li>
+        <li>Ensure <code>../notes.js</code> is linked in the <code>&lt;head&gt;</code>.</li>
+    </ol>
+    <pre><code>&lt;!-- Solution Example --&gt;
+&lt;div class="block block-secondary-kind block-solution block-collapsible block-collapsed"&gt;
+    &lt;div class="atom-name-title"&gt;
+        &lt;a class="no-decoration" role="button" onclick="toggleBlock(this)"&gt;
+            &lt;span class="atom-name"&gt;Solution&lt;/span&gt;
+        &lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="atom-body-container"&gt;
+        &lt;div class="atom-body"&gt; ... &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <h2>4. Mathematical Content (KaTeX)</h2>
+    <p>We use KaTeX for fast rendering. Always use the following delimiter configuration in your <code>&lt;head&gt;</code> to avoid backslash escaping issues:</p>
+    <pre><code>delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "\\(", right: "\\)", display: false},
+    {left: "\\[", right: "\\]", display: true}
+]</code></pre>
+
+    <h2>5. Visual Standards (CSS)</h2>
+    <ul>
+        <li><strong>Main Colors</strong>: 
+            <ul>
+                <li>Accent Red: <code>#CD5C5C</code> (Titles, Labels)</li>
+                <li>Box Background: <code>#f9f9f9</code> (Propositions, Definitions)</li>
+                <li>Dark Mode BG: <code>#333333</code></li>
+            </ul>
+        </li>
+        <li><strong>Containers</strong>: Content is centered with <code>max-width: 50em</code> via <code>base.css</code> or <code>780px</code> via <code>atom.css</code>.</li>
+    </ul>
+
+    <div class="note">
+        <strong>Pro Tip:</strong> When adding images, use <code>class="atom-img"</code> to ensure they are centered and scale correctly.
+    </div>
+
+    <h2>6. Deployment Checklist</h2>
+    <ul style="list-style-type: '✅ ';">
+        <li>Link <code>../../base.css</code>, <code>../chapter.css</code>, and <code>../atom.css</code>.</li>
+        <li>Link <code>../notes.js</code> for toggles.</li>
+        <li>Update <code>&lt;title&gt;</code> and <code>favicon.png</code> link.</li>
+        <li>Ensure the top <code>&lt;nav&gt;</code> bar is present.</li>
+        <li>Verify all KaTeX math renders correctly (no raw <code>\[</code> showing).</li>
+    </ul>
+
+</body>
+</html>

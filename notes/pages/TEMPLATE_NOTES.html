@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Notes Template | Hype For Types</title>
+
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                ]
+            });
+        });
+    </script>
+
+    <!-- Project Styles -->
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> | 
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+
+    <h1>Notes Title</h1>
+    <hr>
+
+    <main>
+        <div id="chapter-atoms">
+            <!-- Section Header -->
+            <div class="block-container">
+                <div class="block block-segment-kind block-section">
+                    <div class="atom-section">
+                        <div class="segment-display-num">1</div>
+                        <div class="col">
+                            <span>Section Title</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Block -->
+            <div class="block-container">
+                <div class="block block-plain-kind block-gram">
+                    <div class="atom-body-container">
+                        <div class="atom-body">
+                            <p>Content goes here. Math example: \( \forall x \in \mathbb{N}, x \geq 0 \)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise with Collapsible Solution -->
+            <div class="block-container">
+                <div class="block block-question-kind block-exercise">
+                    <div class="atom-name-title">
+                        <span class="atom-name">Exercise</span>
+                    </div>
+                    <div class="atom-body-container">
+                        <div class="atom-body">
+                            <p>What is 2 + 2?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block block-secondary-kind block-solution block-collapsible block-collapsed">
+                    <div class="atom-name-title">
+                        <a class="no-decoration" role="button" onclick="toggleBlock(this)">
+                            <span class="atom-name">Solution</span>
+                        </a>
+                    </div>
+                    <div class="atom-body-container">
+                        <div class="atom-body">
+                            <p>4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

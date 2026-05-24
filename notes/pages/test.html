@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>test | Hype For Types</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                ]
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        table.semantic-table { width:100%; border-collapse:collapse; margin:10px 0; }
+        table.semantic-table th, table.semantic-table td { border:1px solid #444; padding:8px; text-align:left; }
+        table.semantic-table th { background-color:#333; color:#fff; }
+        .code-block {
+            background-color:#f4f4f4; border-left:4px solid #333; padding:10px;
+            font-family:monospace; margin:10px 0; overflow-x:auto; white-space:pre;
+        }
+        .aside {
+            background-color:#f9f6ee; border-left:4px solid #b8a96a;
+            padding:10px 14px; margin:12px 0; font-size:0.95em;
+        }
+        .aside strong { color:#7a6830; }
+        .type-label {
+            font-family:monospace; background:#eef; padding:1px 5px;
+            border-radius:3px; font-size:0.9em;
+        }
+        @media (prefers-color-scheme: dark) {
+            .code-block { background-color:#2a2a2a; border-left-color:#666; }
+            .aside { background-color:#2e2b24; border-left-color:#b8a96a; }
+            .aside strong { color:#e6ce83; }
+            .type-label { background-color:#334; color:#dde; }
+            table.semantic-table th { background-color:#222; border-color:#555; }
+            table.semantic-table td { border-color:#555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom:20px;">
+        <a href="../../index.html" style="text-decoration:none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration:none;">Course Notes Index</a>
+    </nav>
+
+    <h1>test</h1>
+    <hr>
+
+    <main>
+        <div id="chapter-atoms">
+
+        <div class="block-container">
+            <div class="block block-segment-kind block-section">
+                <div class="atom-section">
+                    <div class="segment-display-num">1</div>
+                    <div class="col"><span>Test</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-container">
+            <div class="block block-plain-kind block-gram">
+                <div class="atom-body-container">
+                    <div class="atom-body"><p>asda </p><p><br></p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-container">
+            <div class="block block-question-kind block-exercise">
+                <div class="atom-name-title">
+                    <span class="atom-name">Exercise</span>
+                </div>
+                <div class="atom-body-container">
+                    <div class="atom-body"><p>questions questioning</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-container">
+            <div class="block block-secondary-kind block-solution block-collapsible block-collapsed">
+                <div class="atom-name-title">
+                    <a class="no-decoration" role="button" onclick="toggleBlock(this)">
+                        <span class="atom-name">Solution</span>
+                    </a>
+                </div>
+                <div class="atom-body-container">
+                    <div class="atom-body"><p>asasd</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block-container">
+            <div class="block block-segment-kind block-section">
+                <div class="atom-section">
+                    <div class="segment-display-num">1</div>
+                    <div class="col"><span></span></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>

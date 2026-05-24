@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hype For Types — Notes Builder</title>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f0ede8;
+  --sidebar-bg: #1a1a1a;
+  --sidebar-text: #e8e4dc;
+  --sidebar-muted: #888;
+  --sidebar-border: #2e2e2e;
+  --accent: #c8553d;
+  --accent-light: #e8705a;
+  --card-bg: #ffffff;
+  --card-border: #ddd9d0;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  --label-section: #c8553d;
+  --label-text: #4a7c9e;
+  --label-code: #6b8e5a;
+  --label-aside: #9e7a3d;
+  --label-exercise: #7a5a9e;
+  --label-solution: #3d9e7a;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  display: flex;
+  height: 100vh;
+  background: var(--bg);
+  color: #1a1a1a;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid #000;
+}
+
+.sidebar-top {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.sidebar-logo {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.sidebar-top h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--sidebar-text);
+  margin-bottom: 14px;
+}
+
+.meta-field {
+  margin-bottom: 10px;
+}
+.meta-field label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sidebar-muted);
+  margin-bottom: 5px;
+}
+.meta-field input {
+  width: 100%;
+  padding: 7px 10px;
+  background: #2a2a2a;
+  border: 1px solid var(--sidebar-border);
+  border-radius: 4px;
+  color: var(--sidebar-text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.meta-field input:focus { border-color: var(--accent); }
+
+.sidebar-section {
+  padding: 16px 20px 8px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+.sidebar-section h3 {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sidebar-muted);
+  margin-bottom: 10px;
+}
+
+.block-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: left;
+  margin-bottom: 3px;
+  transition: background 0.12s, border-color 0.12s;
+  color: var(--sidebar-text);
+}
+.block-btn:hover { background: #2a2a2a; border-color: var(--sidebar-border); }
+
+.block-btn-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.block-btn-text strong { display: block; font-size: 0.82rem; font-weight: 500; }
+.block-btn-text span { font-size: 0.72rem; color: var(--sidebar-muted); }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.export-btn {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+}
+.export-btn:hover { background: var(--accent-light); }
+
+/* ── CANVAS ── */
+.canvas-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.canvas-header {
+  padding: 14px 32px;
+  background: var(--bg);
+  border-bottom: 1px solid #d8d4ce;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  color: #888;
+}
+.canvas-header strong { color: #444; }
+
+.canvas {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.canvas-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: #b0aa9e;
+  pointer-events: none;
+  user-select: none;
+}
+.canvas-empty.hidden { display: none; }
+.canvas-empty .empty-icon { font-size: 2.5rem; opacity: 0.4; }
+.canvas-empty p { font-size: 0.9rem; max-width: 280px; text-align: center; line-height: 1.5; }
+
+.field-hint {
+  font-size: 0.78rem;
+  color: #999;
+  margin: -2px 0 8px;
+  line-height: 1.4;
+}
+
+.sidebar-nav {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sidebar-nav a {
+  font-size: 0.8rem;
+  color: var(--sidebar-muted);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+.sidebar-nav a:hover { color: var(--sidebar-text); }
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.secondary-btn {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  background: transparent;
+  color: var(--sidebar-text);
+  border: 1px solid var(--sidebar-border);
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.secondary-btn:hover {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+#status-text[data-kind="error"] { color: #e07070; }
+#status-text[data-kind="ok"] { color: #6a9e6a; }
+#status-text[data-kind="pending"] { color: #b0aa60; }
+
+/* ── EDITOR BLOCKS ── */
+.editor-block {
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+.editor-block:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+.block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #faf9f7;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.block-type-badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.block-type-badge::before {
+  content: '';
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.block-type-section  { color: var(--label-section); }
+.block-type-text     { color: var(--label-text); }
+.block-type-code     { color: var(--label-code); }
+.block-type-aside    { color: var(--label-aside); }
+.block-type-exercise { color: var(--label-exercise); }
+.block-type-solution { color: var(--label-solution); }
+
+.block-actions {
+  display: flex;
+  gap: 4px;
+}
+.block-actions button {
+  padding: 3px 8px;
+  background: none;
+  border: 1px solid #e0dcd4;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: #777;
+  font-family: var(--font-body);
+  transition: all 0.12s;
+}
+.block-actions button:hover { background: #f0ede8; }
+.block-actions button:disabled { opacity: 0.3; cursor: default; }
+.block-actions .del-btn { color: #c84040; }
+.block-actions .del-btn:hover { background: #fff0f0; border-color: #c84040; }
+
+.block-body { padding: 18px 20px; }
+
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+.field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 6px;
+}
+.field input[type="text"] {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid #ddd9d0;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+  background: #fdfcfb;
+}
+.field input[type="text"]:focus { border-color: #aaa; }
+
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd9d0;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 110px;
+  outline: none;
+  background: #fdfcfb;
+  transition: border-color 0.15s;
+}
+.field textarea:focus { border-color: #aaa; }
+
+/* Quill overrides */
+.quill-host .ql-container {
+  border-radius: 0 0 5px 5px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border-color: #ddd9d0;
+}
+.quill-host .ql-toolbar {
+  border-radius: 5px 5px 0 0;
+  border-color: #ddd9d0;
+  background: #faf9f7;
+}
+.quill-host .ql-editor { min-height: 100px; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-top">
+    <div class="sidebar-logo">Hype For Types</div>
+    <h2>Notes Builder</h2>
+  </div>
+
+  <nav class="sidebar-nav" aria-label="Related pages">
+    <a href="index.html">&larr; Course notes index</a>
+    <a href="pages/GUIDE.html">Contributor guide</a>
+  </nav>
+
+  <div class="sidebar-top" style="padding-top: 0;">
+    <h2>Page Settings</h2>
+    <div class="meta-field">
+      <label>Page Title</label>
+      <input type="text" id="meta-title" placeholder="e.g. Montague Grammar" autocomplete="off">
+    </div>
+    <div class="meta-field">
+      <label>Filename (for export)</label>
+      <input type="text" id="meta-filename" placeholder="e.g. montague.html" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>Add Block</h3>
+    <button type="button" class="block-btn" data-add-block="section">
+      <div class="block-btn-dot" style="background:var(--label-section)"></div>
+      <div class="block-btn-text"><strong>Section Header</strong><span>Numbered chapter heading</span></div>
+    </button>
+    <button type="button" class="block-btn" data-add-block="text">
+      <div class="block-btn-dot" style="background:var(--label-text)"></div>
+      <div class="block-btn-text"><strong>Rich Text</strong><span>Bold, italics, lists, math</span></div>
+    </button>
+    <button type="button" class="block-btn" data-add-block="code">
+      <div class="block-btn-dot" style="background:var(--label-code)"></div>
+      <div class="block-btn-text"><strong>Code Block</strong><span>Monospace preformatted text</span></div>
+    </button>
+    <button type="button" class="block-btn" data-add-block="aside">
+      <div class="block-btn-dot" style="background:var(--label-aside)"></div>
+      <div class="block-btn-text"><strong>Aside / Note</strong><span>Callout with bold title</span></div>
+    </button>
+    <button type="button" class="block-btn" data-add-block="exercise">
+      <div class="block-btn-dot" style="background:var(--label-exercise)"></div>
+      <div class="block-btn-text"><strong>Exercise</strong><span>Problem statement block</span></div>
+    </button>
+    <button type="button" class="block-btn" data-add-block="solution">
+      <div class="block-btn-dot" style="background:var(--label-solution)"></div>
+      <div class="block-btn-text"><strong>Solution</strong><span>Collapsible answer block</span></div>
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-actions">
+      <button type="button" class="secondary-btn" id="btn-preview">Preview in browser</button>
+      <button type="button" class="secondary-btn" id="btn-clear">Clear draft</button>
+    </div>
+    <button type="button" class="export-btn" id="btn-export">Export HTML file</button>
+    <p style="font-size:0.72rem;color:var(--sidebar-muted);margin-top:10px;line-height:1.4;">
+      Save the file to <code style="color:#aaa;">notes/pages/</code> and add a link on the course index.
+    </p>
+  </div>
+</div>
+
+<div class="canvas-wrap">
+  <div class="canvas-header">
+    <strong id="status-text">Ready</strong>
+    <span id="block-count">0 blocks</span>
+  </div>
+  <div class="canvas" id="canvas">
+    <div class="canvas-empty" id="empty-state">
+      <div class="empty-icon">☰</div>
+      <p>Add blocks from the sidebar to build your notes page. Use Preview before exporting.</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="builder.js" defer></script>
+</body>
+</html>

@@ -136,7 +136,7 @@
                 <div class="block block-plain-kind block-gram">
                     <div class="atom-body-container">
                         <div class="atom-body">
-                            <p>Richard Montague's central insight was that natural language is a <em>mathematical object</em>: every well-formed phrase has a unique semantic type, and sentences are built by combining types through function application — exactly like a programming language or the typed lambda calculus.</p>
+                            <p>Montague's program applies the same formal, model-theoretic methods to natural and formal languages. In a typed compositional grammar, each syntactic analysis assigns expressions semantic types, and composition rules constrain how their denotations combine (Montague 1970a, 1970b, 1973).</p>
 
                             <p>Before we can say what any word <em>means</em>, we need a type system to say what <em>kind of thing</em> its meaning is.</p>
 
@@ -148,7 +148,7 @@
                             </ul>
 
                             <h4>Functional types</h4>
-                            <p>Everything else is built by function formation: if $\alpha$ and $\beta$ are types, then $\alpha \to \beta$ is the type of a <em>function from $\alpha$-things to $\beta$-things</em>. This is exactly the arrow type you know from Haskell, OCaml, or any typed lambda calculus.</p>
+                            <p>Everything else is built by function formation: if $\alpha$ and $\beta$ are types, then $\alpha \to \beta$ is the type of a <em>function from $\alpha$-things to $\beta$-things</em>. This is the arrow type familiar from programming languages and typed lambda calculi. Montague-semantics texts more often write the same type as $\langle\alpha,\beta\rangle$.</p>
 
                             <p>The arrow is <strong>right-associative</strong>: $\alpha \to \beta \to \gamma$ means $\alpha \to (\beta \to \gamma)$, a function that takes an $\alpha$ and returns a <em>function</em> from $\beta$ to $\gamma$. This is just currying. Some important derived types:</p>
 
@@ -162,10 +162,10 @@
                                 </tbody>
                             </table>
 
-                            <p>The key rule — <strong>Function Application (Rule B)</strong> — says: if $f$ has type $\alpha \to \beta$ and $x$ has type $\alpha$, then $f(x)$ has type $\beta$. Composing meanings is just applying functions.</p>
+                            <p>The key rule — <strong>Function Application</strong> (called “Rule B” here as a local convention) — says: if $f$ has type $\alpha \to \beta$ and $x$ has type $\alpha$, then $f(x)$ has type $\beta$. Function application is one central mode of semantic composition.</p>
 
                             <div class="aside">
-                                <strong>Why types matter.</strong> Without types, you could accidentally ask whether a truth value <em>sings</em>, or apply a determiner directly to a verb. The type system makes these nonsensical combinations <em>syntactically impossible</em> — you get a type error before you ever reach the semantics.
+                                <strong>Why types matter.</strong> Without types, you could accidentally ask whether a truth value <em>sings</em>, or apply a determiner directly to a verb. Such combinations are semantically ill-typed under this analysis. Syntax and semantic typing are connected by the grammar, but they are not identical.
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                 <div class="block block-plain-kind block-gram">
                     <div class="atom-body-container">
                         <div class="atom-body">
-                            <p>Montague semantics is written in the <strong>typed lambda calculus</strong>. If you've written any functional programming, this will feel familiar.</p>
+                            <p>Montague semantics uses the <strong>typed lambda calculus</strong>. If you've written any functional programming, this will feel familiar (Church 1940; Montague 1970b, 1973; Heim and Kratzer 1998).</p>
 
                             <h4>Lambda abstraction</h4>
                             <p>$\lambda x. \phi(x)$ denotes the function that takes an input $x$ and returns $\phi(x)$. The variable $x$ is <em>bound</em> by the $\lambda$. So $\lambda x. \text{Sings}(x)$ is the function that maps any entity to True iff it sings — this is the denotation of the predicate <em>sings</em>, of type $e \to t$.</p>
@@ -209,7 +209,7 @@
     [a function from subjects to "y loves mary"]
                             </div>
 
-                            <p>Beta-reduction is the <em>entire</em> computational mechanism of Montague semantics. Composing a sentence means repeatedly applying and reducing lambda terms until you have a closed formula of type $t$ with no remaining lambdas.</p>
+                            <p>Beta-reduction is the principal term-reduction operation used to simplify compositions of lambda-denotations. A full Montague grammar also contains translation rules, intensional operators, model-theoretic interpretation, quantification, connectives, and meaning postulates.</p>
 
                             <h4>Alpha-equivalence</h4>
                             <p>The name of a bound variable is irrelevant. $\lambda x. \text{Sings}(x)$ and $\lambda y. \text{Sings}(y)$ are the same function ($\alpha$-equivalent). We'll silently rename variables to avoid clashes during substitution.</p>
@@ -270,7 +270,7 @@ Step 2 — Combine GQ with VP ("sings"):
                             <h4>The problem with "John sings"</h4>
                             <p>Now try "John sings." Syntactically, it has the same structure: NP + VP. But <em>john</em> has type $e$, while "every man" has type $(e \to t) \to t$. The VP combinator can't accept both — we have a type mismatch.</p>
 
-                            <p><strong>Type Lifting (Rule A)</strong> resolves this. We lift the proper noun <em>john</em> from a mere entity $j : e$ up to a generalized quantifier of type $(e \to t) \to t$:</p>
+                            <p><strong>Type lifting</strong> (called “Rule A” here as a local convention) resolves this. We lift the proper noun <em>john</em> from an entity $j : e$ to a generalized quantifier of type $(e \to t) \to t$:</p>
 
                             $$\text{john}_{\text{lifted}} = \lambda P.\, P(j)$$
 
@@ -285,7 +285,7 @@ Step 2 — Combine GQ with VP ("sings"):
                             <p>Both "John sings" and "Every man sings" are now derived by the <em>same rule</em> (GQ + VP). This uniformity is the whole point: the grammar has a single, general composition rule rather than special cases for proper nouns versus quantifiers.</p>
 
                             <div class="aside">
-                                <strong>Generalized Quantifier Theory.</strong> The lifted form $\lambda P. P(j)$ treats "John" as a quantifier: the trivial quantifier that ranges only over John. This is not just a formal trick — it reveals that proper nouns and determinative NPs are the same <em>semantic category</em>. Both denote sets of properties (equivalently, sets of sets of individuals). This unification is one of Montague's greatest contributions.
+                                <strong>Generalized quantifiers.</strong> The lifted form $\lambda P. P(j)$ lets a proper name and a determiner phrase receive the same generalized-quantifier type, yielding a uniform composition rule. This is a useful analytical choice, not a claim that every semantic theory assigns them the same category (Montague 1973; Barwise and Cooper 1981; Partee 1987).
                             </div>
                         </div>
                     </div>
@@ -319,7 +319,7 @@ Step 2 — Combine GQ with VP ("sings"):
 
                             <blockquote><em>John finds a unicorn.</em></blockquote>
 
-                            <p>Here, if the sentence is true, a unicorn <em>must} exist</em>. Finding requires a real thing to be found. <em>Seek</em> does not. The contrast is called the distinction between <strong>intensional</strong> and <strong>extensional</strong> verb positions.</p>
+                            <p>Here, if the sentence is true, a unicorn <em>must exist</em>. Finding requires a real thing to be found. <em>Seek</em> does not. The contrast is called the distinction between <strong>intensional</strong> and <strong>extensional</strong> verb positions.</p>
 
                             <h4>Denotation of "a unicorn" as a GQ</h4>
                             <p>Using our GQ machinery, the determiner <em>a</em> has the denotation:</p>
@@ -328,33 +328,30 @@ Step 2 — Combine GQ with VP ("sings"):
                             <p>So "a unicorn" (type $(e \to t) \to t$) is:</p>
                             $$\text{"a unicorn"} = \lambda Q.\, \exists x\,(\text{Unicorn}(x) \land Q(x))$$
 
-                            <p>This is the set of all properties $Q$ such that at least one unicorn has $Q$. If unicorns don't exist, this set is empty — but the <em>function itself is still well-formed</em>. The GQ exists even when its extension is empty.</p>
+                            <p>This is the set of properties $Q$ such that at least one unicorn has $Q$. If unicorns do not exist, it is the empty generalized quantifier. In an extensional model it is therefore indistinguishable from every other empty existential NP, so this representation alone cannot explain why seeking a unicorn differs from seeking a centaur.</p>
 
                             <h4>Intensional verbs: seek</h4>
-                            <p>For <em>seek</em>, Montague's analysis keeps the object NP at its abstract GQ level. <em>Seek</em> doesn't demand that the NP resolve to an actual entity; it takes the GQ itself as its argument:</p>
-                            $$\text{Seek}(\text{john}, \underbrace{\lambda Q.\, \exists x\,(\text{Unicorn}(x) \land Q(x))}_{\text{the GQ "a unicorn"}})$$
+                            <p>Montague instead analyzes an intensional transitive such as <em>seek</em> as taking an <strong>intension</strong> of an NP denotation. In simplified notation, with $s$ the type of indices or worlds:</p>
+                            $$\llbracket\text{seek}\rrbracket : \langle\langle s,\langle\langle e,t\rangle,t\rangle\rangle,\langle e,t\rangle\rangle$$
 
-                            <p>John stands in the seeking relation to the <em>concept</em> of a unicorn. No existential commitment to actual unicorns is made. The formula is consistent with a world containing no unicorns at all.</p>
+                            <p>The object thus supplies different generalized-quantifier extensions at different indices, preserving the conceptual difference between unicorns and centaurs even when neither exists in the actual world. The exact PTQ types are more elaborate because intensional structure is represented systematically (Montague 1973; Zimmermann 1993).</p>
 
-                            <h4>Extensional verbs: find (via Meaning Postulates)</h4>
-                            <p><em>Find</em> is different. When John finds something, that something is a real entity — not merely a concept. Montague handles this with a <strong>Meaning Postulate</strong>, a constraint on models that forces the object position of <em>find</em> to be resolved to an actual individual. The postulate is:</p>
-                            $$\text{Find}(u, NP) \iff NP\!\left(\lambda v.\, \text{Find}_{\text{ext}}(u, v)\right)$$
-
-                            <p>This says: "John finds [the GQ]" is true if and only if the GQ contains the property $\lambda v.\, \text{Find}_{\text{ext}}(\text{john}, v)$. Let's reduce this step by step for "John finds a unicorn":</p>
+                            <h4>Extensional verbs: find</h4>
+                            <p><em>Find</em> is different. An extensional classroom analysis combines the existential object with the property of being found:</p>
 
                             <div class="code-block">
 Apply the NP "a unicorn" = λQ. ∃x(Unicorn(x) ∧ Q(x))
-to the property from the postulate λv. Find_ext(john, v):
+to the property λv. Find(john, v):
 
-  (λQ. ∃x(Unicorn(x) ∧ Q(x))) (λv. Find_ext(john, v))
-    →β  ∃x(Unicorn(x) ∧ (λv. Find_ext(john, v))(x))
-    →β  ∃x(Unicorn(x) ∧ Find_ext(john, x))
+  (λQ. ∃x(Unicorn(x) ∧ Q(x))) (λv. Find(john, v))
+    →β  ∃x(Unicorn(x) ∧ (λv. Find(john, v))(x))
+    →β  ∃x(Unicorn(x) ∧ Find(john, x))
                             </div>
 
                             <p>The existential quantifier $\exists x(\text{Unicorn}(x) \land \ldots)$ is now explicit in the logical form. The math enforces what our intuition demands: if John finds a unicorn, there exists a unicorn that John found.</p>
 
                             <div class="aside">
-                                <strong>Intensional vs. extensional — the test.</strong> A verb is extensional in an argument position if substituting co-referring expressions preserves truth. If "Lex Luthor is Clark Kent's enemy" is true and <em>find</em> is extensional, then "Superman found Clark Kent's enemy" implies "Superman found Lex Luthor." For intensional verbs like <em>seek</em>, this substitution can fail — if Lois is seeking Superman's enemy without knowing who that is, she may not be seeking Lex Luthor in any psychologically meaningful sense.
+                                <strong>Intensional vs. extensional — the test.</strong> Holding the context fixed, substitution of genuinely co-referential NPs preserves truth in an extensional position but may fail in an intensional one. For example, if the morning star is the evening star, “Dana photographed the morning star” supports substitution, whereas “Dana sought the morning star” need not describe seeking it under the evening-star conception.
                             </div>
                         </div>
                     </div>
@@ -395,12 +392,10 @@ Step 1 — Build VP "loves a woman":
   loves   =  λy. λx. Love(x, y)       [type e → e → t]
   a woman =  λQ. ∃y(Woman(y) ∧ Q(y))  [type (e → t) → t]
 
-  Apply loves to a woman via QR:
-  (λQ. ∃y(Woman(y) ∧ Q(y)))(λy. λx. Love(x, y))
-    →β  ∃y(Woman(y) ∧ (λx. Love(x, y)))
+  Abstract over the subject, then apply the object GQ:
+  λx. ((λQ. ∃y(Woman(y) ∧ Q(y)))(λy. Love(x, y)))
+    →β  λx. ∃y(Woman(y) ∧ Love(x, y))
     [type e → t — a property of subjects]
-
-  More cleanly: λx. ∃y(Woman(y) ∧ Love(x, y))
 
 Step 2 — Apply subject GQ "every man":
   (λP. ∀z(Man(z) → P(z)))(λx. ∃y(Woman(y) ∧ Love(x, y)))
@@ -423,11 +418,8 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
     →β  ∃y(Woman(y) ∧ ∀z(Man(z) → Love(z, y)))   ✓ strong scope
                             </div>
 
-                            <p>The two derivations use the <em>same lexical entries</em> and the <em>same composition rules</em>. The ambiguity falls out of the order of operations — which GQ gets applied first. This is a clean, principled account of scope: no need for covert movement rules or additional representational levels.</p>
+                            <p>The two derivations use the same lexical entries but different syntactic derivations. Montague's PTQ obtains inverse scope with a quantifying-in rule (Montague 1973). This differs from <strong>Quantifier Raising (QR)</strong>, a later syntactic movement analysis (May 1985), and from continuation-based accounts that derive scope without movement (Barker 2002).</p>
 
-                            <div class="aside">
-                                <strong>Scope and processing.</strong> Psycholinguistic evidence shows that humans prefer weak scope (surface order) by default, with strong scope readings available but requiring more processing effort. This aligns naturally with Montague's derivational account: the direct assembly (Derivation 1) is computationally simpler.
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -452,17 +444,13 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
                         <div class="atom-body">
                             <p>Everything so far evaluates meaning at a single fixed world and time. But natural language routinely talks about possibilities, necessities, beliefs, and counterfactuals — contexts where truth can vary across worlds and times.</p>
 
-                            <p>Montague's <strong>Intensional Logic (IL)</strong> adds two new dimensions of evaluation:</p>
-                            <ul>
-                                <li>A set $W$ of <strong>possible worlds</strong> (ways things could have been).</li>
-                                <li>A set $T$ of <strong>times</strong> (moments or intervals).</li>
-                            </ul>
+                            <p>Montague's <strong>Intensional Logic (IL)</strong> adds a type $s$ for indices and forms an intension of an expression of type $a$ as a function of type $\langle s,a\rangle$. An index may encode a world–time pair $\langle w,t\rangle$, though treating worlds $W$ and times $T$ as separate primitive sets is only one implementation (Montague 1970c, 1973; Gallin 1975).</p>
 
-                            <p>With this, every expression can be evaluated relative to an index $\langle w, t \rangle$. This gives us the key distinction:</p>
+                            <p>Evaluating expressions relative to an index gives us the key distinction:</p>
 
                             <ul>
                                 <li><strong>Extension</strong> of $\alpha$ at $\langle w, t \rangle$: the value $\alpha$ actually takes in world $w$ at time $t$. Written $\vee\alpha$ (the "down" operator, also ${}^\vee$ or "ext"). For an individual concept like "the temperature," the extension at $\langle w, t \rangle$ is the actual temperature reading in that world at that moment.</li>
-                                <li><strong>Intension</strong> of $\alpha$: the function $\widehat{\alpha} : W \times T \to \text{extension}$, mapping every index to what $\alpha$ denotes there. Written $\wedge\alpha$ (the "up" operator). This is the <em>concept</em> behind $\alpha$ — what it means across all possible contexts.</li>
+                                <li><strong>Intension</strong> of $\alpha$: a function from indices to extensions, mapping every index to what $\alpha$ denotes there. Written $\wedge\alpha$ (the "up" operator).</li>
                             </ul>
 
                             <h4>The temperature paradox</h4>
@@ -474,18 +462,16 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
                             <p>If we naïvely substitute the number 90 for "the temperature" in (2), we get <em>"90 is rising"</em> — nonsensical. The problem is that "is 90" and "is rising" make claims at <em>different logical levels</em>:</p>
                             <ul>
                                 <li>"is 90" evaluates the <em>extension</em> at the current index: ${}^\vee({}^\wedge\text{temperature}) = 90$.</li>
-                                <li>"is rising" evaluates the <em>intension</em> as a function over time: $\text{Rising}({}^\wedge\text{temperature})$, asking whether the rate of change $\frac{d}{dt}[{}^\wedge\text{temperature}(w, t)]$ is positive.</li>
+                                <li>"is rising" predicates change over time of the <em>individual concept</em>: $\text{Rising}({}^\wedge\text{temperature})$.</li>
                             </ul>
-                            <p>You cannot substitute the extension into an intensional context — the type system blocks it. "90" has type $e$ (or a numerical type); "the temperature" in "is rising" has type $W \times T \to \text{number}$. These are different types; function application fails cleanly.</p>
+                            <p>You cannot substitute the current numerical value into a context that requires an individual concept. A calculus derivative is a useful illustration, but natural-language time need not be continuous and <em>rising</em> need not mean mathematical differentiability.</p>
 
                             <h4>The Cain/Adam paradox and modal contexts</h4>
                             <p>Consider: <em>"Necessarily, the father of Cain is Adam."</em></p>
-                            <p>In the actual world, the extension of "the father of Cain" is indeed Adam. So their extensions are identical. But <em>Necessarily</em> ($\Box$) quantifies over all possible worlds. Since there is a possible world where Adam was never born (and some other individual fathered Cain), the <em>intensions</em> of "the father of Cain" and "Adam" are not equal functions over $W \times T$.</p>
-
-                            <p>This is the core of Frege's original puzzle about sense and reference, now formalized: two expressions can share an extension while having different intensions. The modal operator $\Box$ forces evaluation over intensions, not extensions, which is why the sentence comes out false (or at least not necessarily true) despite the actual-world identity.</p>
+                            <p>In the actual world, “the father of Cain” and “Adam” may have the same extension while differing in modal profile: a name is often modeled as a rigid designator, whereas a description may vary across worlds. Whether Cain could have had a different father depends on further assumptions about parentage, essence, and existence, so the example illustrates rigid versus non-rigid designation rather than establishing that the sentence is false.</p>
 
                             <div class="aside">
-                                <strong>The up/down operators ${}^\wedge$ and ${}^\vee$.</strong> You can think of ${}^\wedge$ ("up") as wrapping an expression inside a function, and ${}^\vee$ ("down") as forcing it open to get the current value. They are inverses: ${}^\vee({}^\wedge\alpha) = \alpha$ at any fixed index. This lets you explicitly control whether an expression is evaluated extensionally or kept as an intensional concept — the very control Montague's semantics provides.
+                                <strong>The up/down operators ${}^\wedge$ and ${}^\vee$.</strong> Extensionalizing an expression's intension at an index recovers its value there, subject to the language's rules. The converse is not unique: many distinct intensions can have the same extension at one index, so intensionalization and extensionalization are not unrestricted inverses.
                             </div>
                         </div>
                     </div>
@@ -509,7 +495,7 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
                 <div class="block block-plain-kind block-gram">
                     <div class="atom-body-container">
                         <div class="atom-body">
-                            <p>Our basic Montague lexicon for verbs treats <em>sings</em> as a simple predicate of entities. This immediately runs into trouble:</p>
+                            <p>The following is a major <strong>extension of the Montague tradition</strong>, not part of Montague's original grammar. Our earlier lexicon treats <em>sings</em> as a simple predicate of entities, while event semantics adds explicit event variables (Davidson 1967; Parsons 1990; Kratzer 1996).</p>
 
                             <ul>
                                 <li><em>"John sings"</em> (habitual: John regularly sings) vs. <em>"John is singing"</em> (progressive: a singing event is happening now).</li>
@@ -520,10 +506,10 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
                             <p><strong>Neo-Davidsonian Event Semantics</strong> (building on Donald Davidson's 1967 proposal) solves all three problems by introducing a new atomic type <strong>$v$</strong> for events, alongside $e$ and $t$.</p>
 
                             <h4>Verbs as event predicates</h4>
-                            <p>A verb no longer directly takes an entity as its argument. Instead, it denotes a predicate of events:</p>
+                            <p>In a simple neo-Davidsonian entry, a verb denotes a predicate of events:</p>
                             $$\text{"sings"} = \lambda e.\, \text{Singing}(e) \quad [\text{type } v \to t]$$
 
-                            <p>Participants are linked to events via <strong>thematic roles</strong> — predicates relating an event to a participant:</p>
+                            <p>A complete clause also needs compositional rules that introduce participants and existentially close the event variable. Participants are linked to events via <strong>thematic roles</strong> — predicates relating an event to a participant:</p>
                             <ul>
                                 <li>$\text{Agent}(e, x)$ — $x$ is the intentional instigator of event $e$</li>
                                 <li>$\text{Theme}(e, x)$ — $x$ is the thing affected or moved by $e$</li>
@@ -552,10 +538,10 @@ Step 2 — Quantify in "a woman", replacing him₁ with a bound y:
 Each modifier simply ∧-conjoins a new condition on e.
                             </div>
 
-                            <p>This elegantly predicts the <strong>entailment patterns</strong> we observe. If "John walked quickly in the park" is true, then "John walked" must also be true — you just drop the conjuncts. In the old type-raising analysis with no events, deriving this entailment was impossible without stipulation.</p>
+                            <p>This elegantly predicts the <strong>entailment patterns</strong> we observe. If “John walked quickly in the park” is true, then “John walked” follows by dropping conjuncts. Event semantics offers a uniform account of such intersective modification and argument–adjunct entailments.</p>
 
                             <div class="aside">
-                                <strong>Why not just use adverbs as VP modifiers?</strong> The alternative — treating <em>quickly</em> as a function $(e \to t) \to (e \to t)$ from VP-meanings to VP-meanings — fails to capture the entailments. If "walks quickly" is just some function $f$ applied to "walk", there's no guarantee that $f(\text{walk})(x) \to \text{walk}(x)$. The event-semantic account makes this entailment automatic and principled.
+                                <strong>Why use events?</strong> A VP-modifier type $(e \to t) \to (e \to t)$ does not guarantee subsective entailments merely by its type, although an appropriate lexical meaning can guarantee them. Event semantics makes the intersective structure especially transparent; it is not the only formalism able to encode the inference.
                             </div>
                         </div>
                     </div>
@@ -582,18 +568,18 @@ Each modifier simply ∧-conjoins a new condition on e.
                             <h4>The liar's paradox and Tarski's undefinability theorem</h4>
                             <p>Consider: <em>"This sentence is false."</em></p>
 
-                            <p>In standard compositional semantics, this sentence <em>cannot be constructed</em>. Because meaning is built bottom-up, the subject "this sentence" would have to refer to the root node of the syntax tree — but the root node doesn't exist until the composition is complete. The self-reference fails at the compositional level before it can even become a paradox.</p>
+                            <p>Compositionality by itself does not block this sentence. Demonstratives, quotation, and other context-sensitive devices can support self-reference; the paradox arises from the interaction of self-reference, negation, and a truth predicate, not from the order in which a parse tree is assembled.</p>
 
                             <p>But we can engineer the paradox with <strong>Gödel numbering</strong>: encode sentences as natural numbers, find the number $n$ that encodes the sentence "the sentence with Gödel number $n$ is false," and write:</p>
                             <p>$$\text{"The sentence encoded as } n \text{ is false."}$$</p>
 
                             <p>Now the self-reference is indirect, going through arithmetic rather than syntax — and the machinery of Montague grammar cannot rule it out a priori.</p>
 
-                            <p>The resolution is <strong>Tarski's Undefinability Theorem</strong> (a semantic corollary of Gödel's First Incompleteness Theorem, 1936). Tarski proved:</p>
+                            <p><strong>Tarski's Undefinability Theorem</strong> identifies a precise limit under standard assumptions (Tarski 1936/1983):</p>
 
-                            <blockquote><em>No sufficiently expressive formal language can contain its own truth predicate.</em></blockquote>
+                            <blockquote><em>An arithmetically sufficiently expressive consistent theory cannot define a truth predicate for its own sentences that satisfies all expected Tarskian biconditionals.</em></blockquote>
 
-                            <p>That is, if your language can express enough arithmetic, you cannot define a predicate $\text{True}(x)$ within that same language that correctly identifies the truths of the language. Any attempt produces a contradiction. Truth must always be defined in a strictly stronger <em>metalanguage</em>. In Montague grammar extended with Gödel numbering, $\text{True}$ and $\text{False}$ cannot be first-class predicates — they escape into the metalanguage, and the paradox never evaluates inside the system.</p>
+                            <p>Tarski's object-language/metalanguage hierarchy is one influential response. Montague's original fragment lacks much of the machinery required to formulate semantic paradoxes, but richer extensions can reintroduce them. The theorem is closely related to incompleteness results, but it is not simply a semantic corollary of Gödel's 1931 First Incompleteness Theorem.</p>
 
                             <h4>Hyperintensionality: the problem with logical equivalence</h4>
                             <p>Possible worlds semantics has a structural flaw. Consider two tautologies:</p>
@@ -607,10 +593,10 @@ Each modifier simply ∧-conjoins a new condition on e.
 
                             <ol>
                                 <li>
-                                    <strong>Structured meanings / structured propositions.</strong> Instead of treating a proposition as a set of possible worlds, treat it as the actual <em>syntactic structure</em> of the logical formula — its parse tree, with constituent concepts as nodes. "Green(grass)" and "White(snow)" are different <em>structures</em>, so their meanings differ even though they agree on all worlds. This gives us Frege's Sinn as a real mathematical object.
+                                    <strong>Structured meanings / structured propositions.</strong> Instead of treating a proposition only as a set of possible worlds, give it constituent structure. Different theories take the constituents to be objects, properties, senses, words, or other semantic values—not simply the sentence's parse tree (Cresswell 1985; King 2007). “Green(grass)” and “White(snow)” can therefore differ in structure even when they agree at every world.
                                 </li>
                                 <li>
-                                    <strong>Impossible worlds.</strong> Expand the space of worlds to include <em>impossible</em> ones — worlds where logical laws fail, where "groundhog" and "woodchuck" denote different animals, where $2 + 2 = 5$. Epistemic operators like <em>believe</em> and <em>know</em> quantify over the agent's <em>doxastic alternatives</em>, which may include impossible worlds corresponding to the agent's false beliefs or incomplete knowledge. This allows Phil's belief worlds to contain worlds where groundhogs and woodchucks are distinct, explaining why the attitude reports can come apart.
+                                    <strong>Impossible worlds.</strong> Expand the semantic model with points at which logical or necessary truths may fail. These are commonly formal representational devices, not necessarily concrete worlds that literally exist. They can distinguish attitudes toward necessarily equivalent contents (Priest 1997; Jago 2014).
                                 </li>
                             </ol>
 
@@ -619,7 +605,49 @@ Each modifier simply ∧-conjoins a new condition on e.
                             </div>
 
                             <h4>Looking forward: Dynamic semantics and discourse</h4>
-                            <p>Montague grammar is almost entirely sentence-level. But natural language has crucial cross-sentence phenomena: pronouns can pick up antecedents from previous sentences ("John walked in. <em>He</em> was tired."), definite descriptions presuppose antecedents, and tense/aspect interlock across discourse. <strong>Discourse Representation Theory (DRT)</strong> and <strong>Dynamic Predicate Logic (DPL)</strong> extend Montague-style compositionality to handle these, by treating meaning as an <em>update function on information states</em> rather than a static truth condition. These frameworks build directly on everything in these notes — they keep the type theory and lambda calculus, and add dynamics on top.</p>
+                            <p>Montague grammar is largely sentence-level, but natural language also has cross-sentence anaphora, presupposition, and temporal dependencies. <strong>Discourse Representation Theory (DRT)</strong> and <strong>Dynamic Predicate Logic (DPL)</strong> address these by reconceiving meanings as context-change potentials or relations between assignments (Kamp 1981; Groenendijk and Stokhof 1991). Some dynamic systems can be embedded in typed lambda calculi, but their architectures differ; dynamics is not merely an extra layer placed unchanged on Montague grammar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-container">
+                <div class="block block-segment-kind block-section">
+                    <div class="atom-section">
+                        <div class="segment-display-num">9</div>
+                        <div class="col"><span>References</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-container">
+                <div class="block block-plain-kind block-gram">
+                    <div class="atom-body-container">
+                        <div class="atom-body">
+                            <ul>
+                                <li>Barker, Chris. 2002. “Continuations and the Nature of Quantification.” <em>Natural Language Semantics</em> 10: 211–242. <a href="https://doi.org/10.1023/A:1022183511876">doi:10.1023/A:1022183511876</a>.</li>
+                                <li>Barwise, Jon, and Robin Cooper. 1981. “Generalized Quantifiers and Natural Language.” <em>Linguistics and Philosophy</em> 4: 159–219. <a href="https://doi.org/10.1007/BF00350139">doi:10.1007/BF00350139</a>.</li>
+                                <li>Church, Alonzo. 1940. “A Formulation of the Simple Theory of Types.” <em>Journal of Symbolic Logic</em> 5: 56–68. <a href="https://doi.org/10.2307/2266170">doi:10.2307/2266170</a>.</li>
+                                <li>Cresswell, M. J. 1985. <em>Structured Meanings</em>. MIT Press.</li>
+                                <li>Davidson, Donald. 1967. “The Logical Form of Action Sentences.” In <em>The Logic of Decision and Action</em>, 81–95.</li>
+                                <li>Gallin, Daniel. 1975. <em>Intensional and Higher-Order Modal Logic</em>. North-Holland.</li>
+                                <li>Groenendijk, Jeroen, and Martin Stokhof. 1991. “Dynamic Predicate Logic.” <em>Linguistics and Philosophy</em> 14: 39–100. <a href="https://doi.org/10.1007/BF00628304">doi:10.1007/BF00628304</a>.</li>
+                                <li>Heim, Irene, and Angelika Kratzer. 1998. <em>Semantics in Generative Grammar</em>. Blackwell.</li>
+                                <li>Jago, Mark. 2014. <em>The Impossible</em>. Oxford University Press. <a href="https://doi.org/10.1093/acprof:oso/9780198709008.001.0001">doi:10.1093/acprof:oso/9780198709008.001.0001</a>.</li>
+                                <li>Kamp, Hans. 1981. “A Theory of Truth and Semantic Representation.” In <em>Formal Methods in the Study of Language</em>, 277–322.</li>
+                                <li>King, Jeffrey C. 2007. <em>The Nature and Structure of Content</em>. Oxford University Press.</li>
+                                <li>Kratzer, Angelika. 1996. “Severing the External Argument from Its Verb.” In <em>Phrase Structure and the Lexicon</em>, 109–137. <a href="https://doi.org/10.1007/978-94-015-8617-7_5">doi:10.1007/978-94-015-8617-7_5</a>.</li>
+                                <li>May, Robert. 1985. <em>Logical Form</em>. MIT Press.</li>
+                                <li>Montague, Richard. 1970a. “English as a Formal Language.” In <em>Linguaggi nella società e nella tecnica</em>, 189–224.</li>
+                                <li>Montague, Richard. 1970b. “Universal Grammar.” <em>Theoria</em> 36: 373–398. <a href="https://doi.org/10.1111/j.1755-2567.1970.tb00434.x">doi:10.1111/j.1755-2567.1970.tb00434.x</a>.</li>
+                                <li>Montague, Richard. 1970c. “Pragmatics and Intensional Logic.” <em>Synthese</em> 22: 68–94. <a href="https://doi.org/10.1007/BF00413517">doi:10.1007/BF00413517</a>.</li>
+                                <li>Montague, Richard. 1973. “The Proper Treatment of Quantification in Ordinary English.” In <em>Approaches to Natural Language</em>, 221–242. <a href="https://doi.org/10.1007/978-94-010-2506-5_10">doi:10.1007/978-94-010-2506-5_10</a>.</li>
+                                <li>Parsons, Terence. 1990. <em>Events in the Semantics of English</em>. MIT Press.</li>
+                                <li>Partee, Barbara H. 1987. “Noun Phrase Interpretation and Type-Shifting Principles.” In <em>Studies in Discourse Representation Theory and the Theory of Generalized Quantifiers</em>, 115–143. <a href="https://doi.org/10.1515/9783112420027-006">doi:10.1515/9783112420027-006</a>.</li>
+                                <li>Priest, Graham. 1997. “Sylvan's Box.” <em>Notre Dame Journal of Formal Logic</em> 38: 573–582. <a href="https://doi.org/10.1305/ndjfl/1039540770">doi:10.1305/ndjfl/1039540770</a>.</li>
+                                <li>Tarski, Alfred. 1936/1983. “The Concept of Truth in Formalized Languages.” In <em>Logic, Semantics, Metamathematics</em>, 152–278.</li>
+                                <li>Zimmermann, Thomas Ede. 1993. “On the Proper Treatment of Opacity in Certain Verbs.” <em>Natural Language Semantics</em> 1: 149–179. <a href="https://doi.org/10.1007/BF00372561">doi:10.1007/BF00372561</a>.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

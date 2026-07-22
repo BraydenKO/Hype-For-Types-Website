@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quantum Type Theory | Hype For Types</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        table.semantic-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        table.semantic-table th, table.semantic-table td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        table.semantic-table th {
+            background-color: #333;
+            color: #fff;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            border-left: 4px solid #333;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .aside {
+            background-color: #f9f6ee;
+            border-left: 4px solid #b8a96a;
+            padding: 10px 14px;
+            margin: 12px 0;
+            font-size: 0.95em;
+        }
+        .aside strong { color: #7a6830; }
+        .type-label {
+            font-family: monospace;
+            background: #eef;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .learning-goals {
+            background: #eef5fb;
+            border: 1px solid #b8d2e8;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 14px 0;
+        }
+        .learning-goals h4 { margin-top: 0; }
+        .step-label {
+            display: inline-block;
+            min-width: 1.6em;
+            margin-right: 0.35em;
+            border-radius: 50%;
+            background: #333;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+        }
+        @media (prefers-color-scheme: dark) {
+            .code-block, .aside { background-color: #3a3a3a; }
+            .code-block { border-left-color: #777; }
+            .aside { border-left-color: #b8a96a; }
+            .aside strong { color: #e6ce83; }
+            .type-label { background-color: #445; color: #eee; }
+            .learning-goals { background-color: #303b45; border-color: #58758d; }
+            table.semantic-table th { background-color: #222; border-color: #555; }
+            table.semantic-table td { border-color: #555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+
+    <h1>Quantum Type Theory</h1>
+    <hr>
+
+    <main>
+        <div id="chapter-atoms">
+
+            <div class="block-container">
+                <div class="block block-plain-kind block-gram">
+                    <div class="atom-body-container"><div class="atom-body">
+                        <p>There is no single formalism universally called <em>quantum type theory</em>. Instead, typed quantum languages combine several ideas to solve one stable design problem: distinguish classical information from quantum data and prevent programs from expressing physically impossible operations.</p>
+                        <p>The central themes are <strong>resources</strong>, <strong>effects</strong>, and <strong>reversible evolution</strong>. Linear typing tracks the ownership of quantum data; effect systems expose measurement and discard; circuit disciplines or stronger types guarantee that coherent evolution is physically valid.</p>
+                        <h4>Notation at a glance</h4>
+                        <table class="semantic-table">
+                            <thead><tr><th>Notation</th><th>Meaning</th></tr></thead>
+                            <tbody>
+                                <tr><td>$A\multimap B$</td><td>A function that consumes one resource of type $A$ and produces a $B$</td></tr>
+                                <tr><td>$A\otimes B$</td><td>A pair containing both an $A$ resource and a $B$ resource</td></tr>
+                                <tr><td>$|\psi\rangle$</td><td>A quantum state (“ket psi”)</td></tr>
+                                <tr><td>$U^\dagger$</td><td>The adjoint, or conjugate transpose, of $U$</td></tr>
+                            </tbody>
+                        </table>
+                    </div></div>
+                </div>
+            </div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">1</div><div class="col"><span>Why Ordinary Types Are Not Enough</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>A classical bit is definitely <code>0</code> or <code>1</code>. A qubit can instead be in a <strong>superposition</strong> of the two basis states:</p>
+                $$|\psi\rangle=\alpha|0\rangle+\beta|1\rangle,\qquad |\alpha|^2+|\beta|^2=1.$$
+                <p>The complex numbers $\alpha$ and $\beta$ are amplitudes. Their squared magnitudes are probabilities, so they must add to one. An isolated quantum system evolves by a <strong>unitary</strong> transformation which is a reversible map that preserves this probability structure. A language must therefore respect two separate constraints:</p>
+                <ol>
+                    <li>An arbitrary unknown quantum state cannot be cloned.</li>
+                    <li>Coherent evolution must preserve inner products, not merely use each input once.</li>
+                </ol>
+
+                <h4>The no-cloning theorem</h4>
+                <p>There is no unitary operation <code>clone</code> satisfying</p>
+                $$\operatorname{clone}(|\psi\rangle|0\rangle)=|\psi\rangle|\psi\rangle$$
+                <p>for every unknown state $|\psi\rangle$. If a unitary cloned both $|\psi\rangle$ and $|\phi\rangle$, preservation of inner products would require</p>
+                $$\langle\psi|\phi\rangle=\langle\psi|\phi\rangle^2.$$
+                <p>The equation can hold only when the overlap is $0$ or $1$: the states are orthogonal or identical. It fails for arbitrary states, which proves that a universal quantum copier cannot exist. A CNOT gate can copy a <em>known basis value</em>, but it does not independently clone an arbitrary superposition (Wootters and Zurek 1982; Dieks 1982).</p>
+                <div class="aside"><strong>Two different guarantees.</strong> Linear typing prevents illicit reuse of a program variable. It is motivated by no-cloning, but it does not by itself prove that every accepted operation is unitary.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">2</div><div class="col"><span>Linear Types as a Resource Discipline</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>Ordinary variables behave like information written on a whiteboard: we can read them repeatedly. A qubit behaves more like a physical object checked out from a lab: the type checker must know who currently owns it. Many quantum languages express this by splitting the typing context:</p>
+                $$\Gamma;\Delta\vdash e:A.$$
+                <table class="semantic-table">
+                    <thead><tr><th>Context</th><th>Role</th><th>Structural behavior</th></tr></thead>
+                    <tbody>
+                        <tr><td>$\Gamma$</td><td>Classical, unrestricted information</td><td>Values may be copied or ignored</td></tr>
+                        <tr><td>$\Delta$</td><td>Linear quantum resources</td><td>Each resource must be accounted for</td></tr>
+                    </tbody>
+                </table>
+                <p>Read the judgment as: “using reusable assumptions $\Gamma$ and quantum resources $\Delta$, expression $e$ produces a value of type $A$.” Strictly linear systems require a variable exactly once. Affine systems permit use at most once; discarding is then allowed syntactically, but its semantics is an irreversible quantum operation (Selinger and Valiron 2006).</p>
+
+                <div class="code-block">H : Qubit ⊸ Qubit
+q : Qubit
+
+(H q, H q)  -- rejected</div>
+
+                <p><strong>Why is the example rejected?</strong> Constructing a pair requires constructing both halves. The typing rule divides the available quantum resources between those two jobs:</p>
+                $$\frac{\Gamma;\Delta_1\vdash e_1:A\qquad\Gamma;\Delta_2\vdash e_2:B}{\Gamma;\Delta_1,\Delta_2\vdash(e_1,e_2):A\otimes B}$$
+                <p>The contexts $\Delta_1$ and $\Delta_2$ are disjoint. The single resource <code>q</code> can go to the left or right premise, but not both, so the attempted duplication cannot type-check.</p>
+
+                <h4>Tensor elimination consumes the package</h4>
+                <p>A tensor $A\otimes B$ is a package containing <em>both</em> resources. Ordinary projections such as <code>fst</code> could silently abandon one component, so a linear calculus normally opens the package by naming both:</p>
+                $$\frac{\Gamma;\Delta_1\vdash e:A\otimes B\qquad\Gamma;\Delta_2,x:A,y:B\vdash f:C}{\Gamma;\Delta_1,\Delta_2\vdash\mathbf{let}\;(x,y)=e\;\mathbf{in}\;f:C}.$$
+                <div class="code-block">bell    : Qubit ⊗ Qubit ⊸ Qubit ⊗ Qubit
+newBell : Unit ⊸ Qubit ⊗ Qubit</div>
+                <p>The first signature describes a gate acting on two existing qubits, conventionally initialized to $|00\rangle$. The second allocates fresh qubits. Allocation changes the visible collection of wires, so it belongs to an effectful interface rather than being a unitary map from “nothing.”</p>
+                <p>In a strictly linear calculus, measuring only one half of a fresh Bell pair leaves the other half unaccounted for and is rejected. The programmer must return, measure, reset, or explicitly discard the second qubit.</p>
+                <div class="aside"><strong>Key idea.</strong> $A\otimes B$ means “I own both,” not “I may choose whichever component I want.”</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">3</div><div class="col"><span>Measurement and Effects</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>Measurement is where quantum data becomes ordinary classical information. It consumes a qubit and returns a reusable bit:</p>
+                <div class="code-block">measure : Qubit ⊸ Bit</div>
+                $$\frac{\Gamma;\Delta\vdash q:\mathrm{Qubit}\qquad\Gamma,b:\mathrm{Bit};\Delta'\vdash e:C}{\Gamma;\Delta,\Delta'\vdash\mathbf{let}\;b=\operatorname{measure}(q)\;\mathbf{in}\;e:C}$$
+                <p>The rule has three important steps:</p>
+                <ol>
+                    <li>The qubit <code>q</code> is taken from the linear context.</li>
+                    <li>Measurement consumes <code>q</code> and produces the classical bit <code>b</code>.</li>
+                    <li>The continuation may reuse <code>b</code> because it enters $\Gamma$.</li>
+                </ol>
+                <p>The simple function type hides a probabilistic effect: measuring $\alpha|0\rangle+\beta|1\rangle$ yields <code>0</code> with probability $|\alpha|^2$ and <code>1</code> with probability $|\beta|^2$.</p>
+                <p>Languages can represent this effect through probabilistic operational semantics, monads, effect types, or denotations by completely positive maps (Selinger 2004; Selinger and Valiron 2006).</p>
+                <div class="aside"><strong>Classical control is not coherent control.</strong> Once measurement produces a classical bit, the program may copy it and branch on it. Before measurement, a qubit in superposition is not a hidden classical branch waiting to be inspected.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">4</div><div class="col"><span>Unitarity</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>Linearity is needed to avoid cloning and properly deal with quantum resources. But the other part of the puzzle is that the operations have to be unitary and something can be linear but not unitary.</p>
+                <p>A linear type controls <strong>how a program uses a resource</strong>. It says that the input qubit must be consumed exactly once; it does not say what physical operation is performed on that qubit.</p>
+
+                <p>Consider an effectful reset operation:</p>
+                <div class="code-block">reset : Qubit ⊸ Qubit</div>
+                <p><code>reset q</code> consumes <code>q</code> exactly once and returns a qubit initialized to $|0\rangle$. It therefore obeys the ownership rule expressed by $\multimap$. However, an input in state $|0\rangle$ and an input in state $|1\rangle$ produce the same visible result. The original state information has been lost, so the operation cannot be reversed.</p>
+
+                <p>A <strong>unitary</strong> operation describes closed, reversible quantum evolution. It must preserve all information about its input, which is expressed by</p>
+                $$U^\dagger U=UU^\dagger=I.$$
+                <p>The type <code>Qubit ⊸ Qubit</code> proves only that the program accounts for one input and one output qubit. A separate circuit discipline, effect system, or stronger type is needed to prove that the operation is unitary.</p>
+
+                <h4>How languages enforce valid evolution</h4>
+                <ol>
+                    <li><strong>Unitary primitives and closure rules.</strong> Build circuits from trusted gates, known to be unitary, using sequential composition, tensor product, wire permutation, control, and adjoint.</li>
+                    <li><strong>Separate reversible and effectful fragments.</strong> Track whether a circuit is reversible or controllable while isolating initialization, measurement, reset, and discard (Fu et al. 2024).</li>
+                    <li><strong>Orthogonality and normalization checks.</strong> Verify that distinct basis inputs map to orthogonal, normalized outputs. QML and realizability-based systems pursue this approach (Altenkirch and Grattage 2005; Díaz-Caro et al. 2019, 2023).</li>
+                </ol>
+                <div class="aside"><strong>Key idea.</strong> Linear ownership answers “how many times may I use this qubit?” Unitarity answers “is this transformation physically reversible?” A sound language usually needs both answers.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">5</div><div class="col"><span>Dependent Types and Circuit Families</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>Circuit sizes often depend on classical parameters. Dependent types can express families of registers and circuit generators:</p>
+                <div class="code-block">n : Nat ⊢ QVec n type
+
+initN : (n : Nat) → Unit ⊸ QVec n</div>
+                <p>For example, setting <code>n = 5</code> produces a circuit whose output register has type <code>QVec 5</code>. The number is known while the circuit is generated; the five qubits exist only when that circuit runs. The <code>Unit</code> argument distinguishes a reusable circuit description from its resource-producing execution.</p>
+                <p>Proto-Quipper-D uses linear dependent types to describe circuit families and verify properties such as garbage-free uncomputation (Fu et al. 2020). Its crucial distinction is:</p>
+                <ul>
+                    <li><strong>Parameters</strong> are available at circuit-generation time and may occur in types.</li>
+                    <li><strong>State data</strong> exists only when the generated circuit executes.</li>
+                </ul>
+                <p>A measurement result may control later runtime computation. With <strong>dynamic lifting</strong>, it can even become a parameter that guides generation of the next circuit segment, explicitly requiring interaction between the classical controller and quantum device (Fu et al. 2022).</p>
+                <div class="aside"><strong>The staging boundary.</strong> Types may depend on information available when the relevant circuit is generated. They cannot branch on an unmeasured qubit as though a superposition already contained one definite classical answer.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">6</div><div class="col"><span>Teleportation as a Typed Protocol</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>Quantum teleportation transfers an unknown state using prior entanglement, two classical bits, and local operations. It neither clones the state nor communicates faster than light (Bennett et al. 1993).</p>
+                <div class="code-block">let (a, b)     = newBell () in
+let (phi1, a1) = CNOT (phi, a) in
+let phi2       = H phi1 in
+let c1         = measure phi2 in
+let c2         = measure a1 in
+correct c1 c2 b</div>
+                <p>Follow the resources line by line:</p>
+                <ol>
+                    <li><span class="step-label">1</span><code>newBell</code> creates entangled qubits <code>a</code> and <code>b</code>.</li>
+                    <li><span class="step-label">2</span>CNOT and H combine Alice's unknown qubit <code>phi</code> with her Bell-pair half <code>a</code>.</li>
+                    <li><span class="step-label">3</span>Two measurements consume Alice's qubits and produce reusable classical bits <code>c1</code> and <code>c2</code>.</li>
+                    <li><span class="step-label">4</span>Those bits select a correction on Bob's qubit <code>b</code>, which becomes the single output qubit.</li>
+                </ol>
+                <p>The original physical carrier of $|\phi\rangle$ has been measured. The protocol transfers the state without ever producing two independent copies.</p>
+                <div class="aside"><strong>Typability is not correctness.</strong> Linear typing proves that the protocol handles its qubits consistently. A separate semantic proof shows that Bob's output really has state $|\phi\rangle$.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">7</div><div class="col"><span>Universality and Reversible Computation</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p>It may seem that reversible gates cannot express ordinary irreversible computations. The trick is to keep enough information to run the computation backward. Toffoli gates are universal for classical reversible computation, and an irreversible Boolean function can be embedded as:</p>
+                $$(x,y)\longmapsto(x,y\oplus f(x)).$$
+                <p>The input is retained while the result accumulates in a target register. Erasing arbitrary information on the same closed register would violate reversibility; the information must instead remain as output, garbage, or environmental state.</p>
+                <p>Quantum Turing machines and uniform families of unitary circuits are standard universal models (Deutsch 1985; Bernstein and Vazirani 1997). Intermediate measurement is convenient but not generally required: deferred measurement can replace many measurements and classically controlled gates with coherent controls followed by final measurement.</p>
+                <div class="aside"><strong>A family, not one circuit.</strong> A single finite quantum circuit is no more Turing-complete than a single finite Boolean circuit. Universality concerns a uniform family of circuits, or a machine capable of generating circuits of unbounded size.</div>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">8</div><div class="col"><span>BQP and Quantum Complexity</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <p><strong>BQP</strong> stands for <strong>Bounded-Error Quantum Polynomial Time</strong>. It contains decision problems for which a uniform quantum algorithm:</p>
+                <ul>
+                    <li>runs in polynomial time, and</li>
+                    <li>returns the correct yes/no answer with probability at least $2/3$ on every input.</li>
+                </ul>
+                <p>The threshold $2/3$ is conventional. Repeating the computation and taking a majority vote can make the error exponentially small without leaving polynomial time.</p>
+                $$\mathrm{P}\subseteq\mathrm{BPP}\subseteq\mathrm{BQP}\subseteq\mathrm{PP}\subseteq\mathrm{PSPACE}.$$
+                <p>Read each $\subseteq$ as “every problem in the class on the left is also in the class on the right.” None of the potentially strict inclusions displayed above is known to be strict. Shor gave polynomial-time bounded-error quantum algorithms for integer factoring and discrete logarithms (Shor 1997). Thus factoring is in BQP, but it is not known whether factoring is in P (although many expect it is not).</p>
+            </div></div></div></div>
+
+            <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+                <div class="segment-display-num">9</div><div class="col"><span>References</span></div>
+            </div></div></div>
+
+            <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+                <ul>
+                    <li>Altenkirch, Thorsten, and Jonathan Grattage. 2005. “A Functional Quantum Programming Language.” <em>LICS 2005</em>. <a href="https://arxiv.org/abs/quant-ph/0409065">arXiv:quant-ph/0409065</a>.</li>
+                    <li>Bennett, Charles H., et al. 1993. “Teleporting an Unknown Quantum State via Dual Classical and Einstein-Podolsky-Rosen Channels.” <em>Physical Review Letters</em> 70: 1895–1899. <a href="https://doi.org/10.1103/PhysRevLett.70.1895">doi:10.1103/PhysRevLett.70.1895</a>.</li>
+                    <li>Bernstein, Ethan, and Umesh Vazirani. 1997. “Quantum Complexity Theory.” <em>SIAM Journal on Computing</em> 26: 1411–1473. <a href="https://doi.org/10.1137/S0097539796300921">doi:10.1137/S0097539796300921</a>.</li>
+                    <li>Deutsch, David. 1985. “Quantum Theory, the Church–Turing Principle and the Universal Quantum Computer.” <em>Proceedings of the Royal Society A</em> 400: 97–117. <a href="https://doi.org/10.1098/rspa.1985.0070">doi:10.1098/rspa.1985.0070</a>.</li>
+                    <li>Díaz-Caro, Alejandro, et al. 2019. “Realizability in the Unitary Sphere.” <em>LICS 2019</em>. <a href="https://arxiv.org/abs/1904.08785">arXiv:1904.08785</a>.</li>
+                    <li>Díaz-Caro, Alejandro, et al. 2023. “A Feasible and Unitary Quantum Programming Language.” <a href="https://arxiv.org/abs/2311.01054">arXiv:2311.01054</a>.</li>
+                    <li>Dieks, Dennis. 1982. “Communication by EPR Devices.” <em>Physics Letters A</em> 92: 271–272. <a href="https://doi.org/10.1016/0375-9601(82)90084-6">doi:10.1016/0375-9601(82)90084-6</a>.</li>
+                    <li>Fu, Peng, et al. 2020. “A Tutorial Introduction to Quantum Circuit Programming in Dependently Typed Proto-Quipper.” <a href="https://arxiv.org/abs/2005.08396">arXiv:2005.08396</a>.</li>
+                    <li>Fu, Peng, et al. 2022. “Proto-Quipper with Dynamic Lifting.” <a href="https://arxiv.org/abs/2204.13041">arXiv:2204.13041</a>.</li>
+                    <li>Fu, Peng, et al. 2024. “Proto-Quipper with Reversing and Control.” <a href="https://arxiv.org/abs/2410.22261">arXiv:2410.22261</a>.</li>
+                    <li>Selinger, Peter. 2004. “Towards a Quantum Programming Language.” <em>Mathematical Structures in Computer Science</em> 14: 527–586. <a href="https://doi.org/10.1017/S0960129504004256">doi:10.1017/S0960129504004256</a>.</li>
+                    <li>Selinger, Peter, and Benoît Valiron. 2006. “A Lambda Calculus for Quantum Computation with Classical Control.” <em>Mathematical Structures in Computer Science</em> 16: 527–552. <a href="https://arxiv.org/abs/cs/0404056">arXiv:cs/0404056</a>.</li>
+                    <li>Shor, Peter W. 1997. “Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer.” <em>SIAM Journal on Computing</em> 26: 1484–1509. <a href="https://doi.org/10.1137/S0097539795293172">doi:10.1137/S0097539795293172</a>.</li>
+                    <li>Wootters, William K., and Wojciech H. Zurek. 1982. “A Single Quantum Cannot Be Cloned.” <em>Nature</em> 299: 802–803. <a href="https://doi.org/10.1038/299802a0">doi:10.1038/299802a0</a>.</li>
+                </ul>
+            </div></div></div></div>
+
+        </div>
+    </main>
+</body>
+</html>

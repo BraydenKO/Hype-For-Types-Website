@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simply Typed Lambda Calculus | Hype For Types</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ]});
+        });
+    </script>
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        table.semantic-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        table.semantic-table th, table.semantic-table td { border: 1px solid #444; padding: 8px; text-align: left; }
+        table.semantic-table th { background-color: #333; color: #fff; }
+        .code-block { background-color: #f4f4f4; border-left: 4px solid #333; padding: 10px; font-family: monospace; white-space: pre-wrap; margin: 10px 0; overflow-x: auto; }
+        .aside { background-color: #f9f6ee; border-left: 4px solid #b8a96a; padding: 10px 14px; margin: 12px 0; font-size: 0.95em; }
+        .aside strong { color: #7a6830; }
+        details.proof { border: 1px solid #aaa; border-radius: 5px; margin: 14px 0; overflow: hidden; }
+        details.proof summary { background: #222; color: #fff; cursor: pointer; font-weight: 600; padding: 10px 14px; }
+        details.proof > div { padding: 4px 16px 14px; }
+        @media (prefers-color-scheme: dark) {
+            .code-block, .aside { background-color: #3a3a3a; }
+            .code-block { border-left-color: #777; }
+            .aside { border-left-color: #b8a96a; }
+            .aside strong { color: #e6ce83; }
+            table.semantic-table th { background-color: #222; border-color: #555; }
+            table.semantic-table td, details.proof { border-color: #555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+    <h1>The Simply Typed Lambda Calculus</h1>
+    <hr>
+    <main><div id="chapter-atoms">
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">1</div><div class="col"><span>From the Entscheidungsproblem to Computation</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Hilbert and Ackermann's <strong>Entscheidungsproblem</strong> asked whether there is a mechanical procedure that, given any sentence of first-order logic, always determines whether that sentence is logically valid. But it immediately raises a foundational question:</p>
+            <blockquote>What exactly counts as a mechanical procedure?</blockquote>
+            <p>In the 1930s, several researchers proposed mathematically precise answers. Alan Turing described computation using what are now called <strong>Turing machines</strong>. Alonzo Church used <strong>lambda-definable functions</strong> and general recursive functions. Church and Turing independently proved that the Entscheidungsproblem has no such decision procedure (Church 1936a, 1936b; Turing 1936).</p>
+            <p>The formalisms look very different. A Turing machine manipulates symbols on a tape according to a finite table of instructions. The lambda calculus treats computation as the rewriting of symbolic expressions. Nevertheless, they determine the same class of computable functions. This agreement is important evidence for the <strong>Church–Turing thesis</strong>:</p>
+            <blockquote>Every effectively calculable function is computable by a Turing machine or, equivalently, lambda-definable.</blockquote>
+            <p>This is a thesis connecting the informal idea of “effective calculability” to a mathematical definition. It is not an ordinary theorem because one side of the proposed identification is informal. What can be proved is that the precise models simulate one another (Church 1936a; Turing 1936; Kleene 1936).</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">2</div><div class="col"><span>The Untyped Lambda Calculus</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The lambda calculus begins with an extremely small grammar. Terms are generated by three rules:</p>
+            <ol>
+                <li><strong>Variable:</strong> if $x$ is a variable, then $x$ is a term.</li>
+                <li><strong>Abstraction:</strong> if $t$ is a term, then $\lambda x.t$ is a term representing a function with parameter $x$ and body $t$.</li>
+                <li><strong>Application:</strong> if $t$ and $s$ are terms, then $t\;s$ is a term representing application of $t$ to $s$.</li>
+            </ol>
+            <p>Application associates to the left, so $f\;x\;y$ means $(f\;x)\;y$. An abstraction's body extends as far right as possible, so $\lambda x.\lambda y.x$ means $\lambda x.(\lambda y.x)$.</p>
+            <p>For example, $\lambda x.\lambda y.x$ takes $x$ and returns a function that ignores $y$ and returns $x$:</p>
+            $$(\lambda x.\lambda y.x)\;a\longrightarrow_\beta\lambda y.a.$$
+            <p>The reduction step is <strong>beta-reduction</strong>:</p>
+            $$(\lambda x.t)\;s\longrightarrow_\beta t[x:=s],$$
+            <p>where $t[x:=s]$ means capture-avoiding substitution of $s$ for the free occurrences of $x$ in $t$.</p>
+            <p>Despite its tiny grammar, the untyped lambda calculus can encode Booleans, natural numbers, pairs, recursion, and arbitrary computable functions. Computation is expressed entirely through term construction, application, and substitution (Church 1932, 1936a).</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">3</div><div class="col"><span>Curry's Paradox: The Danger of Unrestricted Self-Application</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The pure untyped lambda calculus is a system of computation. A term may reduce to a value or run forever; nontermination is not itself a logical contradiction. The trouble appears when unrestricted lambda abstraction and self-application are used as a foundation for logic with implication and modus ponens.</p>
+            <p>In that setting, <strong>Curry's paradox</strong> constructs a self-referential proposition that allows any proposition $Q$—even $1=2$—to be derived. Historically, Kleene and Rosser proved Church's original untyped logical system inconsistent in 1935; Curry later isolated the simpler route presented here (Kleene and Rosser 1935; Curry 1942).</p>
+            <p>The key construction is</p>
+            $$F=\lambda x.(x\,x\rightarrow Q),\qquad C=F\,F.$$
+            <p>Because the calculus is untyped, $x$ may be applied to itself. Beta-reduction then gives</p>
+            $$C\longrightarrow_\beta(C\rightarrow Q).$$
+            <p>Thus $C$ has the logical force of “If this very proposition is true, then $Q$.” Combined with ordinary implication rules, that equivalence collapses the logic.</p>
+
+            <details class="proof">
+                <summary>Show the complete Curry-paradox derivation</summary>
+                <div>
+                    <h4>Step 1: choose an arbitrary proposition</h4>
+                    <p>Let $Q$ be any proposition. Nothing in the construction will depend on its content.</p>
+                    <h4>Step 2: construct and apply the self-referential function</h4>
+                    $$F=\lambda x.(x\,x\rightarrow Q),\qquad C=F\,F.$$
+                    $$\begin{aligned}C&=F\,F\\&=(\lambda x.(x\,x\rightarrow Q))\,F\\&\longrightarrow_\beta F\,F\rightarrow Q.\end{aligned}$$
+                    <p>Since $F\,F$ is $C$, we have $C=_\beta(C\rightarrow Q)$.</p>
+                    <h4>Step 3: first derive $C\rightarrow Q$</h4>
+                    <p>Temporarily assume $C$. By beta-conversion, obtain $C\rightarrow Q$. Modus ponens gives $Q$, so implication introduction discharges the assumption and yields $C\rightarrow Q$.</p>
+                    $$\begin{array}{lll}1.&C&\text{assumption}\\2.&C\rightarrow Q&\text{beta-conversion of line 1}\\3.&Q&\text{modus ponens on 1 and 2}\\4.&C\rightarrow Q&\text{implication introduction.}\end{array}$$
+                    <h4>Step 4: convert back and conclude $Q$</h4>
+                    <p>Because beta-convertibility works in either direction, convert the theorem $C\rightarrow Q$ into $C$. A final use of modus ponens gives $Q$:</p>
+                    $$\frac{C\qquad C\rightarrow Q}{Q}.$$
+                    <p>Since $Q$ was arbitrary, choose $Q\equiv(1=2)$. Every proposition becomes provable, so the logic is inconsistent.</p>
+                </div>
+            </details>
+
+            <h4>Precisely where simple types stop the paradox</h4>
+            <p>The construction depends on $x\,x$. If the argument occurrence of $x$ has type $A$, then the function occurrence must have type $A\to\mathsf{Prop}$. Both occurrences are the same variable, so typing the expression would require</p>
+            $$A=A\rightarrow\mathsf{Prop}.$$
+            <p>No finite simple type satisfies this equation. Equivalently, the application rule would require both $\Gamma\vdash x:A\to\mathsf{Prop}$ and $\Gamma\vdash x:A$ from a context that assigns one type to $x$:</p>
+            $$\frac{\Gamma\vdash e_1:A\rightarrow B\qquad\Gamma\vdash e_2:A}{\Gamma\vdash e_1\,e_2:B}.$$
+            <p>The application derivation cannot be constructed. Consequently $F$ cannot be defined, $C$ cannot be formed, and the derivation of arbitrary $Q$ never begins. Types prevent the paradoxical proposition from being constructed; they do not reject modus ponens or implication introduction (Church 1940).</p>
+            <p>This restriction makes the language less expressive: ordinary STLC cannot define unrestricted general recursion. In return, every well-typed STLC term terminates.</p>
+            <div class="aside">
+                <strong>Side note: Curry's paradox versus the liar.</strong> The liar says “This sentence is false” and has the schematic form $L\leftrightarrow\neg L$. Curry's sentence says “If this sentence is true, then $Q$” Curry's paradox works better here because a solution to the liar's paradox is that the paradox relies on the law of the excluded middle which this system does not use
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">4</div><div class="col"><span>Syntax of the Simply Typed Lambda Calculus</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>We study an STLC extended with unit, Booleans, and products. Its expressions are:</p>
+            $$\begin{aligned}e ::= {}&x &&\text{variable}\\
+            \mid{}&\langle\rangle &&\text{unit value}\\
+            \mid{}&\mathbf{false}\mid\mathbf{true} &&\text{Booleans}\\
+            \mid{}&\mathbf{if}\;e_1\;\mathbf{then}\;e_2\;\mathbf{else}\;e_3 &&\text{case analysis}\\
+            \mid{}&\langle e_1,e_2\rangle &&\text{pair}\\
+            \mid{}&\mathbf{fst}(e)\mid\mathbf{snd}(e) &&\text{projections}\\
+            \mid{}&\lambda x:\tau.e &&\text{abstraction}\\
+            \mid{}&e_1\;e_2 &&\text{application.}\end{aligned}$$
+            <p>The types are</p>
+            $$\tau::=\mathbf{unit}\mid\mathbf{bool}\mid\tau_1\times\tau_2\mid\tau_1\to\tau_2.$$
+            <ul>
+                <li><code>unit</code> has one canonical value, $\langle\rangle$.</li>
+                <li><code>bool</code> has the canonical values <code>true</code> and <code>false</code>.</li>
+                <li>$\tau_1\times\tau_2$ contains pairs with component types $\tau_1$ and $\tau_2$.</li>
+                <li>$\tau_1\to\tau_2$ contains functions from $\tau_1$ inputs to $\tau_2$ outputs.</li>
+            </ul>
+            <p>The arrow associates to the right: $\tau_1\to\tau_2\to\tau_3$ means $\tau_1\to(\tau_2\to\tau_3)$.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">5</div><div class="col"><span>Typing Judgments and Contexts</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>A typing judgment has the form $\Gamma\vdash e:\tau$. It reads:</p>
+            <blockquote>Assuming the variables have the types recorded in $\Gamma$, expression $e$ has type $\tau$.</blockquote>
+            <p>The context $\Gamma$ is a finite collection of assumptions such as $x:\mathbf{bool},\;f:\mathbf{bool}\to\mathbf{unit}$. A typing rule has premises above a line and a conclusion below it. A term <strong>type-checks</strong> when we can build a finite derivation tree whose leaves are rules with no premises and whose root is the desired judgment.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">6</div><div class="col"><span>The Typing Rules</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <h4>Variables and constants</h4>
+            $$\frac{x:\tau\in\Gamma}{\Gamma\vdash x:\tau}\;\text{T-Var}$$
+            <p>If the context assigns type $\tau$ to $x$, then under that context $x$ has type $\tau$. For example, because $x:\mathbf{bool}\in x:\mathbf{bool}$, we have $x:\mathbf{bool}\vdash x:\mathbf{bool}$. The rule does not claim that every variable has one fixed type; its type comes from the current context.</p>
+            <p>Unit and Boolean constants have their types under any context:</p>
+            $$\frac{}{\Gamma\vdash\langle\rangle:\mathbf{unit}}\;\text{T-Unit}\qquad
+            \frac{}{\Gamma\vdash\mathbf{true}:\mathbf{bool}}\;\text{T-True}\qquad
+            \frac{}{\Gamma\vdash\mathbf{false}:\mathbf{bool}}\;\text{T-False}$$
+            <p>These rules have no premises, so they form leaves of typing derivations. Unit is useful even though it contains no information: it represents a computation with no interesting result and, under propositions-as-types, corresponds to truth.</p>
+
+            <h4>Conditional expressions</h4>
+            $$\frac{\Gamma\vdash e_1:\mathbf{bool}\qquad\Gamma\vdash e_2:\tau\qquad\Gamma\vdash e_3:\tau}{\Gamma\vdash\mathbf{if}\;e_1\;\mathbf{then}\;e_2\;\mathbf{else}\;e_3:\tau}\;\text{T-If}$$
+            <p>The condition must be Boolean and both branches must have the same type, because static checking does not generally know which branch will run.</p>
+            <div class="code-block">if true then ⟨⟩ else ⟨⟩     -- type unit
+if true then ⟨⟩ else false  -- rejected</div>
+            <p>All premises use the same $\Gamma$. This is an ordinary, non-linear type system: variables may appear in several subexpressions or not at all.</p>
+
+            <h4>Products</h4>
+            $$\frac{\Gamma\vdash e_1:\tau_1\qquad\Gamma\vdash e_2:\tau_2}{\Gamma\vdash\langle e_1,e_2\rangle:\tau_1\times\tau_2}\;\text{T-Pair}$$
+            $$\frac{\Gamma\vdash e:\tau_1\times\tau_2}{\Gamma\vdash\mathbf{fst}(e):\tau_1}\;\text{T-Fst}\qquad
+            \frac{\Gamma\vdash e:\tau_1\times\tau_2}{\Gamma\vdash\mathbf{snd}(e):\tau_2}\;\text{T-Snd}$$
+            <p>For example, $\langle\mathbf{true},\langle\rangle\rangle:\mathbf{bool}\times\mathbf{unit}$. Its first projection has type $\mathbf{bool}$ and its second has type $\mathbf{unit}$. Operationally, $\mathbf{fst}(\langle v_1,v_2\rangle)\longrightarrow v_1$ and $\mathbf{snd}(\langle v_1,v_2\rangle)\longrightarrow v_2$.</p>
+
+            <h4>Function abstraction</h4>
+            $$\frac{\Gamma,x:\tau_1\vdash e:\tau_2}{\Gamma\vdash(\lambda x:\tau_1.e):\tau_1\to\tau_2}\;\text{T-Abs}$$
+            <p>Temporarily assume that the parameter $x$ has input type $\tau_1$. If the body has type $\tau_2$, the abstraction has type $\tau_1\to\tau_2$. Thus $\lambda x:\mathbf{bool}.x$ has type $\mathbf{bool}\to\mathbf{bool}$. The assumption about $x$ is local to the body.</p>
+            <p>The constant function $\lambda x:\mathbf{bool}.\langle\rangle$ has type $\mathbf{bool}\to\mathbf{unit}$. STLC permits the body to ignore $x$.</p>
+
+            <h4>Function application</h4>
+            $$\frac{\Gamma\vdash e_1:\tau_1\to\tau_2\qquad\Gamma\vdash e_2:\tau_1}{\Gamma\vdash e_1\;e_2:\tau_2}\;\text{T-App}$$
+            <p>The function must accept the argument's type. Here is a complete derivation:</p>
+            $$\frac{\dfrac{\dfrac{x:\mathbf{bool}\in x:\mathbf{bool}}{x:\mathbf{bool}\vdash x:\mathbf{bool}}\;\text{T-Var}}{\varnothing\vdash\lambda x:\mathbf{bool}.x:\mathbf{bool}\to\mathbf{bool}}\;\text{T-Abs}\qquad\dfrac{}{\varnothing\vdash\mathbf{false}:\mathbf{bool}}\;\text{T-False}}{\varnothing\vdash(\lambda x:\mathbf{bool}.x)\;\mathbf{false}:\mathbf{bool}}\;\text{T-App}$$
+            <p>Evaluation agrees with the assigned type: $(\lambda x:\mathbf{bool}.x)\;\mathbf{false}\longrightarrow_\beta\mathbf{false}$.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">7</div><div class="col"><span>How the Rules Fit Together</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The typing rules mirror the grammar of terms:</p>
+            <ul>
+                <li><code>T-Var</code>, <code>T-Unit</code>, <code>T-True</code>, and <code>T-False</code> provide derivation leaves.</li>
+                <li><code>T-Pair</code> constructs products; <code>T-Fst</code> and <code>T-Snd</code> eliminate them.</li>
+                <li><code>T-Abs</code> constructs functions; <code>T-App</code> eliminates them.</li>
+                <li><code>T-If</code> eliminates a Boolean by selecting between branches.</li>
+            </ul>
+            <p>This constructor/eliminator pattern is fundamental. To understand a type, ask: <strong>How are its values introduced?</strong> and <strong>How can they be eliminated?</strong> Later systems—sums, polymorphism, dependent types, and linear types—follow the same organizing idea.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">8</div><div class="col"><span>What the Type System Guarantees</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>A typing derivation is a static claim about a program. Type safety is conventionally divided into two theorems (Wright and Felleisen 1994).</p>
+            <h4>Preservation</h4>
+            <p>If a well-typed term takes a computation step, its type does not change:</p>
+            $$\text{If }\Gamma\vdash e:\tau\text{ and }e\longrightarrow e',\text{ then }\Gamma\vdash e':\tau.$$
+            <h4>Progress</h4>
+            <p>A closed, well-typed term is either a value or can take another step:</p>
+            $$\text{If }\varnothing\vdash e:\tau,\text{ then }e\text{ is a value or }e\longrightarrow e'\text{ for some }e'.$$
+            <p>Together, progress and preservation imply that a closed well-typed program does not get stuck by applying <code>true</code> as a function or projecting <code>fst</code> from a Boolean. Type safety does not prove that a program implements its author's intended function; it rules out specific classes of misuse.</p>
+            <h4>Normalization</h4>
+            <p>Every well-typed term in this STLC eventually reaches a normal form. In fact, the calculus is <strong>strongly normalizing</strong>: no infinite reduction sequence begins from a well-typed term (Tait 1967). This is valuable for logic but restrictive for programming. Real languages regain recursion and infinite computation through recursive types, fixed points, general recursion, or effects—and give up unconditional termination.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">9</div><div class="col"><span>Programs and Proofs</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Under the <strong>Curry–Howard correspondence</strong>, types can be read as propositions and terms as proofs:</p>
+            <table class="semantic-table"><thead><tr><th>Type-theoretic form</th><th>Logical reading</th></tr></thead><tbody>
+                <tr><td>$\tau_1\to\tau_2$</td><td>implication $A\Rightarrow B$</td></tr>
+                <tr><td>$\tau_1\times\tau_2$</td><td>conjunction $A\wedge B$</td></tr>
+                <tr><td><code>unit</code></td><td>truth $\top$</td></tr>
+                <tr><td>$e:\tau$</td><td>a proof of proposition $\tau$</td></tr>
+            </tbody></table>
+            <p>Abstraction is implication introduction: if assuming $A$ lets us prove $B$, then we have a proof of $A\Rightarrow B$. Application is modus ponens. Pair formation supplies proofs of both conjuncts, and projections extract either proof. Beta-reduction simplifies a proof by removing a detour between introducing a connective and immediately eliminating it (Howard 1980).</p>
+            <div class="aside"><strong>About <code>bool</code>.</strong> Our primitive Boolean is a programming datatype and should not automatically be identified with a logical proposition. The cleanest logical presentation uses proposition-indexed base types and often an empty type for falsehood.</div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">10</div><div class="col"><span>Why This Matters</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <h4>Foundations</h4>
+            <p>The path from Hilbert's decision problem through Church and Turing revealed that computation can be studied mathematically—and that some precisely stated problems have no algorithmic solution. Types showed how restricting term formation can recover consistency and normalization.</p>
+            <h4>Programming languages</h4>
+            <p>STLC is the small core inside many functional languages and typed intermediate representations. Variables, functions, application, products, and case analysis reappear in ML, Haskell, Scala, Rust, and TypeScript, though real languages add much more. Designers specify syntax, static semantics, and operational semantics, then prove properties such as progress and preservation.</p>
+            <h4>Mechanized reasoning</h4>
+            <p>Through Curry–Howard, constructing a well-typed program can amount to constructing a proof. Proof assistants and dependently typed languages extend this idea so that types express detailed propositions and specifications while type checking verifies proof objects mechanically.</p>
+            <blockquote>Restricting what programs may be written can make stronger facts about every accepted program mechanically provable.</blockquote>
+            <p>STLC gives up unrestricted self-application and general recursion. In exchange it gives compositional typing, type safety, normalization, and a precise bridge between computation and deduction. That is why this tiny calculus remains a starting point for programming-language theory, proof theory, compiler design, and more advanced type systems.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">11</div><div class="col"><span>References</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body"><ul>
+            <li>Church, Alonzo. 1932. “A Set of Postulates for the Foundation of Logic.” <em>Annals of Mathematics</em> 33: 346–366. <a href="https://doi.org/10.2307/1968337">doi:10.2307/1968337</a>.</li>
+            <li>Church, Alonzo. 1936a. “An Unsolvable Problem of Elementary Number Theory.” <em>American Journal of Mathematics</em> 58: 345–363. <a href="https://doi.org/10.2307/2371045">doi:10.2307/2371045</a>.</li>
+            <li>Church, Alonzo. 1936b. “A Note on the Entscheidungsproblem.” <em>Journal of Symbolic Logic</em> 1: 40–41. <a href="https://doi.org/10.2307/2269326">doi:10.2307/2269326</a>.</li>
+            <li>Church, Alonzo. 1940. “A Formulation of the Simple Theory of Types.” <em>Journal of Symbolic Logic</em> 5: 56–68. <a href="https://doi.org/10.2307/2266170">doi:10.2307/2266170</a>.</li>
+            <li>Curry, Haskell B. 1942. “The Inconsistency of Certain Formal Logics.” <em>Journal of Symbolic Logic</em> 7: 115–117. <a href="https://doi.org/10.2307/2269292">doi:10.2307/2269292</a>.</li>
+            <li>Howard, William A. 1980. “The Formulae-as-Types Notion of Construction.” In <em>To H. B. Curry</em>, 479–490.</li>
+            <li>Kleene, Stephen C. 1936. “General Recursive Functions of Natural Numbers.” <em>Mathematische Annalen</em> 112: 727–742. <a href="https://doi.org/10.1007/BF01565439">doi:10.1007/BF01565439</a>.</li>
+            <li>Kleene, Stephen C., and J. Barkley Rosser. 1935. “The Inconsistency of Certain Formal Logics.” <em>Annals of Mathematics</em> 36: 630–636. <a href="https://doi.org/10.2307/1968646">doi:10.2307/1968646</a>.</li>
+            <li>Pierce, Benjamin C. 2002. <em>Types and Programming Languages</em>. MIT Press.</li>
+            <li>Tait, William W. 1967. “Intensional Interpretations of Functionals of Finite Type I.” <em>Journal of Symbolic Logic</em> 32: 198–212. <a href="https://doi.org/10.2307/2271658">doi:10.2307/2271658</a>.</li>
+            <li>Turing, Alan M. 1936. “On Computable Numbers, with an Application to the Entscheidungsproblem.” <em>Proceedings of the London Mathematical Society</em> 42: 230–265. <a href="https://doi.org/10.1112/plms/s2-42.1.230">doi:10.1112/plms/s2-42.1.230</a>.</li>
+            <li>Wright, Andrew K., and Matthias Felleisen. 1994. “A Syntactic Approach to Type Soundness.” <em>Information and Computation</em> 115: 38–94. <a href="https://doi.org/10.1006/inco.1994.1093">doi:10.1006/inco.1994.1093</a>.</li>
+        </ul></div></div></div></div>
+    </div></main>
+</body>
+</html>

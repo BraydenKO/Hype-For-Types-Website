@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Substructural Logic | Hype For Types</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        .rule-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .rule-card, .callout {
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            padding: 14px;
+        }
+        .rule-card h4 { margin: 0 0 8px; }
+        .rule-card p:last-child, .callout p:last-child { margin-bottom: 0; }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin: 12px 0 20px;
+        }
+        .comparison-card {
+            border: 1px solid #aaa;
+            border-radius: 7px;
+            min-width: 0;
+            overflow-x: auto;
+            padding: 4px 14px 12px;
+        }
+        .comparison-card h5 {
+            border-bottom: 1px solid #ccc;
+            margin: 0 -14px 12px;
+            padding: 10px 14px;
+        }
+        .logic-table {
+            border-collapse: collapse;
+            margin: 16px 0;
+            width: 100%;
+        }
+        .logic-table th, .logic-table td {
+            border: 1px solid #aaa;
+            padding: 9px 11px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .logic-table th { background: #292929; color: white; }
+        .logic-table tbody tr:nth-child(even) { background: rgba(127, 127, 127, 0.09); }
+        .callout { background: #f8f4e8; border-left: 5px solid #a9842e; margin: 16px 0; }
+        .callout.example { background: #eef6f8; border-left-color: #28798d; }
+        .callout.takeaway { background: #edf7ed; border-left-color: #39783c; }
+        pre.code-block {
+            background: #171a1f;
+            border: 1px solid #343a44;
+            border-left: 5px solid #b78bda;
+            border-radius: 7px;
+            color: #f2f4f8;
+            font: 0.94rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            overflow-x: auto;
+            padding: 14px 16px;
+            tab-size: 4;
+            white-space: pre;
+        }
+        pre.code-block code { color: inherit; font: inherit; }
+        .kw { color: #ff7ab2; }
+        .fn { color: #82d2ff; }
+        .str { color: #b9e77d; }
+        .comment { color: #9aa4b2; font-style: italic; }
+        code:not(pre code) {
+            background: rgba(127, 127, 127, 0.16);
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            padding: 0.08em 0.3em;
+        }
+        details.solution {
+            border: 1px solid #aaa;
+            border-radius: 7px;
+            margin: 14px 0;
+            overflow: hidden;
+        }
+        details.solution summary {
+            background: #292929;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 650;
+            padding: 11px 14px;
+        }
+        details.solution summary:hover, details.solution summary:focus-visible { background: #4b4b4b; }
+        details.solution[open] summary { border-bottom: 1px solid #aaa; }
+        details.solution > div { padding: 5px 16px 15px; }
+        .source-list li { margin-bottom: 9px; }
+        .muted { opacity: 0.78; }
+        @media (max-width: 720px) {
+            .rule-grid { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .logic-table { display: block; overflow-x: auto; }
+        }
+        @media (prefers-color-scheme: dark) {
+            .callout { background: #3b3526; }
+            .callout.example { background: #26373b; }
+            .callout.takeaway { background: #29382a; }
+            .rule-card, .comparison-card, .callout, .logic-table th, .logic-table td,
+            details.solution, details.solution[open] summary { border-color: #555; }
+            .comparison-card h5 { border-color: #555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+
+    <h1>Substructural Logic</h1>
+    <p class="muted">What changes when assumptions behave like resources?</p>
+    <hr>
+
+    <main><div id="chapter-atoms">
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">1</div><div class="col"><span>The Structure Around a Proof</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Ordinary constructive logic permits three rules that change the <em>shape</em> of that context without inspecting the propositions inside it. These are called <strong>structural rules</strong>.</p>
+            <div class="rule-grid">
+                <div class="rule-card">
+                    <h4>Weakening</h4>
+                    $$\frac{\Gamma\vdash C}{\Gamma,A\vdash C}\;\mathrm{Weak}$$
+                    <p>Add an assumption and never use it.</p>
+                </div>
+                <div class="rule-card">
+                    <h4>Contraction</h4>
+                    $$\frac{\Gamma,A,A\vdash C}{\Gamma,A\vdash C}\;\mathrm{Contr}$$
+                    <p>Treat one assumption as though it supplied two copies.</p>
+                </div>
+                <div class="rule-card">
+                    <h4>Exchange</h4>
+                    $$\frac{\Gamma,A,B,\Delta\vdash C}{\Gamma,B,A,\Delta\vdash C}\;\mathrm{Exch}$$
+                    <p>Reorder assumptions freely.</p>
+                </div>
+            </div>
+            <p>A <strong>substructural logic</strong> restricts or removes at least one of these permissions. The context then becomes an inventory of resources: a proof must account for how often and in what order each assumption is allowed to be used.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">2</div><div class="col"><span>A Map of Resource-Sensitive Logics</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <table class="logic-table">
+                <thead><tr><th>System</th><th>Weakening?</th><th>Contraction?</th><th>Exchange?</th><th>How an assumption may be used</th></tr></thead>
+                <tbody>
+                    <tr><td>Ordinary intuitionistic logic</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Any number of times, in any order</td></tr>
+                    <tr><td>Affine logic</td><td>Yes</td><td>No</td><td>Yes</td><td>At most once</td></tr>
+                    <tr><td>Relevant logic</td><td>No</td><td>Yes</td><td>Yes</td><td>At least once</td></tr>
+                    <tr><td>Linear logic</td><td>No</td><td>No</td><td>Yes</td><td>Exactly once</td></tr>
+                    <tr><td>Ordered logic</td><td>No</td><td>No</td><td>No</td><td>Exactly once, in order</td></tr>
+                </tbody>
+            </table>
+            <p>Removing contraction does <em>not</em> mean that duplication can never occur. It means duplication is no longer implicit. A system may provide an explicit operation or modality (linear logic uses $!A$) to mark values that are safe to copy or discard.</p>
+            <div class="callout">
+                <p><strong>About the names “affine” and “linear.”</strong> The useful connection is algebraic: linear maps preserve addition (no contraction) and $f(0)=0$ (no weakening), while affine maps may include a constant offset.</p>
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">3</div><div class="col"><span>The Structural Rules</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <div class="callout example">
+                <p><strong>Weakening:</strong></p>
+                <p>Consider: “Birds are people, therefore, you are a person.”</p>
+                <p>If we already know that you are a person, an ordinary proof may use zero copies of the premise “birds are people.” Whether birds are people is irrelevant to your personhood, which is good, because we would like to not get into that long-standing debate here.</p>
+            </div>
+            <p>A logic without weakening rejects this proof as written: every premise must contribute. The point is not that the conclusion is false, but that this particular premise-to-conclusion argument fails to demonstrate relevance.</p>
+
+            <div class="callout example">
+                <p><strong>Contraction:</strong></p>
+                <p>You have ten dollars, and a La Prima iced coffee costs six dollars. </p>
+                <p>With contraction, you can duplicate the premise that you have ten dollars as many times as you wish and therefore buy as many coffees as you'd like.</p>
+            </div>
+            <p>Without contraction, one copy of your budget premise cannot be reused to buy more than one coffee.</p>
+
+            <div class="callout example">
+                <p><strong>Exchange:</strong> </p>
+                <p>“Take off your socks, take off your shoes; now your feet are bare.” </p>
+                <p>If actions can be freely reordered, we can quietly repair the instructions so that you take your shoes off before your socks.</p>
+            </div>
+            <p>Wihout exchange, you cannot reorder the premises and you are stuck either figuring out how to take off your socks before your shoes or you just reject that statemnet.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">4</div><div class="col"><span>From Constructive to Linear</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <h4>Identity</h4>
+            <p>Ordinary constructive logic can retrieve $A$ from a larger context because weakening permits unused assumptions. In a strictly linear context, the identity rule accounts for exactly one resource:</p>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>Constructive</h5>
+                    $$\frac{A\in\Gamma}{\Gamma\vdash A}$$
+                </div>
+                <div class="comparison-card">
+                    <h5>Linear</h5>
+                    $$\frac{}{A\vdash A}$$
+                </div>
+            </div>
+
+            <h4>Multiplicative conjunction: tensor</h4>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>Constructive conjunction</h5>
+                    $$\frac{\Gamma\vdash A_1\qquad\Gamma\vdash A_2}
+                            {\Gamma\vdash A_1\wedge A_2}\;\wedge I$$
+                    $$\frac{\Gamma\vdash A_1\wedge A_2}
+                            {\Gamma\vdash A_1}\;\wedge E_1
+                    \qquad
+                    \frac{\Gamma\vdash A_1\wedge A_2}
+                            {\Gamma\vdash A_2}\;\wedge E_2$$
+                </div>
+                <div class="comparison-card">
+                    <h5>Linear tensor</h5>
+                    $$\frac{\Delta_1\vdash A_1\qquad\Delta_2\vdash A_2}
+                            {\Delta_1,\Delta_2\vdash A_1\otimes A_2}\;\otimes I$$
+                    $$\frac{\Delta\vdash A_1\otimes A_2\qquad\Delta',A_1,A_2\vdash C}
+                            {\Delta,\Delta'\vdash C}\;\otimes E$$
+                </div>
+            </div>
+            <p>The contexts $\Delta_1$ and $\Delta_2$ must be disjoint partitions of the available resources. The constructive $\wedge I$ rule reuses the same $\Gamma$ in both branches, which would implicitly duplicate every assumption. Also, note that the linear version doesn't have rules for dropping a premise a conjunction because you can't drop premises without using them.</p>
+
+            <h4>Additive disjunction: plus</h4>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>Constructive disjunction</h5>
+                    $$\frac{\Gamma\vdash A_1}{\Gamma\vdash A_1\vee A_2}\;\vee I_1
+                    \qquad
+                    \frac{\Gamma\vdash A_2}{\Gamma\vdash A_1\vee A_2}\;\vee I_2$$
+                    $$\frac{\Gamma\vdash A_1\vee A_2\qquad
+                            \Gamma,A_1\vdash B\qquad\Gamma,A_2\vdash B}
+                            {\Gamma\vdash B}\;\vee E$$
+                </div>
+                <div class="comparison-card">
+                    <h5>Linear plus</h5>
+                    $$\frac{\Delta\vdash A_1}{\Delta\vdash A_1\oplus A_2}\;\oplus I_1
+                    \qquad
+                    \frac{\Delta\vdash A_2}{\Delta\vdash A_1\oplus A_2}\;\oplus I_2$$
+                    $$\frac{\Delta\vdash A_1\oplus A_2\qquad
+                            \Delta',A_1\vdash B\qquad\Delta',A_2\vdash B}
+                            {\Delta,\Delta'\vdash B}\;\oplus E$$
+                </div>
+            </div>
+            <p>A proof chooses a side. Elimination must handle either choice using the same surrounding resources $\Delta'$.</p>
+
+            <h4>Linear implication: lollipop</h4>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>Constructive implication</h5>
+                    $$\frac{\Gamma,A_1\vdash A_2}
+                            {\Gamma\vdash A_1\supset A_2}\;\supset I$$
+                    $$\frac{\Gamma\vdash A_1\supset A_2\qquad\Gamma\vdash A_1}
+                            {\Gamma\vdash A_2}\;\supset E$$
+                </div>
+                <div class="comparison-card">
+                    <h5>Linear implication</h5>
+                    $$\frac{\Delta,A_1\vdash A_2}
+                            {\Delta\vdash A_1\multimap A_2}\;\multimap I$$
+                    $$\frac{\Delta\vdash A_1\multimap A_2\qquad\Delta'\vdash A_1}
+                            {\Delta,\Delta'\vdash A_2}\;\multimap E$$
+                </div>
+            </div>
+            <p>Read $A\multimap B$ as a process that consumes one $A$ to produce one $B$. Its symbol $\multimap$ is commonly pronounced “lollipop.”</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">5</div><div class="col"><span>Rust Ownership Is Affine</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Rust’s ownership discipline is usually described as <strong>affine</strong>: an owned value may be consumed at most once, but it may also be dropped unused. Copying resource-owning values is explicit, often through <code>.clone()</code>. Types implementing <code>Copy</code>, such as <code>i32</code>, opt into inexpensive implicit copying.</p>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> x = <span class="str">"hello"</span>.to_string();
+    <span class="kw">let</span> y = x;
+    println!(<span class="str">"{x}"</span>);
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div>
+                    <p><strong>No.</strong> Assigning <code>x</code> to <code>y</code> moves the owned <code>String</code>. The later print tries to borrow <code>x</code> after it has been moved. Violates the use at most once property.</p>
+                </div>
+            </details>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">eat</span>(_: String) {}
+
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> y = <span class="str">"hello"</span>.to_string();
+    eat(y.clone()); <span class="comment">// explicit duplication</span>
+    eat(y);         <span class="comment">// consume the original</span>
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile? What if we call <code>eat(y)</code> once more?</summary>
+                <div>
+                    <p>The code shown compiles. <code>clone</code> constructs a second owned string, which may cost time and memory; the following call consumes the original. A third call with <code>y</code> would fail because the original has already moved.</p>
+                </div>
+            </details>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">print_int</span>(x: i32) { println!(<span class="str">"{x}"</span>); }
+
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> z = 5;
+    print_int(z);
+    print_int(z);
+}</code></pre>
+            <details class="solution">
+                <summary>Why does this compile?</summary>
+                <div>
+                    <p><code>i32</code> implements <code>Copy</code>. Passing <code>z</code> by value copies a small integer rather than moving a uniquely owned resource.</p>
+                </div>
+            </details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">6</div><div class="col"><span>Borrowing: Many Readers or One Writer</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>A borrow lends access without transferring ownership. Rust permits any number of shared references <code>&amp;T</code>, or one live mutable reference <code>&amp;mut T</code>, but not both at the same time.</p>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">print_ref</span>(s: &amp;str) { println!(<span class="str">"{s}"</span>); }
+
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> s = <span class="str">"world"</span>.to_string();
+    print_ref(&amp;s);
+    print_ref(&amp;s);
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div><p><strong>Yes.</strong> Both calls temporarily read the same string; neither call owns or mutates it.</p></div>
+            </details>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">modify</span>(s: &amp;<span class="kw">mut</span> String) {
+    s.push_str(<span class="str">" oops"</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let mut</span> s = <span class="str">"world"</span>.to_string();
+    modify(&amp;<span class="kw">mut</span> s);
+    modify(&amp;<span class="kw">mut</span> s);
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div><p><strong>Yes.</strong> They occur sequentially. The first borrow ends before the second begins, so only one mutable reference is active at a time.</p></div>
+            </details>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let mut</span> s = <span class="str">"world"</span>.to_string();
+    <span class="kw">let</span> r1 = &amp;<span class="kw">mut</span> s;
+    <span class="kw">let</span> r2 = &amp;<span class="kw">mut</span> s;
+    println!(<span class="str">"{r1}"</span>);
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div>
+                    <p><strong>No.</strong> The later use of <code>r1</code> keeps its exclusive borrow live when <code>r2</code> is created. Rust refuses two overlapping writers.</p>
+                </div>
+            </details>
+
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let mut</span> foo = 5;
+    <span class="kw">let</span> read_foo = &amp;foo;
+    <span class="kw">let</span> write_foo = &amp;<span class="kw">mut</span> foo;
+    println!(<span class="str">"{read_foo}"</span>);
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div>
+                    <p><strong>No.</strong> <code>read_foo</code> remains live until the print, so the intervening exclusive borrow conflicts with it. This is the “many readers or one writer” rule enforced by the borrow checker.</p>
+                </div>
+            </details>
+
+            <div class="callout takeaway">
+                <p><strong>Takeaway.</strong> Preventing overlapping mutable access is one of the static guarantees that lets safe Rust rule out data races.</p>
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">7</div><div class="col"><span>Lifetimes Prevent Dangling References</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <pre class="code-block"><code><span class="kw">fn</span> <span class="fn">dangle</span>() -&gt; &amp;<span class="str">'static</span> str {
+    <span class="kw">let</span> s = String::new();
+    &amp;s
+}</code></pre>
+            <details class="solution">
+                <summary>Does this compile?</summary>
+                <div>
+                    <p><strong>No.</strong> The function owns <code>s</code>, so <code>s</code> is dropped when the function returns. A reference to its contents cannot outlive that allocation, much less satisfy the promised <code>'static</code> lifetime. Returning an owned <code>String</code> <br> (<code>s</code> instead of <code>&s</code> as well as changing the return type) would transfer the resource safely.</p>
+                </div>
+            </details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">8</div><div class="col"><span>Where Ordered Logic Appears</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <ul>
+                <li><strong>Parsing and grammar:</strong> words and tokens must be consumed in sequence.</li>
+                <li><strong>Protocols and state machines:</strong> “authenticate, then send” differs from “send, then authenticate.”</li>
+                <li><strong>Computation by rewriting:</strong> a transition consumes one configuration and produces the next.</li>
+                <li><strong>Session-typed communication:</strong> channels follow a prescribed order of sends and receives.</li>
+            </ul>
+            <p>Substructural rules are therefore not only philosophical constraints. They are design tools for types that express ownership, protocols, state changes, and other forms of disciplined resource use that can guarantee correctness and memory safety.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">9</div><div class="col"><span>Sources and Further Reading</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <ol class="source-list">
+                <li>Frank Pfenning, <a href="https://www.cs.cmu.edu/~fp/courses/15816-f16/lectures/14-structural.pdf" target="_blank" rel="noopener noreferrer">“Structural Proof Theory”</a>, CMU 15-816 lecture notes. Covers exchange, weakening, contraction, and their relationship to linear logic.</li>
+                <li>Frank Pfenning, <a href="https://www.cs.cmu.edu/afs/.cs.cmu.edu/Web/People/fp/courses/15814-f25/lectures/18-linlogic.pdf" target="_blank" rel="noopener noreferrer">“Linear Logic”</a>, CMU 15-814 lecture notes. Develops resource interpretations and identifies affine logic as allowing weakening but not contraction.</li>
+                <li>The Rust Project, <a href="https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html" target="_blank" rel="noopener noreferrer"><em>The Rust Programming Language</em>: “What Is Ownership?”</a> Explains moves, clones, <code>Copy</code>, scope, and automatic dropping.</li>
+                <li>The Rust Project, <a href="https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html" target="_blank" rel="noopener noreferrer"><em>The Rust Programming Language</em>: “References and Borrowing”</a> Covers shared and mutable references, dangling references, and borrow-checker rules.</li>
+                <li>The Rust Project, <a href="https://doc.rust-lang.org/book/ch16-00-concurrency.html" target="_blank" rel="noopener noreferrer"><em>The Rust Programming Language</em>: “Fearless Concurrency”</a> Connects ownership and type checking to compile-time prevention of concurrency mistakes.</li>
+            </ol>
+        </div></div></div></div>
+    </div></main>
+</body>
+</html>

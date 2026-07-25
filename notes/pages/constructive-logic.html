@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Constructive Logic | Hype For Types</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        table.semantic-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        table.semantic-table th, table.semantic-table td { border: 1px solid #444; padding: 8px; text-align: left; vertical-align: top; }
+        table.semantic-table th { background-color: #333; color: #fff; }
+        .code-block { background-color: #f4f4f4; border-left: 4px solid #333; padding: 10px 14px; font-family: monospace; white-space: pre; margin: 12px 0; overflow-x: auto; }
+        .aside { background-color: #f9f6ee; border-left: 4px solid #b8a96a; padding: 10px 14px; margin: 14px 0; font-size: 0.95em; }
+        .aside strong { color: #7a6830; }
+        details.proof { border: 1px solid #aaa; border-radius: 5px; margin: 14px 0; overflow: hidden; }
+        details.proof summary { background: #222; color: #fff; cursor: pointer; font-weight: 600; padding: 10px 14px; }
+        details.proof summary:hover, details.proof summary:focus-visible { background: #4a4a4a; }
+        details.proof > div { padding: 4px 16px 14px; }
+        details.proof[open] summary { border-bottom: 1px solid #aaa; }
+        @media (prefers-color-scheme: dark) {
+            .code-block, .aside { background-color: #3a3a3a; }
+            .code-block { border-left-color: #777; }
+            .aside { border-left-color: #b8a96a; }
+            .aside strong { color: #e6ce83; }
+            table.semantic-table th { background-color: #222; border-color: #555; }
+            table.semantic-table td, details.proof, details.proof[open] summary { border-color: #555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+
+    <h1>Constructive Logic</h1>
+    <hr>
+
+    <main><div id="chapter-atoms">
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">1</div><div class="col"><span>Proofs That Carry Evidence</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Consider the claim:</p>
+            <blockquote>There exist irrational numbers $a$ and $b$ such that $a^b$ is rational.</blockquote>
+            <p>A familiar classical proof considers $x=(\sqrt2)^{\sqrt2}$. If $x$ is rational, choose $a=b=\sqrt2$. If $x$ is irrational, choose $a=x$ and $b=\sqrt2$; then</p>
+            $$a^b=\left((\sqrt2)^{\sqrt2}\right)^{\sqrt2}=2.$$
+            <p>This is a valid classical proof, but it does not tell us which pair to use unless we can decide whether $x$ is rational. The proof relies on the <strong>law of excluded middle</strong>, $P\vee\neg P$, where $P$ means “$x$ is rational.”</p>
+            <p>In constructive logic, a proof that something exists should provide an example. Here is one:</p>
+            $$a=\sqrt2,\qquad b=\log_2 9,\qquad a^b=3.$$
+            <p>Checking that $\sqrt2$ and $\log_2 9$ are irrational is left as an exercise. Their power is easy to calculate:</p>
+            $$\begin{aligned}
+            (\sqrt2)^{\log_2 9}
+            &=(2^{1/2})^{\log_2 9}\\
+            &=2^{(\log_2 9)/2}\\
+            &=\sqrt{2^{\log_2 9}}\\
+            &=\sqrt9=3.
+            \end{aligned}$$
+            <p>Unlike the classical argument, this proof gives us one specific pair of witnesses.</p>
+            <div class="aside"><strong>Constructive does not mean “without cases.”</strong> We may eliminate a proof of $P\vee Q$ by considering both cases. What constructive logic does not provide automatically is a proof of $P\vee\neg P$ for every proposition $P$.</div>
+            <p>This view of proofs is useful because constructive proofs often behave like algorithms. A proof of an existential returns a witness, a proof of a conjunction returns a pair, and a proof of an implication transforms one piece of evidence into another.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">2</div><div class="col"><span>Judgments and Natural Deduction</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The judgment $\Gamma\vdash A$ means that $A$ follows from the assumptions listed in $\Gamma$. Natural deduction gives each logical connective two kinds of rules. <strong>Introduction rules</strong> explain how to prove a statement that uses the connective. <strong>Elimination rules</strong> explain how to use such a proof.</p>
+
+            <h4>Conjunction</h4>
+            $$\frac{\Gamma\vdash A\qquad\Gamma\vdash B}{\Gamma\vdash A\wedge B}\;\wedge I
+            \qquad
+            \frac{\Gamma\vdash A\wedge B}{\Gamma\vdash A}\;\wedge E_1
+            \qquad
+            \frac{\Gamma\vdash A\wedge B}{\Gamma\vdash B}\;\wedge E_2$$
+            <p>To prove a conjunction, provide both parts. To use it, project either part.</p>
+
+            <h4>Implication</h4>
+            $$\frac{\Gamma,A\vdash B}{\Gamma\vdash A\to B}\;\to I
+            \qquad
+            \frac{\Gamma\vdash A\to B\qquad\Gamma\vdash A}{\Gamma\vdash B}\;\to E$$
+            <p>To prove $A\to B$, temporarily assume $A$ and use that assumption to prove $B$. The assumption is then discharged. To use a proof of $A\to B$, supply a proof of $A$; this is modus ponens.</p>
+
+            <h4>Disjunction</h4>
+            $$\frac{\Gamma\vdash A}{\Gamma\vdash A\vee B}\;\vee I_1
+            \qquad
+            \frac{\Gamma\vdash B}{\Gamma\vdash A\vee B}\;\vee I_2$$
+            $$\frac{\Gamma\vdash A\vee B\qquad\Gamma,A\vdash C\qquad\Gamma,B\vdash C}{\Gamma\vdash C}\;\vee E$$
+            <p>A proof of $A\vee B$ records which side is true and includes evidence for that side. To use it, consider both possibilities and show that each leads to the same conclusion $C$.</p>
+
+            <h4>Truth and falsehood</h4>
+            $$\frac{}{\Gamma\vdash\top}\;\top I
+            \qquad
+            \frac{\Gamma\vdash\bot}{\Gamma\vdash A}\;\bot E$$
+            <p>Truth has a trivial proof. Falsehood has no introduction rule because there is no way to construct a proof of it. If inconsistent assumptions nevertheless let us derive falsehood, $\bot E$ allows us to conclude anything. This is the principle of explosion.</p>
+
+            <h4>Negation</h4>
+            $$\neg A\;\overset{\mathrm{def}}{=}\;A\to\bot.$$
+            <p>A proof of $\neg A$ is therefore a procedure that turns any proposed proof of $A$ into a contradiction.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">3</div><div class="col"><span>What Constructive Logic Withholds</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Intuitionistic logic does not accept either of the following schemas without further evidence:</p>
+            $$A\vee\neg A\qquad\text{and}\qquad\neg\neg A\to A.$$
+            <p>Double-negation elimination shows why. Expanding the definition gives</p>
+            $$\neg\neg A=(A\to\bot)\to\bot.$$
+            <p>This says that assuming $\neg A$ leads to a contradiction. It still does not give us a proof of $A$. We can, however, prove the other direction: $A\to\neg\neg A$.</p>
+            <details class="proof">
+                <summary>Show a proof of $A\to\neg\neg A$</summary>
+                <div>
+                    <p>Assume $A$. Our goal is $\neg\neg A$. By the definition of negation, this goal expands to</p>
+                    $$\neg\neg A\equiv\neg A\to\bot\equiv(A\to\bot)\to\bot.$$
+                    <p>We therefore assume $A\to\bot$.:</p>
+                    $$\frac{
+                        \overline{A,A\to\bot\vdash A\to\bot}^{\mathrm{assumption}}
+                        \qquad
+                        \overline{A,A\to\bot\vdash A}^{\mathrm{assumption}}
+                    }{
+                        A,A\to\bot\vdash\bot
+                    }\;\to E$$
+                    <p>Next, discharge the assumption $A\to\bot$. Implication introduction gives $(A\to\bot)\to\bot$, which is the definition of $\neg\neg A$:</p>
+                    $$\frac{
+                        A,A\to\bot\vdash\bot
+                    }{
+                        A\vdash(A\to\bot)\to\bot
+                    }\;\to I$$
+                    $$A\vdash(A\to\bot)\to\bot\equiv A\vdash\neg\neg A.$$
+                    <p>Finally, discharge the original assumption $A$:</p>
+                    $$\frac{
+                        A\vdash\neg\neg A
+                    }{
+                        \vdash A\to\neg\neg A
+                    }\;\to I$$
+                    <p>Every implication used by $\to E$ now appears explicitly as a premise.</p>
+                </div>
+            </details>
+            <p>We can recover classical logic by adding a principle such as excluded middle or double-negation elimination. Constructive logic simply does not include either principle by default.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">4</div><div class="col"><span>Curry–Howard: Propositions as Types</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The <strong>Curry–Howard correspondence</strong> connects logic with programming. Propositions correspond to types, and proofs correspond to programs of those types. The judgment $\Gamma\vdash p:A$ can therefore be read in two ways: “$p$ is a proof of $A$” or “program $p$ has type $A$.”</p>
+            <table class="semantic-table">
+                <thead><tr><th>Logic</th><th>Type theory</th><th>Evidence</th></tr></thead>
+                <tbody>
+                    <tr><td>$A\wedge B$</td><td>$A\times B$</td><td>a pair $(a,b)$</td></tr>
+                    <tr><td>$A\vee B$</td><td>$A+B$</td><td><code>Left a</code> or <code>Right b</code></td></tr>
+                    <tr><td>$A\to B$</td><td>$A\to B$</td><td>a function mapping proofs of $A$ to proofs of $B$</td></tr>
+                    <tr><td>$\top$</td><td><code>unit</code></td><td>the sole value $\langle\rangle$</td></tr>
+                    <tr><td>$\bot$</td><td><code>void</code></td><td>no canonical value</td></tr>
+                </tbody>
+            </table>
+            <p>For example, implication introduction is exactly function abstraction:</p>
+            $$\frac{\Gamma,x:A\vdash e:B}{\Gamma\vdash(\lambda x:A.e):A\to B}.$$
+            <p>Implication elimination is application. Conjunction introduction builds a pair, conjunction elimination projects from it, and disjunction elimination is case analysis.</p>
+            <div class="aside"><strong>Harmony.</strong> Introduction rules tell us what evidence for a connective looks like. Elimination rules let us use exactly that evidence. Beta-reduction simplifies a proof that introduces a connective and immediately eliminates it. Eta-expansion says that we can take a proof apart using its elimination rules and rebuild it using its introduction rules.</div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">5</div><div class="col"><span>Proofs as Programs</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>We can prove each proposition below by writing a program with the corresponding type. Expand a solution to see the program and the idea behind it.</p>
+
+            <h4>$A\to A$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">fn a : A => a</div>
+                <p>The identity function transforms any proof of $A$ into the same proof of $A$.</p>
+            </div></details>
+
+            <h4>$(A\wedge B)\to A$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">fn (a, b) : A * B => a</div>
+                <p>A proof of a conjunction is a pair; return its first component.</p>
+            </div></details>
+
+            <h4>$((A\wedge B)\to C)\to(A\to(B\to C))$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">fn f : (A * B) -> C =>
+  fn a : A =>
+    fn b : B =>
+      f (a, b)</div>
+                <p>The input function expects a pair. Our new function accepts the two parts one at a time, puts them into a pair, and passes that pair to the original function. This transformation is called currying.</p>
+            </div></details>
+
+            <h4>$\bot\vee\top$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">Right &lt;&gt;</div>
+                <p>The unit value $\langle\rangle$ proves $\top$, so the right injection proves the disjunction.</p>
+            </div></details>
+
+            <h4>$A\wedge(B\vee C)\leftrightarrow(A\wedge B)\vee(A\wedge C)$</h4>
+            <details class="proof"><summary>Show both directions</summary><div>
+                <p>Read $P\leftrightarrow Q$ as the pair $(P\to Q)\wedge(Q\to P)$.</p>
+                <div class="code-block">fn (a, choice) =>
+  case choice of
+      Left b  => Left (a, b)
+    | Right c => Right (a, c)
+
+fn choice =>
+  case choice of
+      Left (a, b)  => (a, Left b)
+    | Right (a, c) => (a, Right c)</div>
+                <p>In each direction, case analysis preserves the tag that identifies which disjunct was proved.</p>
+            </div></details>
+
+            <h4>$(A\wedge\neg A)\to B$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">fn (a, notA) =>
+  absurd (notA a)</div>
+                <p>Applying <code>notA : A -&gt; void</code> to <code>a : A</code> produces falsehood. The eliminator <code>absurd : void -&gt; B</code> then yields $B$.</p>
+            </div></details>
+
+            <h4>$(A\to B)\to(\neg B\to\neg A)$</h4>
+            <details class="proof"><summary>Show solution</summary><div>
+                <div class="code-block">fn f : A -> B =>
+  fn notB : B -> void =>
+    fn a : A =>
+      notB (f a)</div>
+                <p>This is constructive contraposition. Notice that the converse, $(\neg B\to\neg A)\to(A\to B)$, is not generally constructively valid.</p>
+            </div></details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">6</div><div class="col"><span>Dependent Evidence: Even Squares</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Constructive proofs become even more expressive when types can mention values. We will see this more in depth later, but to get a taste of it, define</p>
+            $$\operatorname{Even}(n)\;=\;\sum_{k:\mathbb N}(n=2k).$$
+            <p>A proof of $\operatorname{Even}(n)$ is a pair $(k,p)$. The number $k$ is the witness, and $p$ proves that $n=2k$. We will use the following facts about equality and multiplication:</p>
+            $$\begin{aligned}
+            \operatorname{sym}&:(x=y)\to(y=x),\\
+            \operatorname{cong}&:(f:X\to Y)\to(x=y)\to(f(x)=f(y)),\\
+            \operatorname{trans}&:(x=y)\to(y=z)\to(x=z),\\
+            \operatorname{assoc}(a,b,c)&:(ab)c=a(bc),\\
+            \operatorname{comm}(a,b)&:ab=ba.
+            \end{aligned}$$
+            <p>The theorem “if $n$ is even, then $n^2$ is even” becomes the function type</p>
+            $$\operatorname{Even}(n)\to\operatorname{Even}(n^2).$$
+            <details class="proof">
+                <summary>Show the complete constructive proof</summary>
+                <div>
+                    <p>Assume $(k,p):\operatorname{Even}(n)$, so $p:n=2k$. Choose $m=2(k k)$ as the witness for the evenness of $n^2$. Congruence first gives</p>
+                    $$p_1=\operatorname{cong}(\lambda x.x x,p):n n=(2k)(2k).$$
+                    <p>The remaining arithmetic equality is:</p>
+                    $$\begin{aligned}
+                    (2k)(2k)
+                    &=((2k)2)k &&\text{associativity}\\
+                    &=(2(k2))k &&\text{associativity}\\
+                    &=(2(2k))k &&\text{commutativity of }k2\\
+                    &=2((2k)k) &&\text{associativity}\\
+                    &=2(2(kk)) &&\text{associativity.}
+                    \end{aligned}$$
+                    <p>Call this chain of equalities $p_2:(2k)(2k)=2(2(kk))$. Combining $p_1$ and $p_2$ gives a proof that $n n=2m$. This is exactly what we need to show that $n^2$ is even.</p>
+                    <p>We can now write every arithmetic step as an equality proof. The comment beside each line gives its type:</p>
+                    <div class="code-block">fn (k, p) : Even(n) =>
+  let
+    m = 2 * (k * k)
+
+    p1 =
+      cong (fn x => x * x) p
+      -- p1 : n*n = (2*k)*(2*k)
+
+    q1 =
+      sym (assoc (2*k) 2 k)
+      -- q1 : (2*k)*(2*k) = ((2*k)*2)*k
+
+    q2 =
+      cong (fn x => x*k) (assoc 2 k 2)
+      -- q2 : ((2*k)*2)*k = (2*(k*2))*k
+
+    q3 =
+      cong (fn x => (2*x)*k) (comm k 2)
+      -- q3 : (2*(k*2))*k = (2*(2*k))*k
+
+    q4 =
+      assoc 2 (2*k) k
+      -- q4 : (2*(2*k))*k = 2*((2*k)*k)
+
+    q5 =
+      cong (fn x => 2*x) (assoc 2 k k)
+      -- q5 : 2*((2*k)*k) = 2*(2*(k*k))
+
+    p2 =
+      trans q1 (trans q2 (trans q3 (trans q4 q5)))
+      -- p2 : (2*k)*(2*k) = 2*(2*(k*k))
+
+    result =
+      trans p1 p2
+      -- result : n*n = 2*m
+  in
+    (m, result)</div>
+                    <p>The returned pair has type $\operatorname{Even}(n^2)$. Its first component is the witness $m=2k^2$, and its second component proves $n^2=2m$. The code is intentionally a little dense: it gives a preview of how one function can both compute a new witness and construct a proof that the witness is correct.</p>
+                    <p> Don't worry about it if the above is confusing, we will return to these ideas in later notes.</p>
+                </div>
+            </details>
+            <p>This proof gives us more than a yes-or-no answer. Given a witness $k$ for the evenness of $n$, it computes the new witness $2k^2$ for the evenness of $n^2$ and produces a proof that the witness is correct.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">7</div><div class="col"><span>Why Constructivity Matters</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>In constructive logic, the form of a statement tells us what evidence for it must contain:</p>
+            <ul>
+                <li>A proof of $A\wedge B$ contains both components.</li>
+                <li>A proof of $A\vee B$ records a choice and the evidence supporting it.</li>
+                <li>A proof of $A\to B$ is a transformation from evidence for $A$ to evidence for $B$.</li>
+                <li>A proof of $\exists x.\,P(x)$ contains a witness $x$ together with a proof of $P(x)$.</li>
+                <li>A proof of $\forall x.\,P(x)$ is a procedure producing evidence for every input $x$.</li>
+            </ul>
+            <p>This is why type checking can also serve as proof checking. If a trusted type checker confirms that a program has a proposition as its type, that program is a mechanically checkable proof.</p>
+            <blockquote>Functions are <b>proofs</b> (and values)</blockquote>
+            <p>This does not mean that every program is automatically an interesting proof. The type must accurately express the theorem we intend to prove, and the type theory itself must be consistent. Once those pieces are in place, programming and proving become two ways to view the same construction.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">8</div><div class="col"><span>References</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <ul>
+                <li>Pfenning, Frank. 2017. “Overview.” <em>15-317 Constructive Logic</em>, Carnegie Mellon University. <a href="https://www.cs.cmu.edu/~crary/317-f25/lectures/01-overview.pdf">Lecture 1 notes (PDF)</a>.</li>
+                <li>Pfenning, Frank. 2017. “Natural Deduction.” <em>15-317 Constructive Logic</em>, Carnegie Mellon University. <a href="https://www.cs.cmu.edu/~crary/317-f25/lectures/02-natded.pdf">Lecture 2 notes (PDF)</a>.</li>
+                <li>Pfenning, Frank. 2017. “Harmony.” <em>15-317 Constructive Logic</em>, Carnegie Mellon University. <a href="https://www.cs.cmu.edu/~crary/317-f25/lectures/04-harmony.pdf">Lecture 4 notes (PDF)</a>.</li>
+                <li>Howard, William A. 1980. “The Formulae-as-Types Notion of Construction.” In <em>To H. B. Curry: Essays on Combinatory Logic, Lambda Calculus and Formalism</em>, 479–490.</li>
+                <li>Martin-Löf, Per. 1984. <em>Intuitionistic Type Theory</em>. Bibliopolis.</li>
+            </ul>
+        </div></div></div></div>
+    </div></main>
+</body>
+</html>

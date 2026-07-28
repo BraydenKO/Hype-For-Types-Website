@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <title>Homotopy Type Theory | Hype For Types</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true }
+                ]
+            });
+        });
+    </script>
+
+    <link rel="stylesheet" href="../../base.css">
+    <link rel="stylesheet" href="../chapter.css">
+    <link rel="stylesheet" href="../atom.css">
+    <script src="../notes.js"></script>
+    <style>
+        .lead {
+            color: #555;
+            font-size: 1.08em;
+            max-width: 760px;
+        }
+        .callout {
+            background: #f7f4ea;
+            border: 1px solid #d8ccb0;
+            border-left: 5px solid #9b772c;
+            border-radius: 6px;
+            margin: 16px 0;
+            padding: 12px 15px;
+        }
+        .callout.important {
+            background: #eef6f8;
+            border-color: #b7d5dc;
+            border-left-color: #277789;
+        }
+        .callout.takeaway {
+            background: #eef7ee;
+            border-color: #bfd8c0;
+            border-left-color: #39783c;
+        }
+        .callout p:last-child { margin-bottom: 0; }
+        .motivation-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin: 16px 0;
+        }
+        .motivation-card {
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            padding: 13px 15px;
+        }
+        .motivation-card h4 { color: #8f3f3f; margin: 0 0 7px; }
+        .motivation-card p:last-child { margin-bottom: 0; }
+        .semantic-table {
+            border-collapse: collapse;
+            display: table;
+            margin: 16px 0;
+            width: 100%;
+        }
+        .semantic-table th, .semantic-table td {
+            border: 1px solid #aaa;
+            padding: 9px 11px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .semantic-table th { background: #292929; color: #fff; }
+        .semantic-table tbody tr:nth-child(even) { background: rgba(127, 127, 127, 0.08); }
+        .path-levels {
+            border-left: 3px solid #b46666;
+            list-style: none;
+            margin: 16px 0;
+            padding-left: 18px;
+        }
+        .path-levels li { margin: 8px 0; }
+        details.solution {
+            border: 1px solid #aaa;
+            border-radius: 6px;
+            margin: 14px 0;
+            overflow: hidden;
+        }
+        details.solution summary {
+            background: #292929;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            padding: 11px 14px;
+        }
+        details.solution summary:hover, details.solution summary:focus-visible { background: #4b4b4b; }
+        details.solution[open] summary { border-bottom: 1px solid #aaa; }
+        details.solution > div { padding: 5px 16px 15px; }
+        .source-list li { margin-bottom: 9px; }
+        @media (max-width: 700px) {
+            .motivation-grid { grid-template-columns: 1fr; }
+            .semantic-table { display: block; overflow-x: auto; }
+        }
+        @media (prefers-color-scheme: dark) {
+            .lead { color: #bbb; }
+            .callout { background: #3b3526; border-color: #655b42; }
+            .callout.important { background: #26373b; border-color: #3e6269; }
+            .callout.takeaway { background: #29382a; border-color: #466348; }
+            .motivation-card, .semantic-table th, .semantic-table td,
+            details.solution, details.solution[open] summary { border-color: #555; }
+        }
+    </style>
+</head>
+<body>
+    <nav style="margin-bottom: 20px;">
+        <a href="../../index.html" style="text-decoration: none;">&larr; Home</a> |
+        <a href="../index.html" style="text-decoration: none;">Course Notes Index</a>
+    </nav>
+
+    <h1>Homotopy Type Theory</h1>
+    <p class="lead">Equality as paths, equivalence as identity, and a foundation where mathematics depends on structure rather than presentation.</p>
+    <hr>
+
+    <main><div id="chapter-atoms">
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">1</div><div class="col"><span>The Problem: Representation Should Not Matter</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>There are many ways to represent the natural number three:</p>
+            <ul>
+                <li>the decimal numeral <code>3</code>,</li>
+                <li>$\operatorname{succ}(\operatorname{succ}(\operatorname{succ}(0)))$,</li>
+                <li>the Roman numeral <code>III</code>,</li>
+                <li>three tally marks</li>
+                <li>The hebrew numeral $ג$</li>
+            </ul>
+            <p>These representations are visibly different, yet we expect them to support the same arithmetic. Mathematics should care about their structure, not whether we wrote a number with digits, successors, or tally marks.</p>
+            <p>Let $\mathsf{Numeral}$ be a type of <em>canonical</em> decimal numerals and let $\mathbb N$ be the inductive natural numbers generated by</p>
+            $$0:\mathbb N,\qquad \operatorname{succ}:\mathbb N\to\mathbb N.$$
+            <p>“Canonical” matters. If <code>3</code>, <code>03</code>, and <code>003</code> are distinct inhabitants, printing after parsing will not return the original string. We must either forbid leading zeroes or identify numerals that denote the same value.</p>
+            <p>Define a parser and a printer:</p>
+            $$f:\mathsf{Numeral}\to\mathbb N,\qquad g:\mathbb N\to\mathsf{Numeral}.$$
+            <p>To show that the representations match, prove that going there and back changes nothing:</p>
+            $$\alpha:\prod_{n:\mathbb N}f(g(n))=n,\qquad
+              \beta:\prod_{d:\mathsf{Numeral}}g(f(d))=d.$$
+            <p>This establishes an equivalence $\mathsf{Numeral}\simeq\mathbb N$. But ordinary intensional type theory does not thereby give us an equality $\mathsf{Numeral}=\mathbb N$. <br>HoTT asks whether equivalence can imply equality, and what follows if they can.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">2</div><div class="col"><span>Homotopies and Equivalences</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>For functions $f,g:A\to B$, a <strong>homotopy</strong> from $f$ to $g$ is a pointwise equality:</p>
+            $$f\sim g\;:\equiv\;\prod_{x:A}f(x)=g(x).$$
+            <p>A first attempt at defining an equivalence is a function with a two-sided inverse:</p>
+            $$\mathsf{qinv}(f)
+              :\equiv
+              \sum_{g:B\to A}
+              \bigl((f\circ g)\sim\mathsf{id}_B\bigr)
+              \times
+              \bigl((g\circ f)\sim\mathsf{id}_A\bigr).$$
+            <p>This captures the right idea, but the type of quasi-inverse data can contain more information than the bare fact that $f$ is an equivalence. A well-behaved definition makes $\mathsf{isequiv}(f)$ a mere proposition: for a fixed function, being an equivalence is a property rather than additional structure.</p>
+            <p>One equivalent presentation uses possibly different right and left inverses:</p>
+            $$\mathsf{isequiv}(f)
+              :\equiv
+              \left(\sum_{g:B\to A}(f\circ g)\sim\mathsf{id}_B\right)
+              \times
+              \left(\sum_{h:B\to A}(h\circ f)\sim\mathsf{id}_A\right).$$
+            <p>Then an equivalence of types is</p>
+            $$A\simeq B\;:\equiv\;\sum_{f:A\to B}\mathsf{isequiv}(f).$$
+            <p>So an equivalence contains a forward map together with coherent evidence that no information is lost in either direction.</p>
+            <details class="solution">
+                <summary>Why are functions in both directions not enough?</summary>
+                <div>
+                    <p>Two unrelated functions $A\to B$ and $B\to A$ need not undo one another. For example, there are constant functions in both directions between many nonempty types. The inverse laws are the part that shows the representations preserve all information.</p>
+                </div>
+            </details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">3</div><div class="col"><span>From Equality to Equivalence</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Suppose $A$ and $B$ are types in a universe $\mathcal U$. A path</p>
+            $$p:A=_{\mathcal U}B$$
+            <p>allows us to transport elements and properties from $A$ to $B$. Path induction produces a canonical map</p>
+            $$\mathsf{idtoeqv}_{A,B}:(A=B)\to(A\simeq B).$$
+            <p>On reflexivity, this map produces the identity equivalence:</p>
+            $$\mathsf{idtoeqv}(\mathsf{refl}_A)\equiv\mathsf{idEquiv}_A.$$
+            <p>Ordinary intensional type theory therefore proves</p>
+            $$A=B\longrightarrow A\simeq B.$$
+            <p>The other direction is not available in general. The constructor</p>
+            $$\mathsf{refl}_A:A=A$$
+            <p>directly proves only self-equality; it cannot manufacture a path between differently presented types such as $\mathsf{Numeral}$ and $\mathbb N$.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">4</div><div class="col"><span>Univalence: Equivalence Is Identity</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The <strong>univalence axiom</strong> states that</p>
+            $$\mathsf{idtoeqv}_{A,B}:(A=B)\to(A\simeq B)$$
+            <p>is itself an equivalence. Equality of types and equivalence of types carry the same information.</p>
+            <p>Because $\mathsf{idtoeqv}$ is an equivalence, it has an inverse customarily written</p>
+            $$\mathsf{ua}_{A,B}:(A\simeq B)\to(A=B).$$
+            <p>The two maps satisfy inverse laws, including</p>
+            $$\mathsf{idtoeqv}(\mathsf{ua}(e))=e.$$
+            <p>Thus an equivalence</p>
+            $$e:\mathsf{Numeral}\simeq\mathbb N$$
+            <p>gives a path</p>
+            $$\mathsf{ua}(e):\mathsf{Numeral}=\mathbb N.$$
+            <div class="callout">
+                <p><strong>Not definitional equality.</strong> Univalence does not make the two types reduce to the same expression during ordinary computation. It constructs a path between them in the universe. They are propositionally equal, with the path recording the chosen equivalence.</p>
+            </div>
+            <p>This path is useful because any type family $P:\mathcal U\to\mathcal U$ supports transport:</p>
+            $$\mathsf{transport}^{P}(\mathsf{ua}(e)):P(\mathsf{Numeral})\to P(\mathbb N).$$
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">5</div><div class="col"><span>What Theorem Transport Really Requires</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Suppose we prove</p>
+            $$\prod_{n:\mathbb N}n+n=2n.$$
+            <p>Can we immediately replace $\mathbb N$ by $\mathsf{Numeral}$? There is a subtlety: this statement mentions more than a carrier type. It also uses a distinguished number $2$, addition, and multiplication.</p>
+            <p>There are two principled ways forward:</p>
+            <ol>
+                <li>Transport the entire arithmetic structure—zero, successor, addition, and multiplication—along $\mathsf{ua}(e)$.</li>
+                <li>Define the operations independently and prove that $e$ preserves them.</li>
+            </ol>
+            <p>If the operations on $\mathsf{Numeral}$ are obtained by transport, arithmetic theorems transport with them. If they were defined separately, preservation proofs connect the two implementations.</p>
+            <div class="callout important">
+                <p><strong>Why this matters.</strong> The goal is not to pretend that every bijection preserves every operation. It is to identify representations together with the structure relevant to the theorem. For groups, rings, graphs, or data structures, the appropriate structure-preserving equivalence is what makes theorem reuse sound.</p>
+            </div>
+            <p>This idea leads to the <strong>structure identity principle</strong>: for suitably defined mathematical structures, identity corresponds to structure-preserving equivalence. Isomorphic groups, for example, can be treated as equal as groups—not merely as carrier sets.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">6</div><div class="col"><span>Why HoTT Is More Than a Gimmick</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>We can now state the foundational problem that HoTT addresses. Mathematical objects are normally characterized only up to a suitable notion of equivalence, while foundational equality is often sensitive to how those objects were constructed. Univalence closes that gap.</p>
+            <div class="motivation-grid">
+                <div class="motivation-card">
+                    <h4>Representation independence</h4>
+                    <p>Programs and proofs should continue to work when an implementation is replaced by an equivalent one. Univalence turns this principle into part of equality itself.</p>
+                </div>
+                <div class="motivation-card">
+                    <h4>Theorem reuse</h4>
+                    <p>Properties and structures can be transported along equalities. Once an equivalence is promoted to an equality, established results can move across representations.</p>
+                </div>
+                <div class="motivation-card">
+                    <h4>Invariant mathematics</h4>
+                    <p>Good definitions should respect equivalence. HoTT makes this expectation precise and encourages statements that depend on structure rather than accidental encodings.</p>
+                </div>
+                <div class="motivation-card">
+                    <h4>Synthetic reasoning</h4>
+                    <p>Spaces, paths, quotients, and homotopy invariants can be defined and studied inside type theory instead of being encoded indirectly in set theory.</p>
+                </div>
+                <div class="motivation-card">
+                    <h4>Mechanized foundations</h4>
+                    <p>The subject is designed around rules that can be checked by proof assistants. Cubical type theories additionally give computational meaning to univalence and many higher inductive types.</p>
+                </div>
+                <div class="motivation-card">
+                    <h4>Higher structure</h4>
+                    <p>Equality proofs can themselves have structure. This is essential when formalizing spaces, groupoids, higher categories, and mathematics where transformations between transformations matter.</p>
+                </div>
+            </div>
+            <div class="callout important">
+                <p><strong>The central design principle.</strong> Equivalent mathematical structures should be interchangeable, and the language of equality should remember all the coherent ways in which they are equivalent.</p>
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">7</div><div class="col"><span>Equality as Paths</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>HoTT interprets a type as a space, an inhabitant as a point, and an equality proof</p>
+            $$p:a=_A b$$
+            <p>as a path from $a$ to $b$. The familiar laws of equality become natural path operations:</p>
+            <table class="semantic-table">
+                <thead><tr><th>Equality operation</th><th>Path interpretation</th><th>Type</th></tr></thead>
+                <tbody>
+                    <tr><td>Reflexivity</td><td>Stay at the same point</td><td>$\mathsf{refl}_a:a=a$</td></tr>
+                    <tr><td>Symmetry</td><td>Reverse a path</td><td>$p^{-1}:b=a$</td></tr>
+                    <tr><td>Transitivity</td><td>Concatenate paths</td><td>$p\mathbin{\cdot}q:a=c$</td></tr>
+                    <tr><td>Congruence</td><td>Map a path through a function</td><td>$\mathsf{ap}_f(p):f(a)=f(b)$</td></tr>
+                    <tr><td>Substitution</td><td>Move data along a path</td><td>$\mathsf{transport}^{P}(p):P(a)\to P(b)$</td></tr>
+                </tbody>
+            </table>
+            <p>Identity types may contain several distinguishable paths. Since $a=b$ is itself a type, two paths $p,q:a=b$ may themselves be equal:</p>
+            $$\alpha:p=q.$$
+            <ul class="path-levels">
+                <li><strong>Points:</strong> $a,b:A$</li>
+                <li><strong>Paths:</strong> $p,q:a=b$</li>
+                <li><strong>Paths between paths:</strong> $\alpha,\beta:p=q$</li>
+                <li><strong>Higher paths:</strong> equalities between those equalities, continuing indefinitely</li>
+            </ul>
+            <p>This higher structure is not decorative. It records coherent ways that transformations agree, exactly the kind of information needed in homotopy theory and higher-dimensional mathematics.</p>
+            <div class="callout">
+                <p><strong>Most familiar types are still set-like.</strong> HoTT does not force every equality to carry complicated higher information. In a set such as $\mathbb N$, any two proofs of the same equality are themselves equal. HoTT supports both ordinary set-like types and higher types whose paths contain additional structure.</p>
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">8</div><div class="col"><span>Univalence Produces Distinct Paths</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Let $\mathsf{Bool}$ have inhabitants $\mathsf{true}$ and $\mathsf{false}$, and let $\mathsf{Bit}$ have inhabitants $0$ and $1$. There are two equivalences between them.</p>
+            $$\begin{aligned}
+            e_1(\mathsf{true})&=1,& e_1(\mathsf{false})&=0,\\
+            e_0(\mathsf{true})&=0,& e_0(\mathsf{false})&=1.
+            \end{aligned}$$
+            <p>Univalence turns them into two paths:</p>
+            $$p_1\coloneqq\mathsf{ua}(e_1):\mathsf{Bool}=\mathsf{Bit},$$
+            $$p_0\coloneqq\mathsf{ua}(e_0):\mathsf{Bool}=\mathsf{Bit}.$$
+            <details class="solution">
+                <summary>Show that $p_1$ and $p_0$ are different paths</summary>
+                <div>
+                    <p>Suppose $p_1=p_0$. Applying $\mathsf{idtoeqv}$ to both sides gives</p>
+                    $$\mathsf{idtoeqv}(p_1)=\mathsf{idtoeqv}(p_0).$$
+                    <p>By the inverse law for univalence, this reduces to $e_1=e_0$. Applying the forward functions to $\mathsf{true}$ would then give</p>
+                    $$e_1(\mathsf{true})=e_0(\mathsf{true}),$$
+                    <p>and hence $1=0$, which is impossible in $\mathsf{Bit}$. Therefore $p_1\ne p_0$.</p>
+                </div>
+            </details>
+            <p>We can obtain a loop at one type as well. Boolean negation is an equivalence</p>
+            $$\mathsf{notEquiv}:\mathsf{Bool}\simeq\mathsf{Bool},$$
+            <p>so univalence produces</p>
+            $$\mathsf{ua}(\mathsf{notEquiv}):\mathsf{Bool}=\mathsf{Bool}.$$
+            <p>This is distinct from $\mathsf{refl}_{\mathsf{Bool}}$, because $\mathsf{idtoeqv}$ sends one to Boolean negation and the other to the identity function. The universe of types therefore has nontrivial loops.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">9</div><div class="col"><span>The Circle:</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>Ordinary inductive types are generated by point constructors. A <strong>higher inductive type</strong> may also be generated by path constructors and higher-path constructors.</p>
+            <p>The circle $S^1$ has a point constructor</p>
+            $$\mathsf{base}:S^1$$
+            <p>and a path constructor</p>
+            $$\mathsf{loop}:\mathsf{base}=\mathsf{base}.$$
+            <p>The type</p>
+            $$\Omega(S^1)\;:\equiv\;(\mathsf{base}=\mathsf{base})$$
+            <p>is the <strong>loop space</strong> of the circle: the type of paths that start and end at $\mathsf{base}$. We will investigate the structure of this type and prove that it is equivalent to the integers:</p>
+            $$\Omega(S^1)\simeq\mathbb Z.$$
+            <p>To begin, we can concatenate the generating loop or reverse it:</p>
+            $$\mathsf{loop}^0\coloneqq\mathsf{refl}_{\mathsf{base}},\qquad
+              \mathsf{loop}^2\coloneqq\mathsf{loop}\cdot\mathsf{loop},\qquad
+              \mathsf{loop}^{-1}\coloneqq(\mathsf{loop})^{-1}.$$
+            <p>Positive powers travel around $\mathsf{loop}$ repeatedly, negative powers travel around the reversed loop, and the zeroth power stays still. This gives the easy direction of the proposed equivalence between $\mathbb Z$ and the loop space:</p>
+            $$\mathsf{decode}:\mathbb Z\to(\mathsf{base}=\mathsf{base}),\qquad
+              \mathsf{decode}(n)\coloneqq\mathsf{loop}^n.$$
+            <p>For example,</p>
+            $$\mathsf{decode}(0)=\mathsf{refl},\qquad
+              \mathsf{decode}(2)=\mathsf{loop}\cdot\mathsf{loop},\qquad
+              \mathsf{decode}(-1)=\mathsf{loop}^{-1}.$$
+            <p>But defining $\mathsf{decode}$ does <em>not</em> yet prove that the loop space is equivalent to $\mathbb Z$. We still have to answer two questions:</p>
+            <ol>
+                <li>Are $\mathsf{loop}^m$ and $\mathsf{loop}^n$ different whenever $m\ne n$?</li>
+                <li>Is every path $p:\mathsf{base}=\mathsf{base}$ equal to $\mathsf{loop}^n$ for some $n$?</li>
+            </ol>
+            <p>Both questions would be answered by an inverse function</p>
+            $$\mathsf{encode}:(\mathsf{base}=\mathsf{base})\to\mathbb Z$$
+            <p>that measures the winding number of an arbitrary loop.</p>
+            <p>It is tempting to define $\mathsf{encode}$ by pattern matching:</p>
+            $$\mathsf{encode}(\mathsf{loop}^n)\coloneqq n.$$
+            <p>But this would assume the result we are trying to prove. Before we have constructed the equivalence, we do not know that every path $\mathsf{base}=\mathsf{base}$ has the form $\mathsf{loop}^n$, nor that the integer $n$ would be unique. An arbitrary equality proof is not presented to us as a list of clockwise and counterclockwise steps that we can simply count. We therefore need a way to measure a path without first assuming that we already know its complete structure.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">10</div><div class="col"><span>Building the Winding-Number Encoder</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <h4>Step 1: Design a counter that travels along paths</h4>
+            <p>Since we cannot inspect an arbitrary loop directly, we will carry a counter along it and see how the counter changes. To do this, define a type family</p>
+            $$\mathsf{code}:S^1\to\mathcal U.$$
+            <p>A type family assigns a type $\mathsf{code}(x)$ to every point $x:S^1$. At the base point, we want the available counter values to be the integers:</p>
+            $$\mathsf{code}(\mathsf{base})\coloneqq\mathbb Z.$$
+
+            <h4>Step 2: Move values along paths using transport</h4>
+            <p>For any type family $P:A\to\mathcal U$, any path $p:x=y$, and any value $u:P(x)$, type theory provides</p>
+            $$\mathsf{transport}^{P}(p,u):P(y).$$
+            <p>Transport moves a value belonging to the type attached to $x$ into the type attached to $y$. It does not arbitrarily choose a result. Transport is defined by equality elimination, starting with the rule</p>
+            $$\mathsf{transport}^{P}(\mathsf{refl}_x,u)\;:\equiv\;u.$$
+            <p>Path induction extends this rule to every equality proof. It also forces transport to respect path composition:</p>
+            $$\mathsf{transport}^{P}(p\cdot q,u)
+              =
+              \mathsf{transport}^{P}
+              \bigl(q,\mathsf{transport}^{P}(p,u)\bigr).$$
+            <p>Thus a journey made of two paths moves the value along the first path and then along the second.</p>
+            <p>There is also a precise connection between the family $P$ and transport. Applying $P$ to a path $p:x=y$ produces a path between the corresponding types:</p>
+            $$\mathsf{ap}_{P}(p):P(x)=P(y).$$
+            <p>Any path of types $q:X=Y$ determines a conversion function</p>
+            $$\mathsf{coe}(q):X\to Y,$$
+            <p>where $\mathsf{coe}(\mathsf{refl}_X)$ is the identity function. Transport is exactly the conversion determined by the path of types that $P$ assigns to $p$:</p>
+            $$\mathsf{transport}^{P}(p,u)
+              =
+              \mathsf{coe}\bigl(\mathsf{ap}_{P}(p)\bigr)(u).$$
+            <p>Equivalently, $\mathsf{coe}(q)$ is the forward function of $\mathsf{idtoeqv}(q)$. Therefore the path $\mathsf{ap}_{P}(p)$ and the behavior of transport along $p$ are not two independent definitions. Once the family’s action on the path is fixed, transport along that path is fixed as well.</p>
+
+            <h4>Step 3: Decide what one trip around the circle should record</h4>
+            <p>Our goal is an encoder satisfying</p>
+            $$\mathsf{encode}(\mathsf{loop}^n)=n.$$
+            <p>We will start the counter at $0$. For one trip around $\mathsf{loop}$ to be recorded as $1$, transporting around $\mathsf{loop}$ should increment the counter:</p>
+            $$\mathsf{transport}^{\mathsf{code}}(\mathsf{loop},n)=n+1.$$
+            <p>This is a deliberate design choice forced by the behavior we want from <em>this</em> encoder. Other choices define other measuring systems:</p>
+            <ul>
+                <li>If one loop acted by $n\mapsto n$, every loop would be measured as $0$.</li>
+                <li>If one loop acted by $n\mapsto n+2$, then $\mathsf{loop}$ would be labeled $2$ and $\mathsf{loop}^k$ would be labeled $2k$. That map would never produce odd integers, so it could not be inverse to our $\mathsf{decode}(n)=\mathsf{loop}^n$.</li>
+                <li>Using $n\mapsto n-1$ would also work after consistently reversing our orientation: the generating loop would count as $-1$ instead of $1$.</li>
+            </ul>
+            <p>Successor is therefore not an automatic consequence of transport. We choose successor because we want the chosen generating loop to correspond to the integer $1$.</p>
+
+            <h4>Step 4: Finish defining the family $\mathsf{code}$</h4>
+            <p>We have said what $\mathsf{code}$ does to the point constructor:</p>
+            $$\mathsf{code}(\mathsf{base})\coloneqq\mathbb Z.$$
+            <p>Because $S^1$ also has the path constructor $\mathsf{loop}$, the circle recursion rule requires us to say what path of types $\mathsf{code}$ assigns to it. Since both ends of $\mathsf{loop}$ are $\mathsf{base}$, the required type is</p>
+            $$\mathsf{ap}_{\mathsf{code}}(\mathsf{loop}):
+              \mathsf{code}(\mathsf{base})=\mathsf{code}(\mathsf{base}),$$
+            <p>or, after substituting our definition at the base point,</p>
+            $$\mathsf{ap}_{\mathsf{code}}(\mathsf{loop}):\mathbb Z=\mathbb Z.$$
+            <p>We want transport along this path to perform successor. We already know that successor is an equivalence:</p>
+            $$\mathsf{succEquiv}:\mathbb Z\simeq\mathbb Z,\qquad
+              \mathsf{succEquiv}(n)=n+1,$$
+            <p>with predecessor as its inverse. But the circle recursion rule needs an <em>equality of types</em>, not merely an equivalence. Univalence supplies exactly the missing path:</p>
+            $$\mathsf{ua}(\mathsf{succEquiv}):\mathbb Z=\mathbb Z.$$
+            <p>We can therefore complete the definition:</p>
+            $$\begin{aligned}
+              \mathsf{code}(\mathsf{base})
+                &\coloneqq \mathbb Z,\\
+              \mathsf{ap}_{\mathsf{code}}(\mathsf{loop})
+                &\coloneqq \mathsf{ua}(\mathsf{succEquiv}).
+            \end{aligned}$$
+            <p>Now the formal connection from Step 2 determines transport. Since</p>
+            $$\mathsf{transport}^{\mathsf{code}}(\mathsf{loop},n)
+              =
+              \mathsf{coe}\bigl(
+                \mathsf{ap}_{\mathsf{code}}(\mathsf{loop})
+              \bigr)(n),$$
+            <p>substituting the definition of $\mathsf{code}$ gives</p>
+            $$\mathsf{transport}^{\mathsf{code}}(\mathsf{loop},n)
+              =
+              \mathsf{coe}\bigl(
+                \mathsf{ua}(\mathsf{succEquiv})
+              \bigr)(n).$$
+            <p>The inverse law connecting $\mathsf{ua}$ and $\mathsf{idtoeqv}$ says that converting along $\mathsf{ua}(e)$ performs the original equivalence $e$. Therefore,</p>
+            $$\mathsf{transport}^{\mathsf{code}}(\mathsf{loop},n)=n+1.$$
+            <div class="callout">
+                <p><strong>Why not combine reflexivity with successor transport?</strong> We cannot define $\mathsf{ap}_{\mathsf{code}}(\mathsf{loop})$ to be $\mathsf{refl}_{\mathbb Z}$ and separately decree that transport adds one. The displayed equation from Step 2 makes transport a consequence of that path. Since $\mathsf{coe}(\mathsf{refl}_{\mathbb Z})$ is the identity function, choosing reflexivity necessarily gives $\mathsf{transport}^{\mathsf{code}}(\mathsf{loop},n)=n$. It would make every trip leave the counter unchanged.</p>
+            </div>
+
+            <h4>Step 5: Define $\mathsf{encode}$</h4>
+            <p>Now the measuring device is ready. Given any path $p:\mathsf{base}=x$, start with</p>
+            $$0:\mathsf{code}(\mathsf{base})$$
+            <p>and transport it along $p$:</p>
+            $$\mathsf{encode}_x(p)
+              \;:\equiv\;
+              \mathsf{transport}^{\mathsf{code}}(p,0)
+              \;:\;
+              \mathsf{code}(x).$$
+            <p>For a loop, $x$ is again $\mathsf{base}$, so the output belongs to</p>
+            $$\mathsf{code}(\mathsf{base})=\mathbb Z.$$
+            <p>Restricting to loops gives the function we wanted:</p>
+            $$\mathsf{encode}:
+              (\mathsf{base}=\mathsf{base})\to\mathbb Z.$$
+
+            <h4>Step 6: Watch path composition count repeated loops</h4>
+            <p>Transport along reflexivity leaves the initial counter unchanged:</p>
+            $$\mathsf{encode}(\mathsf{refl})
+              =
+              \mathsf{transport}^{\mathsf{code}}(\mathsf{refl},0)
+              =
+              0.$$
+            <p>Transporting once around $\mathsf{loop}$ applies successor once:</p>
+            $$\mathsf{encode}(\mathsf{loop})
+              =
+              \mathsf{transport}^{\mathsf{code}}(\mathsf{loop},0)
+              =
+              \mathsf{succ}(0)
+              =
+              1.$$
+            <p>Since $\mathsf{loop}^2=\mathsf{loop}\cdot\mathsf{loop}$ and transport respects concatenation,</p>
+            $$\begin{aligned}
+              \mathsf{encode}(\mathsf{loop}^2)
+                &=
+                \mathsf{transport}^{\mathsf{code}}
+                (\mathsf{loop}\cdot\mathsf{loop},0)\\
+                &=
+                \mathsf{transport}^{\mathsf{code}}
+                \bigl(\mathsf{loop},
+                  \mathsf{transport}^{\mathsf{code}}(\mathsf{loop},0)\bigr)\\
+                &=
+                \mathsf{succ}(\mathsf{succ}(0))\\
+                &=2.
+            \end{aligned}$$
+            <p>Reversing the path applies the inverse equivalence, predecessor, so</p>
+            $$\mathsf{encode}(\mathsf{loop}^{-1})=-1.$$
+
+            <h4>Step 7: Show that encode and decode are inverses</h4>
+            <p>The full encode–decode proof establishes</p>
+            $$\mathsf{encode}(\mathsf{decode}(n))=n$$
+            <p>and</p>
+            $$\mathsf{decode}(\mathsf{encode}(p))=p.$$
+            <p>The first law says that building $\mathsf{loop}^n$ and measuring it returns $n$. The second says that measuring an arbitrary loop and rebuilding the corresponding power of $\mathsf{loop}$ returns the original loop. The second law is what proves that no additional, unaccounted-for loops exist.</p>
+            <p>Together they give</p>
+            $$\Omega(S^1)\simeq\mathbb Z.$$
+            <div class="callout important">
+                <p><strong>Where univalence did the essential work.</strong> We wanted one trip around the circle to act on the counter by the successor equivalence $\mathbb Z\simeq\mathbb Z$. Defining $\mathsf{code}$ required a path $\mathbb Z=\mathbb Z$. The function $\mathsf{ua}$ converted exactly the chosen successor action into exactly the path of types needed by circle recursion.</p>
+            </div>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">11</div><div class="col"><span>The Fundamental Group of the Circle</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <p>The fundamental group $\pi_1(S^1,\mathsf{base})$ consists of loops based at $\mathsf{base}$, identified when they are connected by a higher path. Its group operation is path concatenation.</p>
+            <p>Under the encode–decode correspondence, concatenation becomes integer addition:</p>
+            $$\mathsf{loop}^m\cdot\mathsf{loop}^n
+              \quad\longleftrightarrow\quad
+              m+n.$$
+            <p>Thus we obtain an isomorphism of groups</p>
+            $$\pi_1(S^1,\mathsf{base})\cong(\mathbb Z,+).$$
+            <p>This result is often abbreviated as $\pi_1(S^1)=\mathbb Z$. The symbol $\cong$ is more precise because it emphasizes that both the elements and the group operation correspond.</p>
+            <p>The striking part is methodological: we defined the circle and computed a topological invariant entirely inside type theory. No external construction of points in the plane was required. This is an example of <strong>synthetic homotopy theory</strong>.</p>
+            <details class="solution">
+                <summary>What is $\mathsf{loop}^2\cdot\mathsf{loop}^{-1}$?</summary>
+                <div>
+                    <p>Under the correspondence with integers, the expression represents $2+(-1)=1$. It is therefore equal to $\mathsf{loop}$.</p>
+                </div>
+            </details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">12</div><div class="col"><span>What HoTT Buys Us</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <div class="callout takeaway">
+                <p><strong>HoTT aligns identity with mathematical practice.</strong> Mathematicians routinely say that isomorphic objects are “the same for all relevant purposes.” Univalence makes that principle precise and compatible with substitution and theorem transport.</p>
+            </div>
+            <ul>
+                <li><strong>Abstraction becomes foundational.</strong> Clients can reason through an interface or structure without depending on its representation.</li>
+                <li><strong>Proofs become reusable.</strong> Results transport across equivalent presentations once the relevant structure is included.</li>
+                <li><strong>Definitions become invariant.</strong> The theory rewards properties that respect equivalence rather than inspecting accidental implementation details.</li>
+                <li><strong>Higher mathematics becomes internal.</strong> Paths, quotients, spaces, and homotopy invariants can be constructed within type theory.</li>
+                <li><strong>Formalization gains a structural foundation.</strong> Univalence and higher inductive types support libraries where equivalent constructions do not require parallel theorem hierarchies.</li>
+            </ul>
+            <p>The point of HoTT is therefore not simply that equality can be drawn as a path. Its deeper contribution is a theory of identity that knows when representations are interchangeable while retaining the higher structure of <em>how</em> they are identified.</p>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">13</div><div class="col"><span>Exercises</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <ol>
+                <li>Explain why allowing both <code>3</code> and <code>03</code> prevents parsing and printing from being strict inverses.</li>
+                <li>Prove that the identity equivalence and Boolean negation are distinct inhabitants of $\mathsf{Bool}\simeq\mathsf{Bool}$.</li>
+                <li>Use univalence to obtain two distinct paths in $\mathsf{Bool}=\mathsf{Bool}$.</li>
+                <li>Explain why an equivalence of carrier types need not preserve independently chosen multiplication operations.</li>
+                <li>Explain why constructing $\mathsf{loop}^n$ for every $n:\mathbb Z$ proves only one direction of $\Omega(S^1)\simeq\mathbb Z$.</li>
+            </ol>
+            <details class="solution">
+                <summary>Show exercise guidance</summary>
+                <div>
+                    <ol>
+                        <li>Printing the parsed value of <code>03</code> produces the canonical numeral <code>3</code>, not the original input.</li>
+                        <li>Assume the equivalences are equal and apply their forward functions to $\mathsf{true}$.</li>
+                        <li>Apply $\mathsf{ua}$ to the two equivalences, then use $\mathsf{idtoeqv}$ to prove the paths cannot coincide.</li>
+                        <li>An arbitrary equivalence can permute the carrier. Preservation of an operation is additional structure.</li>
+                        <li>It constructs $\mathsf{decode}$. Surjectivity, injectivity, and the inverse laws require the encode–decode argument.</li>
+                    </ol>
+                </div>
+            </details>
+        </div></div></div></div>
+
+        <div class="block-container"><div class="block block-segment-kind block-section"><div class="atom-section">
+            <div class="segment-display-num">14</div><div class="col"><span>Sources and Further Reading</span></div>
+        </div></div></div>
+        <div class="block-container"><div class="block block-plain-kind block-gram"><div class="atom-body-container"><div class="atom-body">
+            <ol class="source-list">
+                <li>The Univalent Foundations Program, <a href="https://homotopytypetheory.org/book/" target="_blank" rel="noopener noreferrer"><em>Homotopy Type Theory: Univalent Foundations of Mathematics</em></a>. Chapters 2 and 4 cover homotopies, equivalences, and univalence; Chapter 6 introduces higher inductive types; Chapter 8 computes the fundamental group of the circle.</li>
+                <li>Daniel R. Licata and Michael Shulman, <a href="https://homotopytypetheory.org/2011/04/29/a-formal-proof-that-pi1s1-is-z/" target="_blank" rel="noopener noreferrer">“A formal proof that $\pi_1(S^1)=\mathbb Z$”</a>. An overview of the formalized circle calculation.</li>
+                <li>Egbert Rijke, <a href="https://arxiv.org/abs/2212.11082" target="_blank" rel="noopener noreferrer"><em>Introduction to Homotopy Type Theory</em></a>. A self-contained modern introduction to univalent mathematics.</li>
+            </ol>
+        </div></div></div></div>
+    </div></main>
+</body>
+</html>

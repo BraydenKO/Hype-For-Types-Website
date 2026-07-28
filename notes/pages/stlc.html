@@ -118,7 +118,7 @@
             $$A=A\rightarrow\mathsf{Prop}.$$
             <p>No finite simple type satisfies this equation. Equivalently, the application rule would require both $\Gamma\vdash x:A\to\mathsf{Prop}$ and $\Gamma\vdash x:A$ from a context that assigns one type to $x$:</p>
             $$\frac{\Gamma\vdash e_1:A\rightarrow B\qquad\Gamma\vdash e_2:A}{\Gamma\vdash e_1\,e_2:B}.$$
-            <p>The application derivation cannot be constructed. Consequently $F$ cannot be defined, $C$ cannot be formed, and the derivation of arbitrary $Q$ never begins. Types prevent the paradoxical proposition from being constructed; they do not reject modus ponens or implication introduction (Church 1940).</p>
+            <p>The application derivation cannot be constructed. Consequently $F$ cannot be defined, $C$ cannot be formed, and the derivation of arbitrary $Q$ never begins. Types prevent the paradoxical proposition from being constructed(Church 1940).</p>
             <p>This restriction makes the language less expressive: ordinary STLC cannot define unrestricted general recursion. In return, every well-typed STLC term terminates.</p>
             <div class="aside">
                 <strong>Side note: Curry's paradox versus the liar.</strong> The liar says “This sentence is false” and has the schematic form $L\leftrightarrow\neg L$. Curry's sentence says “If this sentence is true, then $Q$” Curry's paradox works better here because a solution to the liar's paradox is that the paradox relies on the law of the excluded middle which this system does not use
